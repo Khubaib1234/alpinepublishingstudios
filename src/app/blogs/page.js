@@ -15,26 +15,19 @@ const BORDER = '#DCE2EA';
 const CATEGORIES = ['All', 'Publishing Tips', 'Author Stories', 'Industry News', 'Writing Craft', 'Marketing'];
 
 export default function BlogPage() {
-    const [menuOpen, setMenuOpen] = useState(false);
-    const [scrolled, setScrolled] = useState(false);
-    const [activeCategory, setActiveCategory] = useState('All');
-    const [email, setEmail] = useState('');
-    const [subscribed, setSubscribed] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [activeCategory, setActiveCategory] = useState('All');
 
-    useEffect(() => {
-        const onScroll = () => setScrolled(window.scrollY > 0);
-        window.addEventListener('scroll', onScroll);
-        return () => window.removeEventListener('scroll', onScroll);
-    }, []);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 0);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
-    const handleSubscribe = (e) => {
-        e.preventDefault();
-        if (email) setSubscribed(true);
-    };
-
-    return (
-        <>
-            <style>{`
+  return (
+    <>
+      <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -392,276 +385,238 @@ export default function BlogPage() {
         @media (max-width: 600px) { .footer-grid { grid-template-columns: 1fr; } }
       `}</style>
 
-            {/* ── HEADER ── */}
-            <header className={`header${scrolled ? ' scrolled' : ''}`}>
-                <div className="header-inner">
-                    <div className="logo">Alpine <span>Publishing</span> Studios</div>
-                    <nav className="nav">
-                        <a href="/services">Services</a>
-                        <a href="/#how-it-works">How It Works</a>
-                        <a href="/about-us">About Us</a>
-                        <Link href="/contact-us">Contact</Link>
-                        <a href="/blogs" className="active">Blogs</a>
-                    </nav>
-                    <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
-                        <span /><span /><span />
-                    </div>
-                </div>
-                <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
-                    <a href="/services" onClick={() => setMenuOpen(false)}>Services</a>
-                    <a href="/#how-it-works" onClick={() => setMenuOpen(false)}>How It Works</a>
-                    <a href="/about-us" onClick={() => setMenuOpen(false)}>About Us</a>
-                    <a href="/contact-us" onClick={() => setMenuOpen(false)}>Contact</a>
-                    <a href="/blogs" onClick={() => setMenuOpen(false)}>Blogs</a>
-                </div>
-            </header>
+      {/* ── HEADER ── */}
+      <header className={`header${scrolled ? ' scrolled' : ''}`}>
+        <div className="header-inner">
+          <a href="/" className="logo">Alpine <span>Publishing</span> Studios</a>
+          <nav className="nav">
+            <a href="/services">Services</a>
+            <a href="/consultation">Consultation</a>
+            <a href="/about-us">About Us</a>
+            <a href="/contact-us">Contact</a>
+            <a href="/blogs" className="active">Blogs</a>
+          </nav>
+          <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
+            <span /><span /><span />
+          </div>
+        </div>
+        <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
+          <a href="/services" onClick={() => setMenuOpen(false)}>Services</a>
+          <a href="/consultation" onClick={() => setMenuOpen(false)}>Consultation</a>
+          <a href="/about-us" onClick={() => setMenuOpen(false)}>About Us</a>
+          <a href="/contact-us" onClick={() => setMenuOpen(false)}>Contact</a>
+          <a href="/blogs" onClick={() => setMenuOpen(false)}>Blogs</a>
+        </div>
+      </header>
 
-            {/* ── HERO ── */}
-            <section className="blog-hero">
-                <div className="hero-blob1" />
-                <div className="hero-blob2" />
-                <div className="blog-hero-inner">
-                    <span className="section-label">The Alpine Blog</span>
-                    <h1>
-                        Publishing Insights &amp; <span style={{ color: BLUE }}>Author Resources</span>
-                    </h1>
-                    <p>
-                        Tips, guides, and stories to help you write better, publish smarter, and reach more readers — straight from the Alpine team.
-                    </p>
-                </div>
-            </section>
+      {/* ── HERO ── */}
+      <section className="blog-hero">
+        <div className="hero-blob1" />
+        <div className="hero-blob2" />
+        <div className="blog-hero-inner">
+          <span className="section-label">The Alpine Blog</span>
+          <h1>
+            Publishing Insights &amp; <span style={{ color: BLUE }}>Author Resources</span>
+          </h1>
+          <p>
+            Tips, guides, and stories to help you write better, publish smarter, and reach more readers — straight from the Alpine team.
+          </p>
+        </div>
+      </section>
 
-            {/* ── SEARCH BAR ── */}
-            <div className="search-bar-wrap">
-                <div className="search-bar-inner">
-                    <div className="search-input-wrap">
-                        <svg className="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" />
-                        </svg>
-                        <input className="search-input" type="text" placeholder="Search articles, topics, tips…" readOnly />
-                    </div>
-                    <button className="btn-secondary" style={{ whiteSpace: 'nowrap' }}>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <line x1="4" y1="6" x2="20" y2="6" /><line x1="8" y1="12" x2="20" y2="12" /><line x1="12" y1="18" x2="20" y2="18" />
-                        </svg>
-                        Filter
-                    </button>
+      {/* ── SEARCH BAR ── */}
+      <div className="search-bar-wrap">
+        <div className="search-bar-inner">
+          <div className="search-input-wrap">
+            <svg className="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" />
+            </svg>
+            <input className="search-input" type="text" placeholder="Search articles, topics, tips…" readOnly />
+          </div>
+          <button className="btn-secondary" style={{ whiteSpace: 'nowrap' }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="4" y1="6" x2="20" y2="6" /><line x1="8" y1="12" x2="20" y2="12" /><line x1="12" y1="18" x2="20" y2="18" />
+            </svg>
+            Filter
+          </button>
+        </div>
+      </div>
+
+      {/* ── CATEGORY PILLS ── */}
+      <div style={{ background: 'white', borderBottom: `1px solid ${BORDER}` }}>
+        <div className="category-pills">
+          {CATEGORIES.map(cat => (
+            <button
+              key={cat}
+              className={`pill${activeCategory === cat ? ' active' : ''}`}
+              onClick={() => setActiveCategory(cat)}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* ── BLOG GRID / EMPTY STATE ── */}
+      <section className="blog-section">
+        <div className="empty-state">
+          <div className="empty-icon-ring">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="1.5">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+              <line x1="9" y1="7" x2="15" y2="7" />
+              <line x1="9" y1="11" x2="13" y2="11" />
+            </svg>
+          </div>
+          <div className="empty-title">No Blogs Are Currently Available</div>
+          <div className="empty-text">
+            We're working on some great content for you. Our team is crafting articles on publishing tips, author stories, writing craft, and industry insights. Check back soon!
+          </div>
+          <div className="empty-cats">
+            {CATEGORIES.filter(c => c !== 'All').map(cat => (
+              <span className="empty-cat-chip" key={cat}>{cat}</span>
+            ))}
+          </div>
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
+            <a href="/" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
+              Back to Home
+            </a>
+            <a href="/contact-us" className="btn-secondary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              Get Notified
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── TOPICS SECTION ── */}
+      <section className="topics-section">
+        <div className="topics-inner">
+          <div className="topics-header">
+            <span className="section-label">Coming Soon</span>
+            <h2 className="section-title">Topics We'll Be <span className="accent">Covering</span></h2>
+          </div>
+          <div className="topics-grid">
+            {[
+              { icon: '✍️', title: 'Writing Craft', desc: 'Techniques and strategies to sharpen your storytelling, develop compelling characters, and structure your narrative.' },
+              { icon: '📖', title: 'Publishing Tips', desc: 'Step-by-step guides to navigate the publishing process — from manuscript prep to final print.' },
+              { icon: '🌍', title: 'Global Distribution', desc: "How to get your book into readers hands across 150+ countries and onto the world's biggest retail platforms." },
+              { icon: '🎨', title: 'Cover Design', desc: 'What makes a book cover sell? Design principles and real examples from our published authors.' },
+              { icon: '📈', title: 'Author Marketing', desc: 'Build your author brand, grow your audience, and drive book sales with proven marketing strategies.' },
+              { icon: '💬', title: 'Author Stories', desc: 'Real journeys from writers who took the leap and published their books with Alpine Publishing Studios.' },
+            ].map((t, i) => (
+              <div className="topic-card" key={i}>
+                <div className="topic-icon">{t.icon}</div>
+                <div>
+                  <div className="topic-title">{t.title}</div>
+                  <div className="topic-desc">{t.desc}</div>
+                  <div className="topic-coming">Articles Coming Soon</div>
                 </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── WHY READ SECTION ── */}
+      <section className="why-section">
+        <div className="why-inner">
+          <div className="why-layout">
+            <div>
+              <span className="section-label">Why Read Our Blog</span>
+              <h2 className="section-title" style={{ marginBottom: 8 }}>
+                Insights Built for <span className="accent">Real Authors</span>
+              </h2>
+              <p style={{ fontSize: 16, color: TEXT_BODY, lineHeight: 1.65, marginBottom: 0, marginTop: 12 }}>
+                Every article we publish is grounded in real publishing experience — written by people who have helped over 30,000 authors bring their books to life.
+              </p>
+              <div className="why-list">
+                {[
+                  { title: 'Practical, Actionable Advice', desc: 'No fluff. Every article gives you steps you can apply to your own publishing journey today.' },
+                  { title: 'Written by Industry Experts', desc: 'Our team of editors, designers, and publishing specialists share what actually works.' },
+                  { title: 'Covers the Full Journey', desc: 'From your first draft to global bookstore shelves — we cover every stage of the author journey.' },
+                ].map((item, i) => (
+                  <div className="why-item" key={i}>
+                    <div className="why-item-dot">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2.5">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    </div>
+                    <div>
+                      <div className="why-item-title">{item.title}</div>
+                      <div className="why-item-desc">{item.desc}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-
-            {/* ── CATEGORY PILLS ── */}
-            <div style={{ background: 'white', borderBottom: `1px solid ${BORDER}` }}>
-                <div className="category-pills">
-                    {CATEGORIES.map(cat => (
-                        <button
-                            key={cat}
-                            className={`pill${activeCategory === cat ? ' active' : ''}`}
-                            onClick={() => setActiveCategory(cat)}
-                        >
-                            {cat}
-                        </button>
-                    ))}
+            <div className="why-visual">
+              {[
+                { val: '30K+', label: 'Authors Published', accent: false },
+                { val: '150+', label: 'Countries Reached', accent: true },
+                { val: '4.9★', label: 'Author Satisfaction', accent: false },
+                { val: '72hr', label: 'Avg. Time to Publish', accent: false },
+              ].map((s, i) => (
+                <div className={`why-stat-box${s.accent ? ' accent-box' : ''}`} key={i}>
+                  <div className="why-stat-val">{s.val}</div>
+                  <div className="why-stat-label">{s.label}</div>
                 </div>
+              ))}
             </div>
+          </div>
+        </div>
+      </section>
 
-            {/* ── BLOG GRID / EMPTY STATE ── */}
-            <section className="blog-section">
-                <div className="empty-state">
-                    <div className="empty-icon-ring">
-                        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="1.5">
-                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-                            <line x1="9" y1="7" x2="15" y2="7" />
-                            <line x1="9" y1="11" x2="13" y2="11" />
-                        </svg>
-                    </div>
-                    <div className="empty-title">No Blogs Are Currently Available</div>
-                    <div className="empty-text">
-                        We're working on some great content for you. Our team is crafting articles on publishing tips, author stories, writing craft, and industry insights. Check back soon!
-                    </div>
-                    <div className="empty-cats">
-                        {CATEGORIES.filter(c => c !== 'All').map(cat => (
-                            <span className="empty-cat-chip" key={cat}>{cat}</span>
-                        ))}
-                    </div>
-                    <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
-                        <Link href="/" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
-                            Back to Home
-                        </Link>
-                        <Link href="/contact-us" className="btn-secondary" style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-                            Get Notified
-                        </Link>
-                    </div>
-                </div>
-            </section>
+      {/* ── CTA BANNER ── */}
+      <section className="cta-section">
+        <div className="cta-title">Ready to Write Your <span className="accent">Next Chapter?</span></div>
+        <div className="cta-sub">Start publishing today with Alpine Publishing Studios — the platform built by authors, for authors.</div>
+        <Link href="/" className="btn-primary-lg" style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+          Get Started for Free
+        </Link>
+      </section>
 
-            {/* ── NEWSLETTER ── */}
-            <section className="newsletter-section">
-                <div className="newsletter-card">
-                    <div className="newsletter-label">Stay in the Loop</div>
-                    <div className="newsletter-title">
-                        Be the First to Read<br /><span className="accent">Our New Articles</span>
-                    </div>
-                    <div className="newsletter-sub">
-                        Subscribe and get notified the moment we publish new guides, author stories, and publishing insights.
-                    </div>
-                    {subscribed ? (
-                        <div className="newsletter-success">
-                            <div className="newsletter-check">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
-                                    <polyline points="20 6 9 17 4 12" />
-                                </svg>
-                            </div>
-                            You're subscribed! We'll notify you when we publish.
-                        </div>
-                    ) : (
-                        <>
-                            <form className="newsletter-form" onSubmit={handleSubscribe}>
-                                <input
-                                    className="newsletter-input"
-                                    type="email"
-                                    placeholder="Enter your email address"
-                                    value={email}
-                                    onChange={e => setEmail(e.target.value)}
-                                    required
-                                />
-                                <button className="newsletter-btn" type="submit">Notify Me</button>
-                            </form>
-                            <div className="newsletter-note">No spam, ever. Unsubscribe anytime.</div>
-                        </>
-                    )}
-                </div>
-            </section>
-
-            {/* ── TOPICS SECTION ── */}
-            <section className="topics-section">
-                <div className="topics-inner">
-                    <div className="topics-header">
-                        <span className="section-label">Coming Soon</span>
-                        <h2 className="section-title">Topics We'll Be <span className="accent">Covering</span></h2>
-                    </div>
-                    <div className="topics-grid">
-                        {[
-                            { icon: '✍️', title: 'Writing Craft', desc: 'Techniques and strategies to sharpen your storytelling, develop compelling characters, and structure your narrative.' },
-                            { icon: '📖', title: 'Publishing Tips', desc: 'Step-by-step guides to navigate the publishing process — from manuscript prep to final print.' },
-                            { icon: '🌍', title: 'Global Distribution', desc: "How to get your book into readers hands across 150+ countries and onto the world's biggest retail platforms." },
-                            { icon: '🎨', title: 'Cover Design', desc: 'What makes a book cover sell? Design principles and real examples from our published authors.' },
-                            { icon: '📈', title: 'Author Marketing', desc: 'Build your author brand, grow your audience, and drive book sales with proven marketing strategies.' },
-                            { icon: '💬', title: 'Author Stories', desc: 'Real journeys from writers who took the leap and published their books with Alpine Publishing Studios.' },
-                        ].map((t, i) => (
-                            <div className="topic-card" key={i}>
-                                <div className="topic-icon">{t.icon}</div>
-                                <div>
-                                    <div className="topic-title">{t.title}</div>
-                                    <div className="topic-desc">{t.desc}</div>
-                                    <div className="topic-coming">Articles Coming Soon</div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* ── WHY READ SECTION ── */}
-            <section className="why-section">
-                <div className="why-inner">
-                    <div className="why-layout">
-                        <div>
-                            <span className="section-label">Why Read Our Blog</span>
-                            <h2 className="section-title" style={{ marginBottom: 8 }}>
-                                Insights Built for <span className="accent">Real Authors</span>
-                            </h2>
-                            <p style={{ fontSize: 16, color: TEXT_BODY, lineHeight: 1.65, marginBottom: 0, marginTop: 12 }}>
-                                Every article we publish is grounded in real publishing experience — written by people who have helped over 30,000 authors bring their books to life.
-                            </p>
-                            <div className="why-list">
-                                {[
-                                    { title: 'Practical, Actionable Advice', desc: 'No fluff. Every article gives you steps you can apply to your own publishing journey today.' },
-                                    { title: 'Written by Industry Experts', desc: 'Our team of editors, designers, and publishing specialists share what actually works.' },
-                                    { title: 'Covers the Full Journey', desc: 'From your first draft to global bookstore shelves — we cover every stage of the author journey.' },
-                                ].map((item, i) => (
-                                    <div className="why-item" key={i}>
-                                        <div className="why-item-dot">
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2.5">
-                                                <polyline points="20 6 9 17 4 12" />
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <div className="why-item-title">{item.title}</div>
-                                            <div className="why-item-desc">{item.desc}</div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                        <div className="why-visual">
-                            {[
-                                { val: '30K+', label: 'Authors Published', accent: false },
-                                { val: '150+', label: 'Countries Reached', accent: true },
-                                { val: '4.9★', label: 'Author Satisfaction', accent: false },
-                                { val: '72hr', label: 'Avg. Time to Publish', accent: false },
-                            ].map((s, i) => (
-                                <div className={`why-stat-box${s.accent ? ' accent-box' : ''}`} key={i}>
-                                    <div className="why-stat-val">{s.val}</div>
-                                    <div className="why-stat-label">{s.label}</div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* ── CTA BANNER ── */}
-            <section className="cta-section">
-                <div className="cta-title">Ready to Write Your <span className="accent">Next Chapter?</span></div>
-                <div className="cta-sub">Start publishing today with Alpine Publishing Studios — the platform built by authors, for authors.</div>
-                <Link href="/" className="btn-primary-lg" style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                        <polyline points="9 18 15 12 9 6" />
-                    </svg>
-                    Get Started for Free
-                </Link>
-            </section>
-
-            {/* ── FOOTER ── */}
-            <footer className="footer">
-                <div className="footer-grid">
-                    <div>
-                        <div className="footer-logo">Alpine <span>Publishing</span> Studios</div>
-                        <div className="footer-desc">The professional publishing platform for independent authors. Seamless. Affordable. Powerful.</div>
-                    </div>
-                    <div>
-                        <div className="footer-col-title">Platform</div>
-                        <div className="footer-links">
-                            <a href="/services">Services</a>
-                            <a href="/#how-it-works">How It Works</a>
-                            <a href="/contact-us">Contact Us</a>
-                            <a href="/#faq">FAQ</a>
-                        </div>
-                    </div>
-                    <div>
-                        <div className="footer-col-title">Company</div>
-                        <div className="footer-links">
-                            <a href="/about-us">About Us</a>
-                            <a href="/blogs">Blog</a>
-                            <a href="#careers">Careers</a>
-                        </div>
-                    </div>
-                    <div>
-                        <div className="footer-col-title">Legal</div>
-                        <div className="footer-links">
-                            <a href="#privacy">Privacy Policy</a>
-                            <a href="#terms">Terms of Service</a>
-                            <a href="#cookies">Cookie Policy</a>
-                        </div>
-                    </div>
-                </div>
-                <div className="footer-bottom">
-                    <span>© {new Date().getFullYear()} Alpine Publishing Studios. All rights reserved.</span>
-                    <span>Made with ❤️ for authors everywhere</span>
-                </div>
-            </footer>
-        </>
-    );
+      {/* ── FOOTER ── */}
+      <footer className="footer">
+        <div className="footer-grid">
+          <div>
+            <div className="footer-logo">Alpine <span>Publishing</span> Studios</div>
+            <div className="footer-desc">The professional publishing platform for independent authors. Seamless. Affordable. Powerful.</div>
+          </div>
+          <div>
+            <div className="footer-col-title">Platform</div>
+            <div className="footer-links">
+              <a href="/services">Services</a>
+              <a href="/#how-it-works">How It Works</a>
+              <a href="/contact-us">Contact Us</a>
+              <a href="/#faq">FAQ</a>
+            </div>
+          </div>
+          <div>
+            <div className="footer-col-title">Company</div>
+            <div className="footer-links">
+              <a href="/about-us">About Us</a>
+              <a href="/blogs">Blog</a>
+              <a href="#careers">Careers</a>
+            </div>
+          </div>
+          <div>
+            <div className="footer-col-title">Legal</div>
+            <div className="footer-links">
+              <a href="#privacy">Privacy Policy</a>
+              <a href="#terms">Terms of Service</a>
+              <a href="#cookies">Cookie Policy</a>
+            </div>
+          </div>
+        </div>
+        <div className="footer-bottom">
+          <span>© {new Date().getFullYear()} Alpine Publishing Studios. All rights reserved.</span>
+          <span>Made with ❤️ for authors everywhere</span>
+        </div>
+      </footer>
+    </>
+  );
 }

@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 
 const BLUE = '#1690CE';
@@ -16,12 +15,28 @@ const BORDER = '#DCE2EA';
 function ContactForm({ onSuccess }) {
   const [form, setForm] = useState({ name: '', email: '', phone: '', project: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [focused, setFocused] = useState(null);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    if (onSuccess) onSuccess();
+    setSubmitting(true);
+    setError('');
+    try {
+      const res = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ formType: 'project', ...form }),
+      });
+      if (!res.ok) throw new Error('Failed to send');
+      setSubmitted(true);
+      if (onSuccess) onSuccess();
+    } catch (err) {
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (submitted) {
@@ -111,15 +126,16 @@ function ContactForm({ onSuccess }) {
           style={{ ...inputStyle('project'), resize: 'none', lineHeight: 1.55 }}
         />
       </div>
-      <button type="submit" style={{
-        background: BLUE,
+      {error && <p style={{ fontSize: 13, color: '#e53e3e', textAlign: 'center' }}>{error}</p>}
+      <button type="submit" disabled={submitting} style={{
+        background: submitting ? '#aaa' : BLUE,
         color: WHITE,
         border: 'none',
         padding: '14px 28px',
         borderRadius: 10,
         fontSize: 16,
         fontWeight: 700,
-        cursor: 'pointer',
+        cursor: submitting ? 'not-allowed' : 'pointer',
         width: '100%',
         transition: 'background .2s, transform .15s',
         fontFamily: "'DM Sans', sans-serif",
@@ -128,11 +144,11 @@ function ContactForm({ onSuccess }) {
         justifyContent: 'center',
         gap: 8,
       }}
-        onMouseEnter={e => { e.currentTarget.style.background = BLUE_DARK; e.currentTarget.style.transform = 'translateY(-1px)'; }}
-        onMouseLeave={e => { e.currentTarget.style.background = BLUE; e.currentTarget.style.transform = 'translateY(0)'; }}
+        onMouseEnter={e => { if (!submitting) { e.currentTarget.style.background = BLUE_DARK; e.currentTarget.style.transform = 'translateY(-1px)'; } }}
+        onMouseLeave={e => { if (!submitting) { e.currentTarget.style.background = BLUE; e.currentTarget.style.transform = 'translateY(0)'; } }}
       >
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg>
-        Start My Publishing Journey
+        {submitting ? 'Sending...' : 'Start My Publishing Journey'}
       </button>
       <p style={{ fontSize: 12, color: TEXT_BODY, textAlign: 'center', marginTop: -4 }}>No credit card required · Free to get started</p>
     </form>
@@ -429,18 +445,7 @@ export default function AlpinePublishingStudios() {
         }
         .hero-form-sub { font-size: 14px; color: var(--body); margin-bottom: 24px; }
 
-        /* books strip below hero */
-        .hero-books-strip {
-          padding: 40px 0 0;
-          overflow: hidden;
-        }
-        .hero-books-track { display: flex; gap: 12px; padding: 0 24px; overflow-x: auto; scrollbar-width: none; }
-        .hero-books-track::-webkit-scrollbar { display: none; }
-        .hero-book-thumb { flex-shrink: 0; width: 90px; }
-        .hero-book-thumb img {
-          width: 100%; border-radius: 4px;
-          box-shadow: 4px 6px 20px rgba(0,0,0,.2);
-        }
+        /* books strip CSS removed — now at bottom only */
 
         @media (max-width: 900px) {
           .hero-top { grid-template-columns: 1fr; }
@@ -514,13 +519,25 @@ export default function AlpinePublishingStudios() {
         .hiw-panel-btn { margin-top: 24px; }
         @media (max-width: 900px) { .hiw-layout { grid-template-columns: 1fr; } }
 
-        /* ─── BOOK CAROUSEL ─── */
+        /* ─── BOOK CAROUSEL (auto-sliding) ─── */
         .books-section { background: white; overflow: hidden; padding: 80px 0; }
         .books-intro { text-align: center; max-width: 560px; margin: 0 auto 48px; padding: 0 24px; }
-        .books-track { display: flex; gap: 16px; overflow-x: auto; scrollbar-width: none; padding: 0 40px; }
-        .books-track::-webkit-scrollbar { display: none; }
-        .book-card { flex-shrink: 0; width: 160px; }
-        .book-card img { width: 100%; aspect-ratio: 24/39; object-fit: cover; border-radius: 4px; box-shadow: 6px 8px 30px rgba(0,0,0,.22); }
+        .books-slider-wrap { overflow: hidden; width: 100%; }
+        .books-row { display: flex; gap: 16px; width: max-content; }
+        .books-row-ltr { animation: slideLeft 30s linear infinite; }
+        .books-row-rtl { animation: slideRight 30s linear infinite; margin-top: 16px; }
+        @keyframes slideLeft {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        @keyframes slideRight {
+          0% { transform: translateX(-50%); }
+          100% { transform: translateX(0); }
+        }
+        .books-slider-wrap:hover .books-row { animation-play-state: paused; }
+        .book-card { flex-shrink: 0; width: 150px; }
+        .book-card img { width: 100%; aspect-ratio: 24/39; object-fit: cover; border-radius: 6px; box-shadow: 6px 8px 30px rgba(0,0,0,.22); transition: transform .3s, box-shadow .3s; }
+        .book-card img:hover { transform: translateY(-4px) scale(1.03); box-shadow: 8px 14px 40px rgba(0,0,0,.3); }
 
         /* ─── TESTIMONIALS ─── */
         .testimonials-section { background: var(--bg); }
@@ -719,12 +736,12 @@ export default function AlpinePublishingStudios() {
       {/* ── HEADER ── */}
       <header className={`header${scrolled ? ' scrolled' : ''}`}>
         <div className="header-inner">
-          <div className="logo">Alpine <span>Publishing</span> Studios</div>
+          <a href="/" className="logo">Alpine <span>Publishing</span> Studios</a>
           <nav className="nav">
             <a href="/services">Services</a>
-            <a href="#how-it-works">How It Works</a>
+            <a href="/consultation">Consultation</a>
             <a href="/about-us">About Us</a>
-            <Link href="/contact-us">Contact</Link>
+            <a href="/contact-us">Contact</a>
             <a href="/blogs">Blogs</a>
           </nav>
           <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
@@ -732,11 +749,11 @@ export default function AlpinePublishingStudios() {
           </div>
         </div>
         <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
-          <a href="#services" onClick={() => setMenuOpen(false)}>Services</a>
-          <a href="#how-it-works" onClick={() => setMenuOpen(false)}>How It Works</a>
-          <a href="#about" onClick={() => setMenuOpen(false)}>About Us</a>
-          <a href="#contact-form" onClick={() => setMenuOpen(false)}>Contact</a>
-          <a href="#faq" onClick={() => setMenuOpen(false)}>FAQ</a>
+          <a href="/services" onClick={() => setMenuOpen(false)}>Services</a>
+          <a href="/consultation" onClick={() => setMenuOpen(false)}>Consultation</a>
+          <a href="/about-us" onClick={() => setMenuOpen(false)}>About Us</a>
+          <a href="/contact-us" onClick={() => setMenuOpen(false)}>Contact</a>
+          <a href="/blogs" onClick={() => setMenuOpen(false)}>Blogs</a>
         </div>
       </header>
 
@@ -774,16 +791,6 @@ export default function AlpinePublishingStudios() {
           </div>
         </div>
 
-        {/* Books strip */}
-        <div className="hero-books-strip">
-          <div className="hero-books-track">
-            {[...bookCovers, ...bookCovers].map((src, i) => (
-              <div className="hero-book-thumb" key={i}>
-                <img src={src} alt="" />
-              </div>
-            ))}
-          </div>
-        </div>
       </section>
 
       {/* ── LOGOS STRIP ── */}
@@ -896,18 +903,29 @@ export default function AlpinePublishingStudios() {
         </div>
       </section>
 
-      {/* ── BOOKS CAROUSEL ── */}
+      {/* ── BOOKS CAROUSEL (auto-sliding) ── */}
       <section className="books-section">
         <div className="books-intro">
           <span className="section-label">Published Books</span>
           <h2 className="section-title">Discover Books <span className="accent">Published with Alpine</span></h2>
         </div>
-        <div className="books-track">
-          {[...bookCovers, ...bookCovers].map((src, i) => (
-            <div className="book-card" key={i}>
-              <img src={src} alt={`Book ${i + 1}`} />
-            </div>
-          ))}
+        <div className="books-slider-wrap">
+          {/* Row 1: slides left */}
+          <div className="books-row books-row-ltr">
+            {[...bookCovers, ...bookCovers, ...bookCovers].map((src, i) => (
+              <div className="book-card" key={`ltr-${i}`}>
+                <img src={src} alt={`Book ${i + 1}`} />
+              </div>
+            ))}
+          </div>
+          {/* Row 2: slides right */}
+          <div className="books-row books-row-rtl">
+            {[...[...bookCovers].reverse(), ...[...bookCovers].reverse(), ...[...bookCovers].reverse()].map((src, i) => (
+              <div className="book-card" key={`rtl-${i}`}>
+                <img src={src} alt={`Book ${i + 1}`} />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

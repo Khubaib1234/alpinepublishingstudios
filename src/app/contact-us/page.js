@@ -14,11 +14,27 @@ const BORDER = '#DCE2EA';
 function ContactForm() {
     const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
     const [submitted, setSubmitted] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
     const [focused, setFocused] = useState(null);
+    const [error, setError] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setSubmitted(true);
+        setSubmitting(true);
+        setError('');
+        try {
+            const res = await fetch('/api/send-email', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ formType: 'project', ...form, project: form.message }),
+            });
+            if (!res.ok) throw new Error('Failed to send');
+            setSubmitted(true);
+        } catch (err) {
+            setError('Something went wrong. Please try again.');
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     if (submitted) {
@@ -140,23 +156,25 @@ function ContactForm() {
                     style={{ ...inputStyle('message'), resize: 'none', lineHeight: 1.55 }}
                 />
             </div>
+            {error && <p style={{ fontSize: 13, color: '#e53e3e', textAlign: 'center', marginTop: -4 }}>{error}</p>}
             <button
                 type="submit"
+                disabled={submitting}
                 style={{
-                    background: BLUE, color: WHITE, border: 'none',
+                    background: submitting ? '#aaa' : BLUE, color: WHITE, border: 'none',
                     padding: '15px 28px', borderRadius: 10,
-                    fontSize: 16, fontWeight: 700, cursor: 'pointer', width: '100%',
+                    fontSize: 16, fontWeight: 700, cursor: submitting ? 'not-allowed' : 'pointer', width: '100%',
                     transition: 'background .2s, transform .15s',
                     fontFamily: "'DM Sans', sans-serif",
                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                 }}
-                onMouseEnter={e => { e.currentTarget.style.background = BLUE_DARK; e.currentTarget.style.transform = 'translateY(-1px)'; }}
-                onMouseLeave={e => { e.currentTarget.style.background = BLUE; e.currentTarget.style.transform = 'translateY(0)'; }}
+                onMouseEnter={e => { if (!submitting) { e.currentTarget.style.background = BLUE_DARK; e.currentTarget.style.transform = 'translateY(-1px)'; } }}
+                onMouseLeave={e => { if (!submitting) { e.currentTarget.style.background = BLUE; e.currentTarget.style.transform = 'translateY(0)'; } }}
             >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
                     <polyline points="9 18 15 12 9 6" />
                 </svg>
-                Send Message
+                {submitting ? 'Sending...' : 'Send Message'}
             </button>
             <p style={{ fontSize: 12, color: TEXT_BODY, textAlign: 'center', marginTop: -4 }}>
                 We'll respond within 24 hours · No spam, ever
@@ -498,10 +516,10 @@ export default function ContactPage() {
                     <a href="/" className="logo">Alpine <span>Publishing</span> Studios</a>
                     <nav className="nav">
                         <a href="/services">Services</a>
-                        <a href="/how-it-works">How It Works</a>
-                        <a href="/about">About Us</a>
-                        <a href="/contact" className="active">Contact</a>
-                        <a href="/faq">FAQ</a>
+                        <a href="/consultation">Consultation</a>
+                        <a href="/about-us">About Us</a>
+                        <a href="/contact-us" className="active">Contact</a>
+                        <a href="/blogs">Blogs</a>
                     </nav>
                     <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
                         <span /><span /><span />
@@ -509,10 +527,10 @@ export default function ContactPage() {
                 </div>
                 <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
                     <a href="/services" onClick={() => setMenuOpen(false)}>Services</a>
-                    <a href="/how-it-works" onClick={() => setMenuOpen(false)}>How It Works</a>
-                    <a href="/about" onClick={() => setMenuOpen(false)}>About Us</a>
-                    <a href="/contact" onClick={() => setMenuOpen(false)}>Contact</a>
-                    <a href="/faq" onClick={() => setMenuOpen(false)}>FAQ</a>
+                    <a href="/consultation" onClick={() => setMenuOpen(false)}>Consultation</a>
+                    <a href="/about-us" onClick={() => setMenuOpen(false)}>About Us</a>
+                    <a href="/contact-us" onClick={() => setMenuOpen(false)}>Contact</a>
+                    <a href="/blogs" onClick={() => setMenuOpen(false)}>Blogs</a>
                 </div>
             </header>
 

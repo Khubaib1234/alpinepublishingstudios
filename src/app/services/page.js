@@ -14,12 +14,28 @@ const BORDER = '#DCE2EA';
 function ContactForm({ onSuccess }) {
     const [form, setForm] = useState({ name: '', email: '', phone: '', project: '' });
     const [submitted, setSubmitted] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
     const [focused, setFocused] = useState(null);
+    const [error, setError] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setSubmitted(true);
-        if (onSuccess) onSuccess();
+        setSubmitting(true);
+        setError('');
+        try {
+            const res = await fetch('/api/send-email', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ formType: 'project', ...form }),
+            });
+            if (!res.ok) throw new Error('Failed to send');
+            setSubmitted(true);
+            if (onSuccess) onSuccess();
+        } catch (err) {
+            setError('Something went wrong. Please try again.');
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     if (submitted) {
@@ -63,11 +79,12 @@ function ContactForm({ onSuccess }) {
                 <label style={{ fontSize: 13, fontWeight: 600, color: DARK, display: 'block', marginBottom: 6 }}>Tell us about your project</label>
                 <textarea required placeholder="Share your story — what's your book about and what service do you need?" value={form.project} onChange={e => setForm({ ...form, project: e.target.value })} onFocus={() => setFocused('project')} onBlur={() => setFocused(null)} rows={4} style={{ ...inputStyle('project'), resize: 'none', lineHeight: 1.55 }} />
             </div>
-            <button type="submit" style={{ background: BLUE, color: WHITE, border: 'none', padding: '14px 28px', borderRadius: 10, fontSize: 16, fontWeight: 700, cursor: 'pointer', width: '100%', fontFamily: "'DM Sans', sans-serif", display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
-                onMouseEnter={e => { e.currentTarget.style.background = BLUE_DARK; }}
-                onMouseLeave={e => { e.currentTarget.style.background = BLUE; }}>
+            {error && <p style={{ fontSize: 13, color: '#e53e3e', textAlign: 'center', marginTop: -4 }}>{error}</p>}
+            <button type="submit" disabled={submitting} style={{ background: submitting ? '#aaa' : BLUE, color: WHITE, border: 'none', padding: '14px 28px', borderRadius: 10, fontSize: 16, fontWeight: 700, cursor: submitting ? 'not-allowed' : 'pointer', width: '100%', fontFamily: "'DM Sans', sans-serif", display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
+                onMouseEnter={e => { if (!submitting) e.currentTarget.style.background = BLUE_DARK; }}
+                onMouseLeave={e => { if (!submitting) e.currentTarget.style.background = BLUE; }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg>
-                Start My Publishing Journey
+                {submitting ? 'Sending...' : 'Start My Publishing Journey'}
             </button>
             <p style={{ fontSize: 12, color: TEXT_BODY, textAlign: 'center', marginTop: -4 }}>No credit card required · Free to get started</p>
         </form>
@@ -430,11 +447,10 @@ export default function ServicesPage() {
             {/* HEADER */}
             <header className={`header${scrolled ? ' scrolled' : ''}`}>
                 <div className="header-inner">
-                    <div className="logo">Alpine <span>Publishing</span> Studios</div>
+                    <a href="/" className="logo">Alpine <span>Publishing</span> Studios</a>
                     <nav className="nav">
-                        <a href="/">Home</a>
                         <a href="/services" className="active">Services</a>
-                        <a href="#how-it-works">How It Works</a>
+                        <a href="/consultation">Consultation</a>
                         <a href="/about-us">About Us</a>
                         <a href="/contact-us">Contact</a>
                         <a href="/blogs">Blogs</a>
@@ -445,11 +461,11 @@ export default function ServicesPage() {
                     </div>
                 </div>
                 <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
-                    <a href="/" onClick={() => setMenuOpen(false)}>Home</a>
                     <a href="/services" onClick={() => setMenuOpen(false)}>Services</a>
-                    <a href="#how-it-works" onClick={() => setMenuOpen(false)}>How It Works</a>
+                    <a href="/consultation" onClick={() => setMenuOpen(false)}>Consultation</a>
                     <a href="/about-us" onClick={() => setMenuOpen(false)}>About Us</a>
                     <a href="/contact-us" onClick={() => setMenuOpen(false)}>Contact</a>
+                    <a href="/blogs" onClick={() => setMenuOpen(false)}>Blogs</a>
                 </div>
             </header>
 
