@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 
 const BLUE = '#1690CE';
@@ -720,11 +721,11 @@ export default function AlpinePublishingStudios() {
         <div className="header-inner">
           <div className="logo">Alpine <span>Publishing</span> Studios</div>
           <nav className="nav">
-            <a href="#services">Services</a>
+            <a href="/services">Services</a>
             <a href="#how-it-works">How It Works</a>
-            <a href="#about">About Us</a>
-            <a href="#contact-form">Contact</a>
-            <a href="#faq">FAQ</a>
+            <a href="/about-us">About Us</a>
+            <Link href="/contact-us">Contact</Link>
+            <a href="/blogs">Blogs</a>
           </nav>
           <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
             <span /><span /><span />
