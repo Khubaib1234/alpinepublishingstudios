@@ -117,6 +117,7 @@ export default function AboutUsPage() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [countersStarted, setCountersStarted] = useState(false);
+    const [showPopup, setShowPopup] = useState(false);
     const statsRef = useRef(null);
 
     useEffect(() => {
@@ -126,10 +127,31 @@ export default function AboutUsPage() {
     }, []);
 
     useEffect(() => {
-        if (menuOpen) document.body.style.overflow = 'hidden';
+        if (menuOpen || showPopup) document.body.style.overflow = 'hidden';
         else document.body.style.overflow = '';
         return () => { document.body.style.overflow = ''; };
-    }, [menuOpen]);
+    }, [menuOpen, showPopup]);
+
+    // Popup auto-trigger
+    useEffect(() => {
+        const isFirstLoad = !sessionStorage.getItem('alpine_visited');
+        sessionStorage.setItem('alpine_visited', '1');
+        const delay = isFirstLoad ? 0 : 5000;
+        const timer = setTimeout(() => setShowPopup(true), delay);
+        return () => clearTimeout(timer);
+    }, []);
+
+    // Scroll animations
+    useEffect(() => {
+        const els = document.querySelectorAll('.anim-fade-up, .anim-fade-left, .anim-fade-right, .anim-scale-in');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) { e.target.classList.add('anim-visible'); observer.unobserve(e.target); }
+            });
+        }, { threshold: 0.12 });
+        els.forEach(el => observer.observe(el));
+        return () => observer.disconnect();
+    }, []);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -229,6 +251,32 @@ export default function AboutUsPage() {
         <>
             <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
+
+        /* --- ANIMATIONS --- */
+        .anim-fade-up { opacity: 0; transform: translateY(40px); transition: opacity 0.75s cubic-bezier(.22,1,.36,1), transform 0.75s cubic-bezier(.22,1,.36,1); }
+        .anim-fade-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.75s cubic-bezier(.22,1,.36,1), transform 0.75s cubic-bezier(.22,1,.36,1); }
+        .anim-fade-right { opacity: 0; transform: translateX(40px); transition: opacity 0.75s cubic-bezier(.22,1,.36,1), transform 0.75s cubic-bezier(.22,1,.36,1); }
+        .anim-scale-in { opacity: 0; transform: scale(0.92); transition: opacity 0.65s cubic-bezier(.22,1,.36,1), transform 0.65s cubic-bezier(.22,1,.36,1); }
+        .anim-visible { opacity: 1 !important; transform: none !important; }
+        .anim-delay-1 { transition-delay: 0.1s; }
+        .anim-delay-2 { transition-delay: 0.2s; }
+        .anim-delay-3 { transition-delay: 0.3s; }
+        .anim-delay-4 { transition-delay: 0.4s; }
+        .anim-delay-5 { transition-delay: 0.5s; }
+        .anim-delay-6 { transition-delay: 0.6s; }
+        @keyframes heroFadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes blobPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+        .hero-blob1 { animation: blobPulse 8s ease-in-out infinite; }
+        .hero-blob2 { animation: blobPulse 10s ease-in-out infinite 2s; }
+        .about-hero-inner { animation: heroFadeUp 0.9s cubic-bezier(.22,1,.36,1) both; }
+        /* POPUP */
+        .popup-overlay { position: fixed; inset: 0; z-index: 9999; background: rgba(19,59,73,.55); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; padding: 24px; animation: fadeIn .2s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .popup-card { background: white; border-radius: 24px; width: 100%; max-width: 540px; padding: 40px 36px; position: relative; box-shadow: 0 32px 80px rgba(19,59,73,.2); animation: slideUp .25s ease; max-height: 90vh; overflow-y: auto; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .popup-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, ${BLUE}, #44B8F0); border-radius: 24px 24px 0 0; }
+        .popup-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border-radius: 50%; background: var(--bg); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .2s; }
+        .popup-close:hover { background: var(--border); }
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         :root {
@@ -478,6 +526,20 @@ export default function AboutUsPage() {
         .btn-white:hover { background: rgba(255,255,255,.9); transform: translateY(-1px); }
       `}</style>
 
+            {/* POPUP */}
+            {showPopup && (
+                <div className="popup-overlay" onClick={e => { if (e.target === e.currentTarget) setShowPopup(false); }}>
+                    <div className="popup-card">
+                        <button className="popup-close" onClick={() => setShowPopup(false)} aria-label="Close">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={DARK} strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+                        </button>
+                        <div style={{ fontSize: 24, fontWeight: 700, color: DARK, marginBottom: 6 }}>Let's Publish Your Book</div>
+                        <div style={{ fontSize: 14, color: TEXT_BODY, marginBottom: 24 }}>Tell us about your project and we'll get back to you within 24 hours.</div>
+                        <ContactForm />
+                    </div>
+                </div>
+            )}
+
             {/* ── HEADER ── */}
             <header className={`header${scrolled ? ' scrolled' : ''}`}>
                 <div className="header-inner">
@@ -512,8 +574,8 @@ export default function AboutUsPage() {
                         <h1>We Exist to Empower <span style={{ color: BLUE }}>Every Author's Voice</span></h1>
                         <p>Alpine Publishing Studios was born from a simple belief: that every author — regardless of budget, connections, or experience — deserves access to world-class publishing. We're leveling the playing field, one book at a time.</p>
                         <div className="hero-badges">
-                            {['Founded 2015', '30,000+ Authors Published', '150+ Countries Reached', 'Rated 4.9★'].map(b => (
-                                <div className="hero-badge" key={b}><div className="hero-badge-dot" />{b}</div>
+                            {['Founded 2015', '30,000+ Authors Published', '150+ Countries Reached', 'Rated 4.9★'].map((b, i) => (
+                                <div className={`hero-badge anim-fade-up anim-delay-${i + 1}`} key={b}><div className="hero-badge-dot" />{b}</div>
                             ))}
                         </div>
                     </div>
@@ -532,7 +594,7 @@ export default function AboutUsPage() {
                 {/* ── MISSION ── */}
                 <section className="mission-section">
                     <div className="mission-layout">
-                        <div className="mission-img-stack">
+                        <div className="mission-img-stack anim-fade-left">
                             <div className="mission-img-main">
                                 <img src="https://cdn.spines.com/wp-content/uploads/2025/04/author-with-book-600x773.jpg" alt="Author with book" />
                             </div>
@@ -541,7 +603,7 @@ export default function AboutUsPage() {
                                 <div className="mission-img-badge-label">Authors trust Alpine worldwide</div>
                             </div>
                         </div>
-                        <div>
+                        <div className="anim-fade-right">
                             <span className="section-label">Our Mission</span>
                             <h2 className="section-title">Democratizing <span className="accent">Publishing</span> for Everyone</h2>
                             <p className="mission-text" style={{ marginTop: 16 }}>
@@ -556,7 +618,7 @@ export default function AboutUsPage() {
                                     { title: 'Fair Economics', desc: 'Authors keep up to 80% of royalties. We grow when you grow.' },
                                     { title: 'Real Human Support', desc: 'Behind every tool is a team of publishing experts ready to help.' },
                                 ].map((p, i) => (
-                                    <div className="mission-pillar" key={i}>
+                                    <div className={`mission-pillar anim-fade-up anim-delay-${i + 1}`} key={i}>
                                         <div className="pillar-icon">
                                             <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
                                                 <path fillRule="evenodd" clipRule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4a1 1 0 011.4-1.4L8 12.59l7.3-7.3a1 1 0 011.4 0z" fill={BLUE} />
@@ -592,14 +654,14 @@ export default function AboutUsPage() {
                 {/* ── VALUES ── */}
                 <section className="values-section">
                     <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-                        <div className="values-intro">
+                        <div className="values-intro anim-fade-up">
                             <span className="section-label">What We Stand For</span>
                             <h2 className="section-title">The Values That <span className="accent">Drive Us</span></h2>
                             <p className="section-sub">These aren't just words on a wall. They're the principles behind every feature we build, every author we support, and every decision we make.</p>
                         </div>
                         <div className="values-grid">
                             {values.map((v, i) => (
-                                <div className="value-card" key={i}>
+                                <div className={`value-card anim-fade-up anim-delay-${i + 1}`} key={i}>
                                     <div className="value-icon">{v.icon}</div>
                                     <div className="value-title">{v.title}</div>
                                     <div className="value-desc">{v.desc}</div>
@@ -686,7 +748,7 @@ export default function AboutUsPage() {
                 </div>
                 <div className="footer-bottom">
                     <span>© {new Date().getFullYear()} Alpine Publishing Studios. All rights reserved.</span>
-                    <span>Made with ❤️ for authors everywhere</span>
+                    {/* <span>Made with ❤️ for authors everywhere</span> */}
                 </div>
             </footer>
         </>

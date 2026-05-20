@@ -614,7 +614,7 @@ export default function BlogPage() {
         </div>
         <div className="footer-bottom">
           <span>© {new Date().getFullYear()} Alpine Publishing Studios. All rights reserved.</span>
-          <span>Made with ❤️ for authors everywhere</span>
+          {/* <span>Made with ❤️ for authors everywhere</span> */}
         </div>
       </footer>
     </>

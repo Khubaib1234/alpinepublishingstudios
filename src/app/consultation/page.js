@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const BLUE = '#1690CE';
 const BLUE_DARK = '#0E7AB8';
@@ -174,11 +174,39 @@ function ConsultationForm() {
 export default function ConsultationPage() {
     const [scrolled, setScrolled] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
+    const [showPopup, setShowPopup] = useState(false);
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 0);
         window.addEventListener('scroll', onScroll);
         return () => window.removeEventListener('scroll', onScroll);
+    }, []);
+
+    // Popup auto-trigger: immediate on fresh load/reload, 5s on navigation
+    useEffect(() => {
+        const isFirstLoad = !sessionStorage.getItem('alpine_visited');
+        sessionStorage.setItem('alpine_visited', '1');
+        const delay = isFirstLoad ? 0 : 5000;
+        const timer = setTimeout(() => setShowPopup(true), delay);
+        return () => clearTimeout(timer);
+    }, []);
+
+    useEffect(() => {
+        if (showPopup) document.body.style.overflow = 'hidden';
+        else document.body.style.overflow = '';
+        return () => { document.body.style.overflow = ''; };
+    }, [showPopup]);
+
+    // Scroll-triggered animations
+    useEffect(() => {
+        const els = document.querySelectorAll('.anim-fade-up, .anim-fade-left, .anim-fade-right, .anim-scale-in');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) { e.target.classList.add('anim-visible'); observer.unobserve(e.target); }
+            });
+        }, { threshold: 0.12 });
+        els.forEach(el => observer.observe(el));
+        return () => observer.disconnect();
     }, []);
 
     const topics = [
@@ -252,6 +280,34 @@ export default function ConsultationPage() {
         <>
             <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+        /* --- ANIMATIONS --- */
+        .anim-fade-up { opacity: 0; transform: translateY(40px); transition: opacity 0.75s cubic-bezier(.22,1,.36,1), transform 0.75s cubic-bezier(.22,1,.36,1); }
+        .anim-fade-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.75s cubic-bezier(.22,1,.36,1), transform 0.75s cubic-bezier(.22,1,.36,1); }
+        .anim-fade-right { opacity: 0; transform: translateX(40px); transition: opacity 0.75s cubic-bezier(.22,1,.36,1), transform 0.75s cubic-bezier(.22,1,.36,1); }
+        .anim-scale-in { opacity: 0; transform: scale(0.92); transition: opacity 0.65s cubic-bezier(.22,1,.36,1), transform 0.65s cubic-bezier(.22,1,.36,1); }
+        .anim-visible { opacity: 1 !important; transform: none !important; }
+        .anim-delay-1 { transition-delay: 0.1s; }
+        .anim-delay-2 { transition-delay: 0.2s; }
+        .anim-delay-3 { transition-delay: 0.3s; }
+        .anim-delay-4 { transition-delay: 0.4s; }
+        .anim-delay-5 { transition-delay: 0.5s; }
+        .anim-delay-6 { transition-delay: 0.6s; }
+        @keyframes heroFadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes heroFadeRight { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes blobPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+        .hero-blob1 { animation: blobPulse 8s ease-in-out infinite; }
+        .hero-blob2 { animation: blobPulse 10s ease-in-out infinite 2s; }
+        .hero-content { animation: heroFadeUp 0.9s cubic-bezier(.22,1,.36,1) both; }
+        .hero-form-card { animation: heroFadeRight 0.9s cubic-bezier(.22,1,.36,1) 0.2s both; }
+        /* POPUP */
+        .popup-overlay { position: fixed; inset: 0; z-index: 9999; background: rgba(19,59,73,.55); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; padding: 24px; animation: fadeIn .2s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .popup-card { background: white; border-radius: 24px; width: 100%; max-width: 540px; padding: 40px 36px; position: relative; box-shadow: 0 32px 80px rgba(19,59,73,.2); animation: slideUp .25s ease; max-height: 90vh; overflow-y: auto; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .popup-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, ${BLUE}, #44B8F0); border-radius: 24px 24px 0 0; }
+        .popup-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border-radius: 50%; background: var(--bg); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .2s; }
+        .popup-close:hover { background: var(--border); }
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -516,6 +572,20 @@ export default function ConsultationPage() {
         .btn-primary-lg:hover { background: var(--blue-dark); transform: translateY(-1px); }
       `}</style>
 
+            {/* POPUP */}
+            {showPopup && (
+                <div className="popup-overlay" onClick={e => { if (e.target === e.currentTarget) setShowPopup(false); }}>
+                    <div className="popup-card">
+                        <button className="popup-close" onClick={() => setShowPopup(false)} aria-label="Close">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={DARK} strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+                        </button>
+                        <div style={{ fontSize: 24, fontWeight: 700, color: DARK, marginBottom: 6 }}>Ask Your Publishing Question</div>
+                        <div style={{ fontSize: 14, color: TEXT_BODY, marginBottom: 24 }}>Our publishing consultants will get back to you within 24 hours.</div>
+                        <ConsultationForm />
+                    </div>
+                </div>
+            )}
+
             {/* ── HEADER ── */}
             <header className={`header${scrolled ? ' scrolled' : ''}`}>
                 <div className="header-inner">
@@ -574,14 +644,14 @@ export default function ConsultationPage() {
             {/* ── TOPICS ── */}
             <section className="topics-section">
                 <div className="container">
-                    <div style={{ maxWidth: 560 }}>
+                    <div className="anim-fade-up" style={{ maxWidth: 560 }}>
                         <span className="section-label">What We Cover</span>
                         <h2 className="section-title">Topics We Can <span className="accent">Help You With</span></h2>
                         <p className="section-sub">No question is too big or too small — here are some of the areas our consultants handle every day.</p>
                     </div>
                     <div className="topics-grid">
                         {topics.map((t, i) => (
-                            <div className="topic-card" key={i}>
+                            <div className={`topic-card anim-fade-up anim-delay-${i + 1}`} key={i}>
                                 <div className="topic-icon">{t.icon}</div>
                                 <div className="topic-title">{t.title}</div>
                                 <div className="topic-desc">{t.desc}</div>
@@ -594,7 +664,7 @@ export default function ConsultationPage() {
             {/* ── PROCESS ── */}
             <section className="process-section">
                 <div className="container">
-                    <div style={{ textAlign: 'center', maxWidth: 520, margin: '0 auto' }}>
+                    <div className="anim-fade-up" style={{ textAlign: 'center', maxWidth: 520, margin: '0 auto' }}>
                         <span className="section-label">How It Works</span>
                         <h2 className="section-title">Simple as <span className="accent">Four Steps</span></h2>
                     </div>
@@ -605,7 +675,7 @@ export default function ConsultationPage() {
                             { n: '03', title: 'We Reach Out', desc: 'A consultant contacts you within 24 hours via email or phone.' },
                             { n: '04', title: 'Get Your Answers', desc: 'Walk away with clarity and a clear path forward for your book.' },
                         ].map((s, i) => (
-                            <div className="process-step" key={i}>
+                            <div className={`process-step anim-fade-up anim-delay-${i + 1}`} key={i}>
                                 <div className="process-num">{s.n}</div>
                                 <div className="process-step-title">{s.title}</div>
                                 <div className="process-step-desc">{s.desc}</div>
@@ -619,7 +689,7 @@ export default function ConsultationPage() {
             <section className="form-section" id="consultation-form">
                 <div className="form-layout">
                     {/* Left image */}
-                    <div className="form-left">
+                    <div className="form-left anim-fade-left">
                         <div className="form-img-wrap">
                             <img src="https://cdn.spines.com/wp-content/uploads/2025/04/author-with-book-600x773.jpg" alt="Author consulting" />
                         </div>
@@ -637,7 +707,7 @@ export default function ConsultationPage() {
                     </div>
 
                     {/* Right form */}
-                    <div className="form-right-card">
+                    <div className="form-right-card anim-fade-right">
                         <span className="section-label">Get In Touch</span>
                         <h2 className="section-title" style={{ fontSize: 32, marginBottom: 8 }}>
                             Ready to Get Your <span className="accent">Questions Answered?</span>
@@ -722,7 +792,7 @@ export default function ConsultationPage() {
                 </div>
                 <div className="footer-bottom">
                     <span>© {new Date().getFullYear()} Alpine Publishing Studios. All rights reserved.</span>
-                    <span>Made with ❤️ for authors everywhere</span>
+                    {/* <span>Made with ❤️ for authors everywhere</span> */}
                 </div>
             </footer>
         </>

@@ -173,6 +173,30 @@ export default function AlpinePublishingStudios() {
     return () => { document.body.style.overflow = ''; };
   }, [showPopup]);
 
+  // Popup auto-trigger: immediate on fresh load/reload, 5s on navigation
+  useEffect(() => {
+    const isFirstLoad = !sessionStorage.getItem('alpine_visited');
+    sessionStorage.setItem('alpine_visited', '1');
+    const delay = isFirstLoad ? 0 : 5000;
+    const timer = setTimeout(() => setShowPopup(true), delay);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Scroll-triggered animations
+  useEffect(() => {
+    const els = document.querySelectorAll('.anim-fade-up, .anim-fade-left, .anim-fade-right, .anim-scale-in');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('anim-visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    els.forEach(el => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
   const bookCovers = [
     'https://cdn.spines.com/wp-content/uploads/2025/04/book-cover-12-1-188x300.jpg',
     'https://cdn.spines.com/wp-content/uploads/2025/04/book-cover-11-1-194x300.jpg',
@@ -328,6 +352,27 @@ export default function AlpinePublishingStudios() {
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+        /* ─── ANIMATIONS ─── */
+        .anim-fade-up { opacity: 0; transform: translateY(40px); transition: opacity 0.75s cubic-bezier(.22,1,.36,1), transform 0.75s cubic-bezier(.22,1,.36,1); }
+        .anim-fade-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.75s cubic-bezier(.22,1,.36,1), transform 0.75s cubic-bezier(.22,1,.36,1); }
+        .anim-fade-right { opacity: 0; transform: translateX(40px); transition: opacity 0.75s cubic-bezier(.22,1,.36,1), transform 0.75s cubic-bezier(.22,1,.36,1); }
+        .anim-scale-in { opacity: 0; transform: scale(0.92); transition: opacity 0.65s cubic-bezier(.22,1,.36,1), transform 0.65s cubic-bezier(.22,1,.36,1); }
+        .anim-visible { opacity: 1 !important; transform: none !important; }
+        .anim-delay-1 { transition-delay: 0.1s; }
+        .anim-delay-2 { transition-delay: 0.2s; }
+        .anim-delay-3 { transition-delay: 0.3s; }
+        .anim-delay-4 { transition-delay: 0.4s; }
+        .anim-delay-5 { transition-delay: 0.5s; }
+        .anim-delay-6 { transition-delay: 0.6s; }
+
+        @keyframes heroFadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes heroFadeRight { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes blobPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+        .hero-blob1 { animation: blobPulse 8s ease-in-out infinite; }
+        .hero-blob2 { animation: blobPulse 10s ease-in-out infinite 2s; }
+        .hero-content { animation: heroFadeUp 0.9s cubic-bezier(.22,1,.36,1) both; }
+        .hero-form-card { animation: heroFadeRight 0.9s cubic-bezier(.22,1,.36,1) 0.2s both; }
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -795,10 +840,10 @@ export default function AlpinePublishingStudios() {
 
       {/* ── LOGOS STRIP ── */}
       <section className="logos-strip">
-        <div className="logos-label">Distributed to major platforms worldwide</div>
+        <div className="logos-label anim-fade-up">Distributed to major platforms worldwide</div>
         <div className="logos-row">
-          {['Amazon', 'Barnes & Noble', 'Apple Books', 'Kobo', 'IngramSpark', 'Google Play Books'].map(name => (
-            <div key={name} style={{ fontSize: 13, fontWeight: 700, color: '#aaa', letterSpacing: '.04em', textTransform: 'uppercase' }}>{name}</div>
+          {['Amazon', 'Barnes & Noble', 'Apple Books', 'Kobo', 'IngramSpark', 'Google Play Books'].map((name, i) => (
+            <div key={name} className={`anim-fade-up anim-delay-${i + 1}`} style={{ fontSize: 13, fontWeight: 700, color: '#aaa', letterSpacing: '.04em', textTransform: 'uppercase' }}>{name}</div>
           ))}
         </div>
       </section>
@@ -807,7 +852,7 @@ export default function AlpinePublishingStudios() {
       <section className="stats-section">
         <div className="stats-grid">
           {stats.map((s, i) => (
-            <div className="stat-item" key={i}>
+            <div className={`stat-item anim-fade-up anim-delay-${i + 1}`} key={i}>
               <div className="stat-value">{s.value}</div>
               <div className="stat-label">{s.label}</div>
             </div>
@@ -818,14 +863,14 @@ export default function AlpinePublishingStudios() {
       {/* ── FEATURES ── */}
       <section className="section features-section" id="services">
         <div className="container">
-          <div className="features-intro">
+          <div className="features-intro anim-fade-up">
             <span className="section-label">Why Alpine Publishing Studios</span>
             <h2 className="section-title">Everything an Author <span className="accent">Needs to Succeed</span></h2>
             <p className="section-sub">From manuscript to marketplace — we handle it all so you can focus on writing.</p>
           </div>
           <div className="features-grid">
             {features.map((f, i) => (
-              <div className="feature-card" key={i}>
+              <div className={`feature-card anim-fade-up anim-delay-${i + 1}`} key={i}>
                 <div className="feature-icon">{f.icon}</div>
                 <div className="feature-title">{f.title}</div>
                 <div className="feature-desc">{f.desc}</div>
@@ -839,10 +884,10 @@ export default function AlpinePublishingStudios() {
       <section className="section author-section" id="about">
         <div className="container">
           <div className="author-layout">
-            <div className="author-img-wrap">
+            <div className="author-img-wrap anim-fade-left">
               <img src="https://cdn.spines.com/wp-content/uploads/2025/04/author-with-book-600x773.jpg" alt="Author with book" />
             </div>
-            <div>
+            <div className="anim-fade-right">
               <span className="section-label">Built for Authors</span>
               <h2 className="section-title">Publish Like a <span className="accent">Professional</span></h2>
               <p className="section-sub" style={{ marginBottom: 0 }}>Alpine Publishing Studios gives independent authors the same tools and reach as traditional publishers — without giving up your rights or royalties.</p>
@@ -852,7 +897,7 @@ export default function AlpinePublishingStudios() {
                   { title: 'Cover Design Studio', desc: 'Work with professional designers or use our AI tools to create a stunning cover.' },
                   { title: 'Print on Demand', desc: 'High-quality printing with no minimum orders, delivered worldwide.' },
                 ].map((f, i) => (
-                  <div className="author-feature" key={i}>
+                  <div className={`author-feature anim-fade-up anim-delay-${i + 1}`} key={i}>
                     <div className="author-feature-icon">
                       <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path fillRule="evenodd" clipRule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4a1 1 0 011.4-1.4L8 12.59l7.3-7.3a1 1 0 011.4 0z" fill={BLUE} /></svg>
                     </div>
@@ -874,12 +919,12 @@ export default function AlpinePublishingStudios() {
       {/* ── HOW IT WORKS ── */}
       <section className="section hiw-section" id="how-it-works">
         <div className="container">
-          <div style={{ marginBottom: 48 }}>
+          <div className="anim-fade-up" style={{ marginBottom: 48 }}>
             <span className="section-label">The Process</span>
             <h2 className="section-title">Go from Manuscript to <span className="accent">Published</span> in 4 Steps</h2>
           </div>
           <div className="hiw-layout">
-            <div className="hiw-tabs">
+            <div className="hiw-tabs anim-fade-left">
               {tabs.map((tab, i) => (
                 <div className="hiw-tab" key={i} onClick={() => setActiveTab(i)}>
                   <div className={`hiw-tab-step${activeTab === i ? ' active' : ''}`}>{tab.step}</div>
@@ -887,7 +932,7 @@ export default function AlpinePublishingStudios() {
                 </div>
               ))}
             </div>
-            <div className="hiw-panel">
+            <div className="hiw-panel anim-fade-right">
               <div className="hiw-panel-img">
                 <img src={tabs[activeTab].img} alt={tabs[activeTab].label} />
               </div>
@@ -932,13 +977,13 @@ export default function AlpinePublishingStudios() {
       {/* ── TESTIMONIALS ── */}
       <section className="section testimonials-section">
         <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: 0 }}>
+          <div className="anim-fade-up" style={{ textAlign: 'center', marginBottom: 0 }}>
             <span className="section-label">Author Stories</span>
             <h2 className="section-title">What Our <span className="accent">Authors Say</span></h2>
           </div>
           <div className="testimonials-grid">
             {testimonials.map((t, i) => (
-              <div className="testimonial-card" key={i}>
+              <div className={`testimonial-card anim-fade-up anim-delay-${i + 1}`} key={i}>
                 <div className="testimonial-text">&ldquo;{t.text}&rdquo;</div>
                 <div className="testimonial-author">
                   <div className="testimonial-avatar" style={{ background: t.color }}>{t.initials}</div>
@@ -957,7 +1002,7 @@ export default function AlpinePublishingStudios() {
       <section className="contact-section" id="contact-form">
         <div className="contact-layout">
           {/* Left: image with overlay badge */}
-          <div style={{ position: 'relative' }}>
+          <div className="anim-fade-left" style={{ position: 'relative' }}>
             <div className="contact-left-img">
               <img src="https://cdn.spines.com/wp-content/uploads/2025/04/author-with-book-600x773.jpg" alt="Author" />
             </div>
@@ -975,7 +1020,7 @@ export default function AlpinePublishingStudios() {
           </div>
 
           {/* Right: form */}
-          <div className="contact-form-wrap">
+          <div className="contact-form-wrap anim-fade-right">
             <span className="section-label">Get In Touch</span>
             <h2 className="section-title" style={{ fontSize: 32, marginBottom: 8 }}>Ready to Publish <span className="accent">Your Book?</span></h2>
             <p style={{ fontSize: 15, color: TEXT_BODY, lineHeight: 1.6, marginBottom: 28 }}>Share your details and project below. Our publishing team will reach out within 24 hours to guide you through the next steps.</p>
@@ -1061,7 +1106,7 @@ export default function AlpinePublishingStudios() {
         </div>
         <div className="footer-bottom">
           <span>© {new Date().getFullYear()} Alpine Publishing Studios. All rights reserved.</span>
-          <span>Made with ❤️ for authors everywhere</span>
+          {/* <span>Made with ❤️ for authors everywhere</span> */}
         </div>
       </footer>
     </>

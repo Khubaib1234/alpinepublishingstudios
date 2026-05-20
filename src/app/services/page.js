@@ -305,6 +305,27 @@ export default function ServicesPage() {
         return () => { document.body.style.overflow = ''; };
     }, [showPopup]);
 
+    // Popup auto-trigger: immediate on fresh load/reload, 5s on navigation
+    useEffect(() => {
+        const isFirstLoad = !sessionStorage.getItem('alpine_visited');
+        sessionStorage.setItem('alpine_visited', '1');
+        const delay = isFirstLoad ? 0 : 5000;
+        const timer = setTimeout(() => setShowPopup(true), delay);
+        return () => clearTimeout(timer);
+    }, []);
+
+    // Scroll-triggered animations
+    useEffect(() => {
+        const els = document.querySelectorAll('.anim-fade-up, .anim-fade-left, .anim-fade-right, .anim-scale-in');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) { e.target.classList.add('anim-visible'); observer.unobserve(e.target); }
+            });
+        }, { threshold: 0.12 });
+        els.forEach(el => observer.observe(el));
+        return () => observer.disconnect();
+    }, []);
+
     const handleGetStarted = (e) => {
         e.preventDefault();
         setShowPopup(true);
@@ -314,6 +335,24 @@ export default function ServicesPage() {
         <>
             <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&display=swap');
+
+        /* --- ANIMATIONS --- */
+        .anim-fade-up { opacity: 0; transform: translateY(40px); transition: opacity 0.75s cubic-bezier(.22,1,.36,1), transform 0.75s cubic-bezier(.22,1,.36,1); }
+        .anim-fade-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.75s cubic-bezier(.22,1,.36,1), transform 0.75s cubic-bezier(.22,1,.36,1); }
+        .anim-fade-right { opacity: 0; transform: translateX(40px); transition: opacity 0.75s cubic-bezier(.22,1,.36,1), transform 0.75s cubic-bezier(.22,1,.36,1); }
+        .anim-scale-in { opacity: 0; transform: scale(0.92); transition: opacity 0.65s cubic-bezier(.22,1,.36,1), transform 0.65s cubic-bezier(.22,1,.36,1); }
+        .anim-visible { opacity: 1 !important; transform: none !important; }
+        .anim-delay-1 { transition-delay: 0.1s; }
+        .anim-delay-2 { transition-delay: 0.2s; }
+        .anim-delay-3 { transition-delay: 0.3s; }
+        .anim-delay-4 { transition-delay: 0.4s; }
+        .anim-delay-5 { transition-delay: 0.5s; }
+        .anim-delay-6 { transition-delay: 0.6s; }
+        @keyframes heroFadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes blobPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+        .hero-blob1 { animation: blobPulse 8s ease-in-out infinite; }
+        .hero-blob2 { animation: blobPulse 10s ease-in-out infinite 2s; }
+        .hero-inner { animation: heroFadeUp 0.9s cubic-bezier(.22,1,.36,1) both; }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         :root {
           --blue: ${BLUE}; --blue-dark: ${BLUE_DARK}; --blue-light: ${BLUE_LIGHT};
@@ -501,7 +540,7 @@ export default function ServicesPage() {
 
             {/* SERVICES GRID */}
             <section className="services-section" id="services">
-                <div className="services-header">
+                <div className="services-header anim-fade-up">
                     <span className="section-label">What We Offer</span>
                     <h2 className="section-title">Publishing Services <span className="accent">Built for Every Author</span></h2>
                     <p className="section-sub">From manuscript to marketplace — choose the services that fit your needs, or let us handle everything from start to finish.</p>
@@ -510,7 +549,7 @@ export default function ServicesPage() {
                     {services.map((svc, i) => (
                         <div
                             key={i}
-                            className={`service-card${svc.featured ? ' featured' : ''}`}
+                            className={`service-card${svc.featured ? ' featured' : ''} anim-fade-up anim-delay-${(i % 3) + 1}`}
                             onMouseEnter={() => setHoveredCard(i)}
                             onMouseLeave={() => setHoveredCard(null)}
                         >
@@ -536,7 +575,7 @@ export default function ServicesPage() {
             {/* CTA + FORM */}
             <section className="cta-section">
                 <div className="cta-inner">
-                    <div className="cta-left">
+                    <div className="cta-left anim-fade-left">
                         <h2>Ready to Publish <span className="accent">Your Book?</span></h2>
                         <p>Join over 30,000 authors who have trusted Alpine Publishing Studios to bring their stories to the world. Get started today — it's free.</p>
                         <ul className="cta-points">
@@ -599,7 +638,7 @@ export default function ServicesPage() {
                 </div>
                 <div className="footer-bottom">
                     <span>© {new Date().getFullYear()} Alpine Publishing Studios. All rights reserved.</span>
-                    <span>Made with ❤️ for authors everywhere</span>
+                    {/* <span>Made with ❤️ for authors everywhere</span> */}
                 </div>
             </footer>
         </>
