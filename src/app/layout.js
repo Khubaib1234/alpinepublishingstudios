@@ -14,11 +14,9 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "alpinepublishingstudios",
   description: "Professional publishing services for independent authors. Alpine Publishing Studios helps authors edit, design, format, publish, and promote their books.",
-  // icons: {
-  //   icon: '/logo.png',
-  //   shortcut: '/logo.png',
-  //   apple: '/logo.png',
-  // },
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({ children }) {
