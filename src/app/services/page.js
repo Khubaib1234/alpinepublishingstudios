@@ -91,20 +91,9 @@ function ContactForm({ onSuccess }) {
     );
 }
 
+// ─── SERVICE CARDS ─────────────────────────────────────────────────────────────
+// Content updated per PAGE 2 copy doc. Icons kept from original design.
 const services = [
-    {
-        icon: (
-            <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52" fill="none">
-                <circle cx="26" cy="26" r="26" fill={BLUE_LIGHT} />
-                <path d="M16 20h20M16 26h14M16 32h18" stroke={BLUE} strokeWidth="2" strokeLinecap="round" />
-                <circle cx="36" cy="32" r="5" fill={BLUE} stroke="white" strokeWidth="1.5" />
-                <path d="M34 32l1.5 1.5L38 30" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-        ),
-        title: 'Effortless Self-Publishing',
-        desc: 'Take control of your publishing journey from start to finish. Our AI-powered platform guides you through every stage — from manuscript upload to global distribution — in as little as 72 hours.',
-        bullets: ['Fast & Seamless Platform', 'End-to-End Publishing Support', 'Global Reach from Day One'],
-    },
     {
         icon: (
             <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52" fill="none">
@@ -115,22 +104,25 @@ const services = [
                 <circle cx="26" cy="18" r="2" fill={BLUE} />
             </svg>
         ),
-        title: 'Writing Coach',
-        desc: 'Unlock your creative potential with personalized guidance from seasoned writing professionals. Whether you\'re starting fresh or refining your story, our coaches help you write with confidence and clarity.',
-        bullets: ['One-on-One Expert Coaching', 'Structured Writing Plans', 'Genre-Specific Guidance'],
+        title: 'Ghostwriting',
+        desc: 'Have the idea but need help writing the book? Our ghostwriting team helps turn your story, experience, knowledge, or message into a complete manuscript that sounds authentic and reads professionally.',
+        bullets: ['Book idea development', 'Chapter planning and outline creation', 'Voice-matched writing', 'Memoirs, business books, self-help, fiction, and nonfiction', 'Confidential writing support'],
+        btnText: 'Get a Ghostwriting Quote',
     },
     {
         icon: (
             <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52" fill="none">
                 <circle cx="26" cy="26" r="26" fill={BLUE_LIGHT} />
-                <path d="M18 34l2-8 14-10-2 8-14 10z" stroke={BLUE} strokeWidth="1.8" strokeLinejoin="round" fill={BLUE} fillOpacity="0.15" />
-                <path d="M20 26l6 4" stroke={BLUE} strokeWidth="1.8" strokeLinecap="round" />
-                <circle cx="34" cy="16" r="3" fill={BLUE} />
+                <path d="M18 20h16M18 25h12M18 30h14" stroke={BLUE} strokeWidth="2" strokeLinecap="round" />
+                <path d="M16 18h20a2 2 0 012 2v12a2 2 0 01-2 2H16a2 2 0 01-2-2V20a2 2 0 012-2z" stroke={BLUE} strokeWidth="1.8" />
+                <circle cx="34" cy="20" r="4" fill="#fff" stroke={BLUE} strokeWidth="1.5" />
+                <path d="M32.5 20l1 1 2-2" stroke={BLUE} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
         ),
-        title: 'Expert Ghostwriting',
-        desc: 'Have a story to tell but not the time to write it? Our experienced ghostwriters capture your voice and vision, crafting a compelling book that\'s authentically yours — from concept to complete manuscript.',
-        bullets: ['100% Confidential & Yours', 'Voice-Matched Writing Style', 'Narrative & Non-Fiction Experts'],
+        title: 'Writing Coaching',
+        desc: 'If you want to write the book yourself but need direction, our writing support helps you stay structured, focused, and confident throughout the process.',
+        bullets: ['One-on-one writing guidance', 'Chapter-by-chapter planning', 'Story and message development', 'Accountability and writing direction', 'Support for new and experienced authors'],
+        btnText: 'Ask About Writing Support',
     },
     {
         icon: (
@@ -143,8 +135,23 @@ const services = [
             </svg>
         ),
         title: 'Book Editing',
-        desc: 'Stronger sentences, sharper storytelling — expert editing to refine voice, flow, and narrative clarity. Our editors work closely with you to elevate your manuscript without losing your authentic voice.',
-        bullets: ['Expert Editing That Elevates', 'Personalized Revision Support', 'Developmental & Line Editing'],
+        desc: 'Editing strengthens the manuscript before it reaches readers. We improve clarity, flow, structure, tone, sentence quality, and overall reading experience while protecting the author\'s voice.',
+        bullets: ['Developmental editing', 'Line editing', 'Flow and structure improvement', 'Sentence-level refinement', 'Tone and clarity enhancement'],
+        btnText: 'Get an Editing Quote',
+    },
+    {
+        icon: (
+            <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52" fill="none">
+                <circle cx="26" cy="26" r="26" fill={BLUE_LIGHT} />
+                <path d="M18 20h16M18 25h12M18 30h14" stroke={BLUE} strokeWidth="2" strokeLinecap="round" />
+                <circle cx="36" cy="18" r="5" fill={BLUE} />
+                <path d="M34 18l1.5 1.5L38 16" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+        ),
+        title: 'Proofreading',
+        desc: 'Proofreading is the final quality check before publishing. Our proofreaders review the manuscript for small mistakes that can affect credibility and reader trust.',
+        bullets: ['Spelling and punctuation review', 'Grammar corrections', 'Typo removal', 'Consistency checks', 'Final polish before publishing'],
+        btnText: 'Get Proofreading Support',
     },
     {
         icon: (
@@ -156,21 +163,9 @@ const services = [
             </svg>
         ),
         title: 'Book Cover Design',
-        desc: 'A powerful cover is your book\'s first impression. Our talented designers craft eye-catching, market-ready covers that capture your story\'s essence and stand out on any shelf — digital or physical.',
-        bullets: ['Professional Custom Designs', 'Unlimited Revision Rounds', 'Print & Digital Ready Files'],
-    },
-    {
-        icon: (
-            <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52" fill="none">
-                <circle cx="26" cy="26" r="26" fill={BLUE_LIGHT} />
-                <path d="M18 20h16M18 25h12M18 30h14" stroke={BLUE} strokeWidth="2" strokeLinecap="round" />
-                <circle cx="36" cy="18" r="5" fill={BLUE} />
-                <path d="M34 18l1.5 1.5L38 16" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-        ),
-        title: 'Proofreading & Grammar',
-        desc: 'Every word counts. Our meticulous proofreaders catch every error — spelling mistakes, grammar issues, punctuation errors, and inconsistencies — ensuring your manuscript is polished and publication-ready.',
-        bullets: ['Line-by-Line Accuracy Review', 'Grammar & Style Corrections', 'Consistency Checks Throughout'],
+        desc: 'Your cover is the first promise your book makes to a reader. Our designers create covers that fit your genre, message, audience, and publishing format.',
+        bullets: ['Custom cover concepts', 'Genre-based visual direction', 'Typography and layout design', 'Print and eBook-ready files', 'Refinement of selected design direction'],
+        btnText: 'Request Cover Design',
     },
     {
         icon: (
@@ -181,9 +176,10 @@ const services = [
                 <path d="M26 22h6M26 26h4" stroke={BLUE} strokeWidth="1.5" strokeLinecap="round" />
             </svg>
         ),
-        title: 'Flawless Book Formatting',
-        desc: 'Professional interior layout that readers love. We format your manuscript to industry standards for both print and digital formats, ensuring a polished reading experience from cover to cover.',
-        bullets: ['Print & eBook Ready Layouts', 'Chapter Headers & Styles', 'Meets Retailer Standards'],
+        title: 'Interior Formatting',
+        desc: 'A professional interior helps the book feel finished. We format manuscripts for print and digital platforms with clean layout, spacing, chapter structure, and reading flow.',
+        bullets: ['Paperback formatting', 'eBook formatting', 'Chapter heading styles', 'Margins, spacing, and page setup', 'Table of contents and front/back matter'],
+        btnText: 'Get Formatting Support',
     },
     {
         icon: (
@@ -197,8 +193,23 @@ const services = [
             </svg>
         ),
         title: 'eBook Creation',
-        desc: 'Flawless formatting, stunning design — your manuscript ready to shine on every major digital shelf. We create eBooks that display beautifully across all devices and platforms.',
-        bullets: ['Flawless Multi-Format Design', 'Interactive & Custom Styling', 'Optimized for Maximum Reach'],
+        desc: 'We prepare eBook files that display cleanly across digital reading platforms and devices, helping your book feel professional wherever readers open it.',
+        bullets: ['Digital layout optimization', 'Clickable table of contents', 'eBook file preparation', 'Device-friendly formatting', 'Platform-readiness checks'],
+        btnText: 'Create My eBook',
+    },
+    {
+        icon: (
+            <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52" fill="none">
+                <circle cx="26" cy="26" r="26" fill={BLUE_LIGHT} />
+                <path d="M14 30l4-6 4 3 4-5 4 2 4-6" stroke={BLUE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                <rect x="14" y="32" width="24" height="3" rx="1.5" fill={BLUE} fillOpacity="0.2" />
+                <path d="M16 34h20" stroke={BLUE} strokeWidth="1.5" strokeLinecap="round" />
+            </svg>
+        ),
+        title: "Children's Book Publishing",
+        desc: "Children's books require a special balance of story, illustration, layout, and production. Alpine helps authors bring visual books to life with careful creative direction.",
+        bullets: ['Illustration planning', 'Page-by-page layout support', 'Age-appropriate design direction', 'Print and digital preparation', 'Publishing support for illustrated books'],
+        btnText: "Discuss My Children's Book",
     },
     {
         icon: (
@@ -211,48 +222,9 @@ const services = [
             </svg>
         ),
         title: 'Audiobook Creation',
-        desc: 'Bring your book to life with professional audio production. Our experienced narrators and audio engineers create high-quality audiobooks distributed across all major platforms.',
-        bullets: ['Professional Voice Narration', 'Studio-Quality Recording', 'Distributed to Audible & More'],
-    },
-    {
-        icon: (
-            <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52" fill="none">
-                <circle cx="26" cy="26" r="26" fill={BLUE_LIGHT} />
-                <path d="M14 30l4-6 4 3 4-5 4 2 4-6" stroke={BLUE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                <rect x="14" y="32" width="24" height="3" rx="1.5" fill={BLUE} fillOpacity="0.2" />
-                <path d="M16 34h20" stroke={BLUE} strokeWidth="1.5" strokeLinecap="round" />
-            </svg>
-        ),
-        title: 'Children\'s Book Publishing',
-        desc: 'Bring young imaginations to life with beautifully illustrated, expertly crafted children\'s books. From picture books to middle grade, we handle illustration, layout, and publishing.',
-        bullets: ['Custom Illustration Services', 'Age-Appropriate Design', 'Print & Digital Editions'],
-    },
-    {
-        icon: (
-            <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52" fill="none">
-                <circle cx="26" cy="26" r="26" fill={BLUE_LIGHT} />
-                <path d="M14 34l6-8 4 4 5-7 5 4" stroke={BLUE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M34 20h4v4" stroke={BLUE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                <rect x="14" y="15" width="6" height="5" rx="1" fill={BLUE} fillOpacity="0.2" stroke={BLUE} strokeWidth="1.2" />
-            </svg>
-        ),
-        title: 'Targeted Book Marketing',
-        desc: 'Reach your ideal readers with precision. Our marketing specialists craft data-driven campaigns — social media, book reviews, email outreach, and ads — to maximize your book\'s visibility and sales.',
-        bullets: ['Social & Digital Campaigns', 'Author Platform Building', 'Launch & Ongoing Promotion'],
-    },
-    {
-        icon: (
-            <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52" fill="none">
-                <circle cx="26" cy="26" r="26" fill={BLUE_LIGHT} />
-                <rect x="18" y="14" width="16" height="22" rx="2" stroke={BLUE} strokeWidth="1.8" fill={BLUE} fillOpacity="0.08" />
-                <path d="M21 20h10M21 24h7M21 28h8" stroke={BLUE} strokeWidth="1.5" strokeLinecap="round" />
-                <path d="M14 34h24" stroke={BLUE} strokeWidth="2" strokeLinecap="round" />
-                <circle cx="26" cy="37" r="2" fill={BLUE} />
-            </svg>
-        ),
-        title: 'Premium Book Printing',
-        desc: 'From single copy to bulk runs — premium print, fast turnaround, and formats for every kind of author. We use top-quality materials for covers and interiors that impress every reader.',
-        bullets: ['Hardcover & Paperback Options', 'Print-on-Demand or Bulk', 'Nationwide Printing & Delivery'],
+        desc: 'For authors who want to reach listeners, audiobook support can help transform the manuscript into a listening experience with professional production direction.',
+        bullets: ['Narration planning', 'Voice style direction', 'Audio production guidance', 'Audiobook file preparation', 'Distribution support where applicable'],
+        btnText: 'Ask About Audiobooks',
     },
     {
         icon: (
@@ -265,9 +237,39 @@ const services = [
                 <path d="M18 22h16M18 30h16" stroke={BLUE} strokeWidth="1" strokeLinecap="round" opacity="0.5" />
             </svg>
         ),
-        title: 'Global Book Distribution',
-        desc: 'Global reach made simple. We distribute your book to 100+ retailers, libraries, and platforms worldwide — Amazon, Barnes & Noble, Apple Books, Kobo, and beyond — with full expert support.',
-        bullets: ['100+ Retailer & Library Channels', 'eBook, Print & Audio Formats', 'Free Professional ISBN'],
+        title: 'Publishing & Distribution',
+        desc: 'We help prepare your book for major publishing platforms and guide the setup process so your title appears professionally online.',
+        bullets: ['Amazon KDP support', 'Barnes & Noble support', 'Apple Books, Kobo, Google Play Books, Lulu, and IngramSpark guidance', 'Metadata and book description support', 'Category, keyword, and upload preparation'],
+        btnText: 'Get Publishing Support',
+    },
+    {
+        icon: (
+            <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52" fill="none">
+                <circle cx="26" cy="26" r="26" fill={BLUE_LIGHT} />
+                <rect x="18" y="14" width="16" height="22" rx="2" stroke={BLUE} strokeWidth="1.8" fill={BLUE} fillOpacity="0.08" />
+                <path d="M21 20h10M21 24h7M21 28h8" stroke={BLUE} strokeWidth="1.5" strokeLinecap="round" />
+                <path d="M14 34h24" stroke={BLUE} strokeWidth="2" strokeLinecap="round" />
+                <circle cx="26" cy="37" r="2" fill={BLUE} />
+            </svg>
+        ),
+        title: 'Book Printing',
+        desc: 'For authors who need physical copies, we help prepare print-ready files and guide suitable printing options for paperbacks, hardcovers, or special-format books.',
+        bullets: ['Print-ready cover and interior files', 'Paperback and hardcover guidance', 'Print-on-demand preparation', 'Bulk order guidance', 'Quality-focused production support'],
+        btnText: 'Ask About Printing',
+    },
+    {
+        icon: (
+            <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52" fill="none">
+                <circle cx="26" cy="26" r="26" fill={BLUE_LIGHT} />
+                <path d="M14 34l6-8 4 4 5-7 5 4" stroke={BLUE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M34 20h4v4" stroke={BLUE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <rect x="14" y="15" width="6" height="5" rx="1" fill={BLUE} fillOpacity="0.2" stroke={BLUE} strokeWidth="1.2" />
+            </svg>
+        ),
+        title: 'Book Marketing',
+        desc: 'Publishing is only the beginning. Our marketing support helps authors introduce the book, create awareness, and keep the message active after launch.',
+        bullets: ['Launch messaging', 'Social media content', 'Book promotional captions', 'Reader engagement ideas', 'Author credibility content'],
+        btnText: 'Get Marketing Support',
     },
     {
         icon: (
@@ -280,10 +282,84 @@ const services = [
                 <path d="M36 14h2M37 13v2" stroke="white" strokeWidth="1" strokeLinecap="round" />
             </svg>
         ),
+        title: 'Author Branding',
+        desc: 'A strong author presence helps readers understand who you are and why your book matters. We help shape the way your author identity appears online.',
+        bullets: ['Author bio writing', 'Book positioning', 'Website copy support', 'Book description writing', 'Reader audience direction'],
+        btnText: 'Build My Author Presence',
+    },
+    {
+        icon: (
+            <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52" fill="none">
+                <circle cx="26" cy="26" r="26" fill={BLUE_LIGHT} />
+                <circle cx="26" cy="26" r="9" stroke={BLUE} strokeWidth="1.8" fill="none" />
+                <path d="M22 22h8M22 26h5M22 30h6" stroke={BLUE} strokeWidth="1.5" strokeLinecap="round" />
+                <path d="M32 19l2 2M38 15l-4 4" stroke={BLUE} strokeWidth="1.5" strokeLinecap="round" />
+            </svg>
+        ),
         title: 'Publishing Consultation',
-        desc: 'Not sure where to start or which path is right for your book? Our publishing consultants offer one-on-one expert guidance to help you navigate the publishing landscape with confidence.',
-        bullets: ['Personalized Publishing Roadmap', 'Platform & Strategy Advice', 'Rights, Pricing & Distribution Guidance'],
+        desc: 'Not sure what your book needs next? A consultation helps you understand the right path before you invest time, money, or energy in the wrong direction.',
+        bullets: ['Manuscript readiness review', 'Publishing path guidance', 'Service recommendations', 'Timeline discussion', 'Platform and launch direction'],
+        btnText: 'Book a Consultation',
         featured: true,
+    },
+];
+
+// ─── TEAM AREAS for Connected Publishing Team section ──────────────────────────
+const teamAreas = [
+    {
+        label: 'Editorial Team',
+        desc: 'Writing, editing, proofreading, and manuscript refinement',
+        icon: (
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                <path d="M6 8h16M6 13h11M6 18h13" stroke={BLUE} strokeWidth="1.8" strokeLinecap="round" />
+                <path d="M20 6l4 4-8 8H12v-4l8-8z" fill={BLUE} fillOpacity="0.2" stroke={BLUE} strokeWidth="1.2" strokeLinejoin="round" />
+            </svg>
+        ),
+    },
+    {
+        label: 'Design Team',
+        desc: 'Book covers, illustration direction, and visual presentation',
+        icon: (
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                <rect x="4" y="6" width="14" height="18" rx="2" stroke={BLUE} strokeWidth="1.8" fill={BLUE} fillOpacity="0.08" />
+                <path d="M20 4l4 4-9 9H11v-4l9-9z" fill={BLUE} fillOpacity="0.2" stroke={BLUE} strokeWidth="1.2" strokeLinejoin="round" />
+                <path d="M7 11h8M7 15h5" stroke={BLUE} strokeWidth="1.4" strokeLinecap="round" />
+            </svg>
+        ),
+    },
+    {
+        label: 'Production Team',
+        desc: 'Formatting, file preparation, and print/digital layout',
+        icon: (
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                <rect x="4" y="8" width="12" height="16" rx="2" stroke={BLUE} strokeWidth="1.8" fill="none" />
+                <rect x="12" y="4" width="12" height="16" rx="2" stroke={BLUE} strokeWidth="1.8" fill={BLUE} fillOpacity="0.08" />
+                <path d="M15 8h6M15 12h4" stroke={BLUE} strokeWidth="1.4" strokeLinecap="round" />
+            </svg>
+        ),
+    },
+    {
+        label: 'Publishing Team',
+        desc: 'Platform setup, metadata, upload support, and distribution guidance',
+        icon: (
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                <circle cx="14" cy="14" r="9" stroke={BLUE} strokeWidth="1.8" fill="none" />
+                <path d="M14 5c0 0-5 3.5-5 9s5 9 5 9" stroke={BLUE} strokeWidth="1.4" strokeLinecap="round" />
+                <path d="M14 5c0 0 5 3.5 5 9s-5 9-5 9" stroke={BLUE} strokeWidth="1.4" strokeLinecap="round" />
+                <path d="M5 14h18" stroke={BLUE} strokeWidth="1.4" strokeLinecap="round" />
+            </svg>
+        ),
+    },
+    {
+        label: 'Marketing Team',
+        desc: 'Launch copy, social media content, book positioning, and reader engagement',
+        icon: (
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                <path d="M4 20l5-7 4 3 4-5 5 4" stroke={BLUE} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M22 12h3v3" stroke={BLUE} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                <rect x="4" y="8" width="5" height="4" rx="1" fill={BLUE} fillOpacity="0.2" stroke={BLUE} strokeWidth="1.2" />
+            </svg>
+        ),
     },
 ];
 
@@ -305,7 +381,6 @@ export default function ServicesPage() {
         return () => { document.body.style.overflow = ''; };
     }, [showPopup]);
 
-    // Popup auto-trigger: immediate on fresh load/reload, 5s on navigation
     useEffect(() => {
         const isFirstLoad = !sessionStorage.getItem('alpine_visited');
         sessionStorage.setItem('alpine_visited', '1');
@@ -314,7 +389,6 @@ export default function ServicesPage() {
         return () => clearTimeout(timer);
     }, []);
 
-    // Scroll-triggered animations
     useEffect(() => {
         const els = document.querySelectorAll('.anim-fade-up, .anim-fade-left, .anim-fade-right, .anim-scale-in');
         const observer = new IntersectionObserver((entries) => {
@@ -398,7 +472,7 @@ export default function ServicesPage() {
 
         /* SERVICES */
         .services-section { padding: 90px 24px; background: var(--bg); }
-        .services-header { text-align: center; max-width: 600px; margin: 0 auto 60px; }
+        .services-header { text-align: center; max-width: 640px; margin: 0 auto 60px; }
         .section-label { display: inline-block; background: var(--blue-light); color: var(--blue); font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 6px 14px; border-radius: 20px; margin-bottom: 16px; }
         .section-title { font-size: clamp(28px, 4vw, 44px); font-weight: 800; color: var(--dark); line-height: 1.15; }
         .section-title .accent { color: var(--blue); }
@@ -413,7 +487,6 @@ export default function ServicesPage() {
         .service-card:hover { box-shadow: 0 16px 56px rgba(22,144,206,.14); transform: translateY(-3px); border-color: rgba(22,144,206,0.25); }
         .service-card.featured { border-color: rgba(22,144,206,0.4); background: linear-gradient(135deg, white, rgba(22,144,206,0.03)); }
         .service-card.featured::before { opacity: 1; }
-        .service-card.featured::after { content: 'NEW'; position: absolute; top: 16px; right: 16px; background: ${BLUE}; color: white; font-size: 10px; font-weight: 700; letter-spacing: .08em; padding: 4px 8px; border-radius: 6px; }
         .service-icon { margin-bottom: 18px; }
         .service-title { font-size: 20px; font-weight: 700; color: var(--dark); margin-bottom: 10px; line-height: 1.3; }
         .service-desc { font-size: 14.5px; color: var(--body); line-height: 1.65; margin-bottom: 18px; }
@@ -422,6 +495,23 @@ export default function ServicesPage() {
         .service-bullets li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: ${BLUE}; flex-shrink: 0; }
         .service-link { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; color: ${BLUE}; transition: gap .2s; }
         .service-link:hover { gap: 10px; }
+
+        /* CONNECTED TEAM SECTION */
+        .team-section { padding: 90px 24px; background: white; }
+        .team-inner { max-width: 1200px; margin: 0 auto; }
+        .team-header { text-align: center; max-width: 640px; margin: 0 auto 56px; }
+        .team-areas-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; }
+        @media (max-width: 1100px) { .team-areas-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 700px) { .team-areas-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 480px) { .team-areas-grid { grid-template-columns: 1fr; } }
+        .team-area-card { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; padding: 24px 20px; display: flex; flex-direction: column; gap: 12px; transition: all .25s; }
+        .team-area-card:hover { box-shadow: 0 12px 40px rgba(22,144,206,.12); transform: translateY(-2px); border-color: rgba(22,144,206,0.3); }
+        .team-area-icon { width: 52px; height: 52px; border-radius: 14px; background: var(--blue-light); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .team-area-label { font-size: 15px; font-weight: 700; color: var(--dark); line-height: 1.3; }
+        .team-area-desc { font-size: 13.5px; color: var(--body); line-height: 1.6; }
+        .team-connector { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 48px; }
+        .team-connector-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); }
+        .team-connector-badge { background: var(--blue-light); border: 1px solid rgba(22,144,206,0.25); border-radius: 20px; padding: 8px 20px; font-size: 13px; font-weight: 600; color: var(--blue); white-space: nowrap; }
 
         /* CTA SECTION */
         .cta-section { background: linear-gradient(135deg, ${DARK} 0%, #0d2e3a 100%); padding: 90px 24px; }
@@ -508,24 +598,28 @@ export default function ServicesPage() {
                 </div>
             </header>
 
-            {/* HERO */}
+            {/* ── HERO ─────────────────────────────────────────────────────────── */}
             <section className="hero">
                 <div className="hero-blob hero-blob1" />
                 <div className="hero-blob hero-blob2" />
                 <div className="hero-inner">
-                    <span className="hero-label">Comprehensive Publishing Solutions</span>
+                    {/* Eyebrow */}
+                    <span className="hero-label">Professional Publishing Services</span>
+                    {/* Main Headline */}
                     <h1 className="hero-title">
-                        Explore Our <span className="accent">Publishing Services</span>
+                        The Creative, Editorial, and <span className="accent">Publishing Support Your Book Needs</span>
                     </h1>
+                    {/* Hero Body Copy */}
                     <p className="hero-desc">
-                        From editing and design to distribution and marketing — we offer a full range of services to bring your book to life at every stage of your publishing journey.
+                        Alpine Publishing Studios helps authors shape, polish, package, publish, and promote their books with a complete range of professional services. Whether you need one focused service or full support from idea to launch, our team helps move your book forward with clarity.
                     </p>
+                    {/* CTA Buttons */}
                     <div className="hero-btns">
                         <button className="btn-primary" onClick={handleGetStarted}>
                             <svg width="12" height="14" viewBox="0 0 12 14" fill="none"><path fillRule="evenodd" clipRule="evenodd" d="M6 0L12 7L6 14L4.6 12.4L8.4 8H0V6H8.4L4.6 1.6L6 0Z" fill="white" /></svg>
-                            Get Started for Free
+                            Get a Publishing Quote
                         </button>
-                        <a href="#services" className="btn-secondary">Explore Services</a>
+                        <button className="btn-secondary" onClick={handleGetStarted}>Speak With a Publishing Specialist</button>
                     </div>
                     <div className="hero-stats">
                         {[['30K+', 'Published Authors'], ['150+', 'Countries Reached'], ['4.9★', 'Author Satisfaction'], ['72hr', 'Avg. Time to Publish']].map(([val, lbl]) => (
@@ -538,12 +632,14 @@ export default function ServicesPage() {
                 </div>
             </section>
 
-            {/* SERVICES GRID */}
+            {/* ── SERVICES INTRODUCTION + GRID ─────────────────────────────────── */}
             <section className="services-section" id="services">
                 <div className="services-header anim-fade-up">
                     <span className="section-label">What We Offer</span>
-                    <h2 className="section-title">Publishing Services <span className="accent">Built for Every Author</span></h2>
-                    <p className="section-sub">From manuscript to marketplace — choose the services that fit your needs, or let us handle everything from start to finish.</p>
+                    {/* Services Introduction Headline */}
+                    <h2 className="section-title">Choose the Support That <span className="accent">Matches Your Book</span></h2>
+                    {/* Services Introduction Body */}
+                    <p className="section-sub">Some authors need help finishing the manuscript. Some need editing. Some need design, formatting, publishing, or marketing. Alpine brings every key service under one roof so the process feels connected from beginning to end.</p>
                 </div>
                 <div className="services-grid">
                     {services.map((svc, i) => (
@@ -564,7 +660,7 @@ export default function ServicesPage() {
                                 onClick={handleGetStarted}
                                 style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, fontFamily: "'DM Sans', sans-serif" }}
                             >
-                                Learn More
+                                {svc.btnText}
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg>
                             </button>
                         </div>
@@ -572,12 +668,44 @@ export default function ServicesPage() {
                 </div>
             </section>
 
-            {/* CTA + FORM */}
+            {/* ── CONNECTED PUBLISHING TEAM SECTION (new) ──────────────────────── */}
+            <section className="team-section">
+                <div className="team-inner">
+                    <div className="team-header anim-fade-up">
+                        <span className="section-label">Our Team</span>
+                        {/* Headline */}
+                        <h2 className="section-title">One Book. <span className="accent">One Connected Team.</span></h2>
+                        {/* Body Copy */}
+                        <p className="section-sub" style={{ marginTop: 14 }}>
+                            Instead of sending your manuscript through disconnected freelancers, Alpine brings the major publishing stages together. Editorial, design, production, publishing, and marketing work from the same project direction, so the book feels consistent from cover to final upload.
+                        </p>
+                    </div>
+                    {/* Team Areas */}
+                    <div className="team-areas-grid">
+                        {teamAreas.map((area, i) => (
+                            <div key={i} className={`team-area-card anim-fade-up anim-delay-${i + 1}`}>
+                                <div className="team-area-icon">{area.icon}</div>
+                                <div className="team-area-label">{area.label}</div>
+                                <div className="team-area-desc">{area.desc}</div>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="team-connector anim-fade-up">
+                        <div className="team-connector-line" />
+                        <div className="team-connector-badge">All teams work from the same project direction</div>
+                        <div className="team-connector-line" />
+                    </div>
+                </div>
+            </section>
+
+            {/* ── CTA + FORM ───────────────────────────────────────────────────── */}
             <section className="cta-section">
                 <div className="cta-inner">
                     <div className="cta-left anim-fade-left">
-                        <h2>Ready to Publish <span className="accent">Your Book?</span></h2>
-                        <p>Join over 30,000 authors who have trusted Alpine Publishing Studios to bring their stories to the world. Get started today — it's free.</p>
+                        {/* CTA Headline */}
+                        <h2>Not Sure Which Service <span className="accent">You Need?</span></h2>
+                        {/* CTA Body Copy */}
+                        <p>Tell us where your book stands today. We will help you understand the best next step and guide you from there.</p>
                         <ul className="cta-points">
                             {['No credit card required to start', 'Expert support at every stage', 'Your rights, your royalties — always'].map((pt, i) => (
                                 <li key={i}>
@@ -588,9 +716,10 @@ export default function ServicesPage() {
                                 </li>
                             ))}
                         </ul>
+                        {/* CTA Button */}
                         <button className="btn-primary-lg" onClick={handleGetStarted}>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg>
-                            Start Publishing Free
+                            Get a Publishing Quote
                         </button>
                     </div>
                     <div>
@@ -638,7 +767,6 @@ export default function ServicesPage() {
                 </div>
                 <div className="footer-bottom">
                     <span>© {new Date().getFullYear()} Alpine Publishing Studios. All rights reserved.</span>
-                    {/* <span>Made with ❤️ for authors everywhere</span> */}
                 </div>
             </footer>
         </>

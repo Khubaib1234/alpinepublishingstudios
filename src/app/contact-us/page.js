@@ -12,7 +12,18 @@ const WHITE = '#ffffff';
 const BORDER = '#DCE2EA';
 
 function ContactForm() {
-    const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
+    const [form, setForm] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        bookTitle: '',
+        genre: '',
+        wordCount: '',
+        hasManuscript: '',
+        services: '',
+        timeline: '',
+        message: '',
+    });
     const [submitted, setSubmitted] = useState(false);
     const [submitting, setSubmitting] = useState(false);
     const [focused, setFocused] = useState(null);
@@ -81,6 +92,7 @@ function ContactForm() {
 
     return (
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {/* Full Name + Email */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
                 <div>
                     <label style={labelStyle}>Full Name *</label>
@@ -109,6 +121,7 @@ function ContactForm() {
                     />
                 </div>
             </div>
+            {/* Phone + Book Title */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
                 <div>
                     <label style={labelStyle}>Phone Number</label>
@@ -123,26 +136,103 @@ function ContactForm() {
                     />
                 </div>
                 <div>
-                    <label style={labelStyle}>Subject *</label>
-                    <select
-                        required
-                        value={form.subject}
-                        onChange={e => setForm({ ...form, subject: e.target.value })}
-                        onFocus={() => setFocused('subject')}
+                    <label style={labelStyle}>Book Title / Working Title</label>
+                    <input
+                        type="text"
+                        placeholder="My Book Title"
+                        value={form.bookTitle}
+                        onChange={e => setForm({ ...form, bookTitle: e.target.value })}
+                        onFocus={() => setFocused('bookTitle')}
                         onBlur={() => setFocused(null)}
-                        style={{ ...inputStyle('subject'), cursor: 'pointer', appearance: 'none' }}
-                    >
-                        <option value="">Select a topic...</option>
-                        <option value="publishing">Publishing Services</option>
-                        <option value="editing">Editing & Proofreading</option>
-                        <option value="design">Cover Design</option>
-                        <option value="distribution">Distribution</option>
-                        <option value="pricing">Pricing & Plans</option>
-                        <option value="support">General Support</option>
-                        <option value="other">Other</option>
-                    </select>
+                        style={inputStyle('bookTitle')}
+                    />
                 </div>
             </div>
+            {/* Genre + Word Count */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                <div>
+                    <label style={labelStyle}>Genre / Category</label>
+                    <input
+                        type="text"
+                        placeholder="e.g. Fiction, Self-Help, Memoir"
+                        value={form.genre}
+                        onChange={e => setForm({ ...form, genre: e.target.value })}
+                        onFocus={() => setFocused('genre')}
+                        onBlur={() => setFocused(null)}
+                        style={inputStyle('genre')}
+                    />
+                </div>
+                <div>
+                    <label style={labelStyle}>Estimated Word Count</label>
+                    <input
+                        type="text"
+                        placeholder="e.g. 60,000"
+                        value={form.wordCount}
+                        onChange={e => setForm({ ...form, wordCount: e.target.value })}
+                        onFocus={() => setFocused('wordCount')}
+                        onBlur={() => setFocused(null)}
+                        style={inputStyle('wordCount')}
+                    />
+                </div>
+            </div>
+            {/* Has Manuscript */}
+            <div>
+                <label style={labelStyle}>Do you have a completed manuscript?</label>
+                <select
+                    value={form.hasManuscript}
+                    onChange={e => setForm({ ...form, hasManuscript: e.target.value })}
+                    onFocus={() => setFocused('hasManuscript')}
+                    onBlur={() => setFocused(null)}
+                    style={{ ...inputStyle('hasManuscript'), cursor: 'pointer', appearance: 'none' }}
+                >
+                    <option value="">Select an option...</option>
+                    <option value="yes_complete">Yes, it's complete</option>
+                    <option value="yes_partial">Partially complete</option>
+                    <option value="no_outline">No, just an outline</option>
+                    <option value="no_idea">No, just an idea</option>
+                </select>
+            </div>
+            {/* Services */}
+            <div>
+                <label style={labelStyle}>Which services are you interested in?</label>
+                <select
+                    value={form.services}
+                    onChange={e => setForm({ ...form, services: e.target.value })}
+                    onFocus={() => setFocused('services')}
+                    onBlur={() => setFocused(null)}
+                    style={{ ...inputStyle('services'), cursor: 'pointer', appearance: 'none' }}
+                >
+                    <option value="">Select a service...</option>
+                    <option value="editing">Editing</option>
+                    <option value="proofreading">Proofreading</option>
+                    <option value="cover_design">Cover Design</option>
+                    <option value="formatting">Formatting</option>
+                    <option value="publishing">Publishing</option>
+                    <option value="marketing">Marketing</option>
+                    <option value="ghostwriting">Ghostwriting</option>
+                    <option value="full_support">Full Publishing Support</option>
+                    <option value="not_sure">Not Sure Yet</option>
+                </select>
+            </div>
+            {/* Timeline */}
+            <div>
+                <label style={labelStyle}>Preferred Publishing Timeline</label>
+                <select
+                    value={form.timeline}
+                    onChange={e => setForm({ ...form, timeline: e.target.value })}
+                    onFocus={() => setFocused('timeline')}
+                    onBlur={() => setFocused(null)}
+                    style={{ ...inputStyle('timeline'), cursor: 'pointer', appearance: 'none' }}
+                >
+                    <option value="">Select a timeline...</option>
+                    <option value="asap">As soon as possible</option>
+                    <option value="1_3_months">1–3 months</option>
+                    <option value="3_6_months">3–6 months</option>
+                    <option value="6_12_months">6–12 months</option>
+                    <option value="flexible">Flexible / No rush</option>
+                </select>
+            </div>
+            {/* Project description */}
             <div>
                 <label style={labelStyle}>Tell us about your project *</label>
                 <textarea
@@ -174,10 +264,10 @@ function ContactForm() {
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
                     <polyline points="9 18 15 12 9 6" />
                 </svg>
-                {submitting ? 'Sending...' : 'Send Message'}
+                {submitting ? 'Sending...' : 'Submit My Quote Request'}
             </button>
             <p style={{ fontSize: 12, color: TEXT_BODY, textAlign: 'center', marginTop: -4 }}>
-                We'll respond within 24 hours · No spam, ever
+                No spam. No pressure. Your information is used only to understand your publishing needs and respond to your inquiry.
             </p>
         </form>
     );
@@ -200,7 +290,6 @@ export default function ContactPage() {
         return () => { document.body.style.overflow = ''; };
     }, [menuOpen, showPopup]);
 
-    // Popup auto-trigger: immediate on fresh load/reload, 5s on navigation
     useEffect(() => {
         const isFirstLoad = !sessionStorage.getItem('alpine_visited');
         sessionStorage.setItem('alpine_visited', '1');
@@ -209,7 +298,6 @@ export default function ContactPage() {
         return () => clearTimeout(timer);
     }, []);
 
-    // Scroll-triggered animations
     useEffect(() => {
         const els = document.querySelectorAll('.anim-fade-up, .anim-fade-left, .anim-fade-right, .anim-scale-in');
         const observer = new IntersectionObserver((entries) => {
@@ -229,9 +317,9 @@ export default function ContactPage() {
                     <polyline points="22,6 12,13 2,6" />
                 </svg>
             ),
-            label: 'Email Us',
-            value: 'info@alpinepublishing.com',
-            sub: 'We reply within 24 hours',
+            label: 'Email',
+            value: 'support@alpinepublishingstudios.com',
+            sub: 'A publishing specialist will reach out after reviewing your project details.',
         },
         {
             icon: (
@@ -239,9 +327,9 @@ export default function ContactPage() {
                     <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z" />
                 </svg>
             ),
-            label: 'Call Us',
-            value: '+1 (800) 555-0192',
-            sub: 'Mon–Fri, 9am–6pm EST',
+            label: 'Phone',
+            value: '(312) 752-2806',
+            sub: 'Monday to Friday, 9 AM – 6 PM',
         },
         {
             icon: (
@@ -257,13 +345,40 @@ export default function ContactPage() {
     ];
 
     const faqs = [
-        { q: 'How quickly can I get started?', a: 'You can upload your manuscript and start the process immediately. Most authors are published within 72 hours of final approval.' },
-        { q: 'Do I retain copyright of my book?', a: 'Absolutely. You retain 100% of your copyright and creative control. We simply help you publish and distribute.' },
-        { q: 'What file formats do you accept?', a: 'We accept Word (.docx), PDF, Google Docs exports, and plain text files. Our system handles the rest.' },
-        { q: 'How much does it cost to publish?', a: 'We offer a free plan to get started. Premium plans with additional services start from $99. No hidden fees.' },
+        {
+            q: 'Can I contact Alpine if my manuscript is not finished?',
+            a: 'Yes. You can contact us at any stage, whether you have an idea, outline, partial draft, full manuscript, or already published book.',
+        },
+        {
+            q: 'Can I request only one service?',
+            a: 'Yes. You can request individual services such as proofreading, cover design, formatting, or publishing support.',
+        },
+        {
+            q: 'Can Alpine handle the full publishing process?',
+            a: 'Yes. Alpine can support the full journey, including editing, design, formatting, publishing, distribution guidance, and marketing support.',
+        },
+        {
+            q: 'Will I keep the rights to my book?',
+            a: 'Yes. Your book, rights, and creative decisions remain yours. Alpine supports the publishing process without taking ownership of your work.',
+        },
+        {
+            q: 'How do I get a quote?',
+            a: 'Fill out the quote form with your book details. Our team will review the information and respond with the best next step.',
+        },
     ];
 
     const [openFaq, setOpenFaq] = useState(null);
+
+    const reasonsToContact = [
+        'Finishing or improving your manuscript',
+        'Editing and proofreading your book',
+        'Designing a professional book cover',
+        'Formatting your book for print or eBook platforms',
+        'Publishing your book on major platforms',
+        'Creating a stronger author bio or book description',
+        'Preparing social media content and launch messaging',
+        'Understanding what your book needs before moving forward',
+    ];
 
     return (
         <>
@@ -382,8 +497,18 @@ export default function ContactPage() {
         .contact-hero-title .accent { color: var(--blue); }
         .contact-hero-sub {
           font-size: 18px; color: var(--body); line-height: 1.65;
-          max-width: 520px; margin: 0 auto;
+          max-width: 560px; margin: 0 auto 28px;
         }
+        .hero-btn {
+          display: inline-flex; align-items: center; gap: 8px;
+          background: var(--blue); color: white;
+          padding: 14px 28px; border-radius: 10px;
+          font-size: 16px; font-weight: 700;
+          border: none; cursor: pointer; font-family: 'DM Sans', sans-serif;
+          transition: background .2s, transform .15s;
+          text-decoration: none;
+        }
+        .hero-btn:hover { background: var(--blue-dark); transform: translateY(-1px); }
 
         /* ── CONTACT CARDS ── */
         .contact-cards-section {
@@ -391,6 +516,15 @@ export default function ContactPage() {
           border-top: 1px solid var(--border);
           border-bottom: 1px solid var(--border);
           padding: 48px 24px;
+        }
+        .contact-cards-section-header {
+          text-align: center;
+          margin-bottom: 36px;
+        }
+        .contact-cards-section-title {
+          font-size: clamp(24px, 3vw, 32px);
+          font-weight: 700;
+          color: var(--dark);
         }
         .contact-cards-grid {
           max-width: 900px; margin: 0 auto;
@@ -482,6 +616,43 @@ export default function ContactPage() {
           .contact-form-card { padding: 32px 24px; }
         }
 
+        /* ── REASONS TO CONTACT ── */
+        .reasons-section {
+          background: var(--bg);
+          padding: 80px 24px;
+          border-top: 1px solid var(--border);
+        }
+        .reasons-inner {
+          max-width: 900px; margin: 0 auto;
+        }
+        .reasons-header {
+          text-align: center; margin-bottom: 48px;
+        }
+        .reasons-title {
+          font-size: clamp(26px, 3vw, 38px); font-weight: 700; color: var(--dark);
+        }
+        .reasons-title .accent { color: var(--blue); }
+        .reasons-grid {
+          display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+        }
+        .reason-item {
+          display: flex; align-items: flex-start; gap: 14px;
+          background: white; border: 1px solid var(--border);
+          border-radius: 14px; padding: 20px 22px;
+          transition: box-shadow .25s, transform .25s;
+        }
+        .reason-item:hover { box-shadow: 0 8px 28px rgba(22,144,206,.10); transform: translateY(-2px); }
+        .reason-icon {
+          width: 36px; height: 36px; border-radius: 8px;
+          background: var(--blue-light);
+          display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .reason-text {
+          font-size: 15px; font-weight: 500; color: var(--dark); line-height: 1.45;
+          padding-top: 6px;
+        }
+        @media (max-width: 640px) { .reasons-grid { grid-template-columns: 1fr; } }
+
         /* ── FAQ ── */
         .faq-section { background: white; padding: 96px 24px; border-top: 1px solid var(--border); }
         .faq-inner { max-width: 720px; margin: 0 auto; }
@@ -519,11 +690,23 @@ export default function ContactPage() {
         }
         .footer-logo { font-size: 20px; font-weight: 700; color: white; margin-bottom: 14px; }
         .footer-logo span { color: var(--blue); }
-        .footer-desc { font-size: 14px; line-height: 1.65; }
+        .footer-desc { font-size: 14px; line-height: 1.65; margin-bottom: 20px; }
+        .footer-cta-btn {
+          display: inline-flex; align-items: center; gap: 8px;
+          background: var(--blue); color: white;
+          padding: 11px 20px; border-radius: 8px;
+          font-size: 14px; font-weight: 700;
+          border: none; cursor: pointer; font-family: 'DM Sans', sans-serif;
+          transition: background .2s;
+          text-decoration: none;
+        }
+        .footer-cta-btn:hover { background: var(--blue-dark); }
         .footer-col-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: white; margin-bottom: 16px; }
         .footer-links { display: flex; flex-direction: column; gap: 10px; }
         .footer-links a { font-size: 14px; color: rgba(255,255,255,.6); transition: color .2s; }
         .footer-links a:hover { color: white; }
+        .footer-contact-block { margin-top: 32px; }
+        .footer-contact-item { font-size: 13px; color: rgba(255,255,255,.55); margin-bottom: 6px; }
         .footer-bottom {
           max-width: 1200px; margin: 48px auto 0;
           border-top: 1px solid rgba(255,255,255,.1); padding-top: 24px;
@@ -602,18 +785,27 @@ export default function ContactPage() {
                     <div className="hero-blob1" />
                     <div className="hero-blob2" />
                     <div className="contact-hero-inner">
-                        <span className="section-label">Contact Us</span>
+                        <span className="section-label">Contact Alpine Publishing Studios</span>
                         <h1 className="contact-hero-title">
-                            Let's Bring Your <span className="accent">Story to Life</span>
+                            Tell Us About Your Book. <span className="accent">We'll Help You Take the Next Step.</span>
                         </h1>
                         <p className="contact-hero-sub">
-                            Have a question or ready to start publishing? Our team of publishing experts is here to guide you every step of the way.
+                            Whether you need editing, cover design, formatting, publishing support, marketing direction, or full book production, our team is ready to hear about your project.
                         </p>
+                        <a href="#quote-form" className="hero-btn">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
+                                <polyline points="9 18 15 12 9 6" />
+                            </svg>
+                            Request a Publishing Quote
+                        </a>
                     </div>
                 </section>
 
-                {/* ── CONTACT CARDS ── */}
+                {/* ── CONTACT DETAILS SECTION ── */}
                 <section className="contact-cards-section">
+                    <div className="contact-cards-section-header">
+                        <h2 className="contact-cards-section-title">Get in Touch</h2>
+                    </div>
                     <div className="contact-cards-grid">
                         {contactCards.map((card, i) => (
                             <div className={`contact-card anim-fade-up anim-delay-${i + 1}`} key={i}>
@@ -628,8 +820,8 @@ export default function ContactPage() {
                     </div>
                 </section>
 
-                {/* ── MAIN CONTACT SECTION ── */}
-                <section className="contact-main">
+                {/* ── LEAD FORM SECTION ── */}
+                <section className="contact-main" id="quote-form">
                     <div className="contact-main-layout">
 
                         {/* Left Column */}
@@ -652,7 +844,7 @@ export default function ContactPage() {
                                     </div>
                                     <div>
                                         <div className="info-row-label">Email</div>
-                                        <div className="info-row-value">hello@alpinepublishing.com</div>
+                                        <div className="info-row-value">support@alpinepublishingstudios.com</div>
                                     </div>
                                 </div>
                                 <div className="info-row">
@@ -663,7 +855,7 @@ export default function ContactPage() {
                                     </div>
                                     <div>
                                         <div className="info-row-label">Phone</div>
-                                        <div className="info-row-value">+1 (800) 555-0192</div>
+                                        <div className="info-row-value">(312) 752-2806</div>
                                     </div>
                                 </div>
                                 <div className="info-row">
@@ -675,17 +867,17 @@ export default function ContactPage() {
                                     </div>
                                     <div>
                                         <div className="info-row-label">Business Hours</div>
-                                        <div className="info-row-value">Mon–Fri, 9am–6pm EST</div>
+                                        <div className="info-row-value">Monday to Friday, 9 AM – 6 PM</div>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="trust-badges">
                                 {[
-                                    '30,000+ authors published worldwide',
-                                    'Distributed to 150+ countries',
-                                    'Average response time under 4 hours',
-                                    'No credit card required to get started',
+                                    'Your rights stay yours.',
+                                    'Human support at every major stage.',
+                                    'Professional files for print and digital publishing.',
+                                    'Built for authors who want clarity, quality, and control.',
                                 ].map((text, i) => (
                                     <div className="trust-badge" key={i}>
                                         <div className="trust-badge-dot" />
@@ -697,11 +889,32 @@ export default function ContactPage() {
 
                         {/* Right: Form */}
                         <div className="contact-form-card anim-fade-right">
-                            <div className="contact-form-title">Send Us a Message</div>
+                            <div className="contact-form-title">Request a Publishing Quote</div>
                             <div className="contact-form-sub">
-                                Fill in the form below and a publishing specialist will reach out to you within 24 hours.
+                                Share a few details about your book so we can understand what kind of support you are looking for. The more context you provide, the better we can guide the next step.
                             </div>
                             <ContactForm />
+                        </div>
+                    </div>
+                </section>
+
+                {/* ── REASONS TO CONTACT ── */}
+                <section className="reasons-section">
+                    <div className="reasons-inner">
+                        <div className="reasons-header anim-fade-up">
+                            <h2 className="reasons-title">Reach Out If You Want <span className="accent">Help With...</span></h2>
+                        </div>
+                        <div className="reasons-grid">
+                            {reasonsToContact.map((reason, i) => (
+                                <div className={`reason-item anim-fade-up anim-delay-${(i % 4) + 1}`} key={i}>
+                                    <div className="reason-icon">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                            <polyline points="20 6 9 17 4 12" />
+                                        </svg>
+                                    </div>
+                                    <div className="reason-text">{reason}</div>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </section>
@@ -728,19 +941,20 @@ export default function ContactPage() {
                     </div>
                 </section>
 
-                {/* ── CTA BANNER ── */}
+                {/* ── FINAL CTA BANNER ── */}
                 <section className="cta-section">
-                    <div className="cta-title">Your Story Deserves to <span className="accent">Be Told</span></div>
-                    <p className="cta-sub">Start publishing today with Alpine Publishing Studios — the platform built by authors, for authors.</p>
-                    <button
+                    <div className="cta-title">Your Book Is Ready for <span className="accent">Its Next Step</span></div>
+                    <p className="cta-sub">Tell us where you are in the journey, and we will help you move forward from there.</p>
+                    <a
+                        href="#quote-form"
                         className="btn-primary-lg"
-                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                        onClick={e => { e.preventDefault(); document.getElementById('quote-form')?.scrollIntoView({ behavior: 'smooth' }); }}
                     >
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                             <polyline points="9 18 15 12 9 6" />
                         </svg>
-                        Get Started for Free
-                    </button>
+                        Request My Publishing Quote
+                    </a>
                 </section>
             </main>
 
@@ -749,27 +963,51 @@ export default function ContactPage() {
                 <div className="footer-grid">
                     <div>
                         <div className="footer-logo">Alpine <span>Publishing</span> Studios</div>
-                        <div className="footer-desc">The professional publishing platform for independent authors. Seamless. Affordable. Powerful.</div>
-                    </div>
-                    <div>
-                        <div className="footer-col-title">Platform</div>
-                        <div className="footer-links">
-                            <a href="/services">Services</a>
-                            <a href="/how-it-works">How It Works</a>
-                            <a href="/contact">Contact Us</a>
-                            <a href="/faq">FAQ</a>
+                        <div className="footer-desc">Alpine Publishing Studios helps authors edit, design, format, publish, and promote books with professional support from manuscript to marketplace.</div>
+                        <div style={{ marginBottom: 8, fontSize: 14, color: 'rgba(255,255,255,0.6)' }}>Ready to publish your book? Start with a quick quote request.</div>
+                        <a href="#quote-form" className="footer-cta-btn" onClick={e => { e.preventDefault(); document.getElementById('quote-form')?.scrollIntoView({ behavior: 'smooth' }); }}>
+                            Get a Publishing Quote
+                        </a>
+                        <div className="footer-contact-block">
+                            <div className="footer-contact-item">Email: support@alpinepublishingstudios.com</div>
+                            <div className="footer-contact-item">Phone: (312) 752-2806</div>
+                            <div className="footer-contact-item">Website: [Website URL]</div>
                         </div>
                     </div>
                     <div>
                         <div className="footer-col-title">Company</div>
                         <div className="footer-links">
-                            <a href="/about">About Us</a>
-                            <a href="/blog">Blog</a>
-                            <a href="/careers">Careers</a>
+                            <a href="/about-us">About Us</a>
+                            <a href="/services">Services</a>
+                            <a href="/consultation">Consultation</a>
+                            <a href="/blogs">Blogs</a>
+                            <a href="/contact-us">Contact Us</a>
                         </div>
                     </div>
                     <div>
-                        <div className="footer-col-title">Legal</div>
+                        <div className="footer-col-title">Services</div>
+                        <div className="footer-links">
+                            <a href="/services/ghostwriting">Ghostwriting</a>
+                            <a href="/services/editing">Editing</a>
+                            <a href="/services/proofreading">Proofreading</a>
+                            <a href="/services/cover-design">Cover Design</a>
+                            <a href="/services/formatting">Formatting</a>
+                            <a href="/services/publishing">Publishing</a>
+                            <a href="/services/marketing">Marketing</a>
+                        </div>
+                    </div>
+                    <div>
+                        <div className="footer-col-title">Publishing Support</div>
+                        <div className="footer-links">
+                            <a href="#">Amazon</a>
+                            <a href="#">Barnes &amp; Noble</a>
+                            <a href="#">Apple Books</a>
+                            <a href="#">Google Play Books</a>
+                            <a href="#">Kobo</a>
+                            <a href="#">Lulu</a>
+                            <a href="#">IngramSpark</a>
+                        </div>
+                        <div className="footer-col-title" style={{ marginTop: 28 }}>Legal</div>
                         <div className="footer-links">
                             <a href="/privacy">Privacy Policy</a>
                             <a href="/terms">Terms of Service</a>
@@ -778,8 +1016,7 @@ export default function ContactPage() {
                     </div>
                 </div>
                 <div className="footer-bottom">
-                    <span>© {new Date().getFullYear()} Alpine Publishing Studios. All rights reserved.</span>
-                    {/* <span>Made with ❤️ for authors everywhere</span> */}
+                    <span>© 2026 Alpine Publishing Studios. All rights reserved.</span>
                 </div>
             </footer>
         </>

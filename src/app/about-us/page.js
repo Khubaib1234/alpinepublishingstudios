@@ -113,6 +113,82 @@ function ContactForm() {
     );
 }
 
+// ─── WHAT WE STAND FOR values ─────────────────────────────────────────────────
+const values = [
+    {
+        title: 'Respect for the Author\'s Voice',
+        desc: 'We improve the book without stripping away the tone, purpose, or personality that makes it yours.',
+        icon: (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+            </svg>
+        ),
+    },
+    {
+        title: 'Professional Presentation',
+        desc: 'Every cover, page, description, and publishing detail should support the reader\'s trust in the book.',
+        icon: (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg>
+        ),
+    },
+    {
+        title: 'Clear Guidance',
+        desc: 'Authors should never feel lost in the process. We explain the path, the stages, and the next step.',
+        icon: (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+        ),
+    },
+    {
+        title: 'Thoughtful Publishing',
+        desc: 'We do not treat a book like a file upload. We treat it like a creative project that deserves care.',
+        icon: (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+            </svg>
+        ),
+    },
+    {
+        title: 'Visibility After Publishing',
+        desc: 'The book\'s journey does not end when it goes live. We help authors think about presence, promotion, and reader engagement.',
+        icon: (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="2" y1="12" x2="22" y2="12" />
+                <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
+            </svg>
+        ),
+    },
+];
+
+// ─── THE ALPINE EXPERIENCE points ─────────────────────────────────────────────
+const experiencePoints = [
+    'You know what stage your book is in.',
+    'You understand what our team is working on.',
+    'You receive professional support without losing creative control.',
+    'Your book moves through editing, design, formatting, publishing, and launch preparation with a connected strategy.',
+    'You get a final product that feels ready for readers, not rushed to upload.',
+];
+
+// ─── WHO WE WORK WITH categories ──────────────────────────────────────────────
+const authorCategories = [
+    'Memoir', 'Fiction', 'Nonfiction', 'Self-Help', 'Business', 'Leadership',
+    "Children's Books", 'Poetry', 'Faith-Based Writing', 'Personal Development', 'Thought Leadership',
+];
+
+// ─── STATS ────────────────────────────────────────────────────────────────────
+const stats = [
+    { value: 30000, suffix: '+', label: 'Published Authors' },
+    { value: 150, suffix: '+', label: 'Countries Reached' },
+    { value: 2000, suffix: '+', label: 'Retail Partners' },
+    { value: 72, suffix: 'hr', label: 'Avg. Time to Publish' },
+];
+
+const pressLogos = ['Forbes', 'TechCrunch', "Publisher's Weekly", 'The Guardian', 'Inc. Magazine'];
+
 export default function AboutUsPage() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
@@ -132,7 +208,6 @@ export default function AboutUsPage() {
         return () => { document.body.style.overflow = ''; };
     }, [menuOpen, showPopup]);
 
-    // Popup auto-trigger
     useEffect(() => {
         const isFirstLoad = !sessionStorage.getItem('alpine_visited');
         sessionStorage.setItem('alpine_visited', '1');
@@ -141,7 +216,6 @@ export default function AboutUsPage() {
         return () => clearTimeout(timer);
     }, []);
 
-    // Scroll animations
     useEffect(() => {
         const els = document.querySelectorAll('.anim-fade-up, .anim-fade-left, .anim-fade-right, .anim-scale-in');
         const observer = new IntersectionObserver((entries) => {
@@ -162,73 +236,6 @@ export default function AboutUsPage() {
         return () => observer.disconnect();
     }, []);
 
-    const values = [
-        {
-            title: 'Authors First',
-            desc: 'Every decision we make starts with one question: is this good for authors? You retain your rights, your royalties, and your creative vision — always.',
-            icon: (
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
-                </svg>
-            ),
-        },
-        {
-            title: 'Quality Without Compromise',
-            desc: "We hold every book to the same standard as the world's top publishers. Professional editing, stunning design, and flawless production — every time.",
-            icon: (
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                </svg>
-            ),
-        },
-        {
-            title: 'Radical Transparency',
-            desc: 'No hidden fees. No confusing royalty structures. No surprises. We believe authors deserve clear, honest pricing and earnings from day one.',
-            icon: (
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
-                </svg>
-            ),
-        },
-        {
-            title: 'Global Reach',
-            desc: "Your story shouldn't be limited by geography. We distribute to 150+ countries and 2,000+ retailers so readers everywhere can discover your work.",
-            icon: (
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="2" y1="12" x2="22" y2="12" />
-                    <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
-                </svg>
-            ),
-        },
-        {
-            title: 'Innovation at Heart',
-            desc: 'We combine AI-powered tools with human expertise to give authors capabilities that were once exclusive to major publishing houses.',
-            icon: (
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-                </svg>
-            ),
-        },
-        {
-            title: 'Community Driven',
-            desc: "We're more than a platform — we're a community of 30,000+ authors supporting each other. Your success is our success.",
-            icon: (
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" />
-                    <path d="M23 21v-2a4 4 0 00-3-3.87" /><path d="M16 3.13a4 4 0 010 7.75" />
-                </svg>
-            ),
-        },
-    ];
-
-    const stats = [
-        { value: 30000, suffix: '+', label: 'Published Authors' },
-        { value: 150, suffix: '+', label: 'Countries Reached' },
-        { value: 2000, suffix: '+', label: 'Retail Partners' },
-        { value: 72, suffix: 'hr', label: 'Avg. Time to Publish' },
-    ];
-
     function AnimatedCounter({ target, suffix }) {
         const [count, setCount] = useState(0);
         useEffect(() => {
@@ -245,7 +252,10 @@ export default function AboutUsPage() {
         return <>{count.toLocaleString()}{suffix}</>;
     }
 
-    const pressLogos = ['Forbes', 'TechCrunch', "Publisher's Weekly", 'The Guardian', 'Inc. Magazine'];
+    const handleGetStarted = (e) => {
+        e.preventDefault();
+        setShowPopup(true);
+    };
 
     return (
         <>
@@ -269,6 +279,7 @@ export default function AboutUsPage() {
         .hero-blob1 { animation: blobPulse 8s ease-in-out infinite; }
         .hero-blob2 { animation: blobPulse 10s ease-in-out infinite 2s; }
         .about-hero-inner { animation: heroFadeUp 0.9s cubic-bezier(.22,1,.36,1) both; }
+
         /* POPUP */
         .popup-overlay { position: fixed; inset: 0; z-index: 9999; background: rgba(19,59,73,.55); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; padding: 24px; animation: fadeIn .2s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -289,17 +300,9 @@ export default function AboutUsPage() {
         img { display: block; max-width: 100%; }
 
         /* ── HEADER ── */
-        .header {
-          position: fixed; top: 0; left: 0; right: 0; z-index: 999;
-          background: ${WHITE}; transition: box-shadow .3s;
-          border-bottom: 1px solid ${BORDER};
-        }
+        .header { position: fixed; top: 0; left: 0; right: 0; z-index: 999; background: ${WHITE}; transition: box-shadow .3s; border-bottom: 1px solid ${BORDER}; }
         .header.scrolled { box-shadow: 0 2px 24px rgba(19,59,73,.08); }
-        .header-inner {
-          max-width: 1200px; margin: 0 auto;
-          display: flex; align-items: center; justify-content: space-between;
-          padding: 0 24px; height: 70px;
-        }
+        .header-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 70px; }
         .logo { font-size: 20px; font-weight: 700; color: var(--dark); letter-spacing: -.4px; }
         .logo span { color: var(--blue); }
         .nav { display: flex; gap: 32px; align-items: center; }
@@ -307,187 +310,112 @@ export default function AboutUsPage() {
         .nav a:hover, .nav a.active { color: var(--blue); }
         .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
         .hamburger span { display: block; width: 22px; height: 2px; background: var(--dark); border-radius: 2px; }
-        .mobile-menu {
-          display: none; position: fixed; top: 70px; left: 0; right: 0; bottom: 0;
-          background: white; z-index: 998; padding: 24px; flex-direction: column; gap: 16px;
-        }
+        .mobile-menu { display: none; position: fixed; top: 70px; left: 0; right: 0; bottom: 0; background: white; z-index: 998; padding: 24px; flex-direction: column; gap: 16px; }
         .mobile-menu.open { display: flex; }
         .mobile-menu a { font-size: 18px; font-weight: 500; color: var(--dark); padding: 10px 0; border-bottom: 1px solid var(--border); }
         @media (max-width: 768px) { .nav { display: none; } .hamburger { display: flex; } }
 
         /* ── SHARED ── */
-        .section-label {
-          display: inline-block; background: var(--blue-light); color: var(--blue);
-          font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
-          padding: 6px 14px; border-radius: 20px; margin-bottom: 16px;
-        }
+        .section-label { display: inline-block; background: var(--blue-light); color: var(--blue); font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 6px 14px; border-radius: 20px; margin-bottom: 16px; }
         .section-title { font-size: clamp(32px, 4vw, 48px); font-weight: 700; color: var(--dark); line-height: 1.15; }
         .section-title .accent { color: var(--blue); }
         .section-sub { font-size: 18px; color: var(--body); line-height: 1.6; margin-top: 12px; }
 
         /* ── HERO ── */
-        .about-hero {
-          padding-top: 70px; background: var(--bg);
-          position: relative; overflow: hidden;
-        }
-        .hero-blob1 {
-          position: absolute; width: 600px; height: 600px; border-radius: 50%;
-          background: rgba(22,144,206,0.11); filter: blur(130px);
-          top: -150px; left: -200px; pointer-events: none;
-        }
-        .hero-blob2 {
-          position: absolute; width: 450px; height: 450px; border-radius: 50%;
-          background: rgba(68,169,207,0.09); filter: blur(110px);
-          bottom: -100px; right: -100px; pointer-events: none;
-        }
-        .about-hero-inner {
-          max-width: 1200px; margin: 0 auto; padding: 80px 24px 88px;
-          position: relative; z-index: 1; text-align: center;
-        }
-        .about-hero-inner h1 {
-          font-size: clamp(36px, 5vw, 62px); font-weight: 800;
-          color: var(--dark); line-height: 1.08; margin-bottom: 22px; letter-spacing: -.03em;
-          max-width: 800px; margin-left: auto; margin-right: auto;
-        }
-        .about-hero-inner p {
-          font-size: 18px; color: var(--body); line-height: 1.7;
-          max-width: 600px; margin: 0 auto 36px;
-        }
+        .about-hero { padding-top: 70px; background: var(--bg); position: relative; overflow: hidden; }
+        .hero-blob1 { position: absolute; width: 600px; height: 600px; border-radius: 50%; background: rgba(22,144,206,0.11); filter: blur(130px); top: -150px; left: -200px; pointer-events: none; }
+        .hero-blob2 { position: absolute; width: 450px; height: 450px; border-radius: 50%; background: rgba(68,169,207,0.09); filter: blur(110px); bottom: -100px; right: -100px; pointer-events: none; }
+        .about-hero-inner { max-width: 1200px; margin: 0 auto; padding: 80px 24px 88px; position: relative; z-index: 1; text-align: center; }
+        .about-hero-inner h1 { font-size: clamp(36px, 5vw, 62px); font-weight: 800; color: var(--dark); line-height: 1.08; margin-bottom: 22px; letter-spacing: -.03em; max-width: 800px; margin-left: auto; margin-right: auto; }
+        .about-hero-inner .hero-body { font-size: 18px; color: var(--body); line-height: 1.7; max-width: 620px; margin: 0 auto 12px; }
+        .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 32px; margin-bottom: 32px; }
         .hero-badges { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-        .hero-badge {
-          background: white; border: 1px solid var(--border);
-          border-radius: 30px; padding: 8px 18px;
-          font-size: 13px; font-weight: 600; color: var(--dark);
-          display: flex; align-items: center; gap: 8px;
-          box-shadow: 0 2px 8px rgba(19,59,73,.06);
-        }
+        .hero-badge { background: white; border: 1px solid var(--border); border-radius: 30px; padding: 8px 18px; font-size: 13px; font-weight: 600; color: var(--dark); display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 8px rgba(19,59,73,.06); }
         .hero-badge-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--blue); flex-shrink: 0; }
 
         /* ── PRESS STRIP ── */
-        .press-strip {
-          background: white; padding: 28px 24px;
-          border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-        }
+        .press-strip { background: white; padding: 28px 24px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
         .press-label { text-align: center; font-size: 13px; color: var(--body); margin-bottom: 18px; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; }
         .press-logos { display: flex; gap: 40px; align-items: center; justify-content: center; flex-wrap: wrap; }
 
+        /* ── OUR STORY ── */
+        .story-section { background: var(--bg); padding: 96px 24px; }
+        .story-layout { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .story-img-stack { position: relative; }
+        .story-img-main { border-radius: 20px; overflow: hidden; box-shadow: 0 24px 72px rgba(19,59,73,.13); }
+        .story-img-main img { width: 100%; display: block; }
+        .story-img-badge { position: absolute; bottom: -24px; right: -24px; background: white; border: 1px solid var(--border); border-radius: 16px; padding: 20px 24px; box-shadow: 0 12px 40px rgba(19,59,73,.12); min-width: 200px; }
+        .story-img-badge-num { font-size: 36px; font-weight: 800; color: var(--dark); line-height: 1; }
+        .story-img-badge-num span { color: var(--blue); }
+        .story-img-badge-label { font-size: 13px; color: var(--body); margin-top: 4px; font-weight: 500; }
+        .story-text { font-size: 16px; color: var(--body); line-height: 1.75; margin-bottom: 20px; }
+        @media (max-width: 900px) { .story-layout { grid-template-columns: 1fr; } .story-img-stack { display: none; } }
+
         /* ── MISSION ── */
-        .mission-section { background: var(--bg); padding: 96px 24px; }
-        .mission-layout {
-          max-width: 1200px; margin: 0 auto;
-          display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
-        }
-        .mission-img-stack { position: relative; }
-        .mission-img-main { border-radius: 20px; overflow: hidden; box-shadow: 0 24px 72px rgba(19,59,73,.13); }
-        .mission-img-main img { width: 100%; display: block; }
-        .mission-img-badge {
-          position: absolute; bottom: -24px; right: -24px;
-          background: white; border: 1px solid var(--border);
-          border-radius: 16px; padding: 20px 24px;
-          box-shadow: 0 12px 40px rgba(19,59,73,.12); min-width: 200px;
-        }
-        .mission-img-badge-num { font-size: 36px; font-weight: 800; color: var(--dark); line-height: 1; }
-        .mission-img-badge-num span { color: var(--blue); }
-        .mission-img-badge-label { font-size: 13px; color: var(--body); margin-top: 4px; font-weight: 500; }
-        .mission-text { font-size: 16px; color: var(--body); line-height: 1.75; margin-bottom: 20px; }
-        .mission-pillars { display: flex; flex-direction: column; gap: 16px; margin-top: 32px; }
-        .mission-pillar { display: flex; align-items: flex-start; gap: 14px; }
-        .pillar-icon {
-          width: 40px; height: 40px; border-radius: 10px;
-          background: var(--blue-light); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-        }
-        .pillar-title { font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 3px; }
-        .pillar-desc { font-size: 14px; color: var(--body); line-height: 1.5; }
-        @media (max-width: 900px) { .mission-layout { grid-template-columns: 1fr; } .mission-img-stack { display: none; } }
+        .mission-section { background: white; padding: 80px 24px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+        .mission-inner { max-width: 760px; margin: 0 auto; text-align: center; }
+        .mission-quote { font-size: clamp(20px, 2.5vw, 28px); font-weight: 700; color: var(--dark); line-height: 1.4; margin-top: 20px; position: relative; padding: 32px 40px; background: var(--bg); border-radius: 16px; border-left: 4px solid var(--blue); text-align: left; }
+        .mission-quote::before { content: '"'; position: absolute; top: 12px; left: 16px; font-size: 60px; color: var(--blue); font-family: Georgia, serif; line-height: 1; opacity: 0.3; }
 
-        /* ── STATS ── */
-        .stats-section { background: white; padding: 80px 24px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-        .stats-grid {
-          display: grid; grid-template-columns: repeat(4, 1fr);
-          gap: 1px; background: var(--border);
-          max-width: 960px; margin: 0 auto;
-          border: 1px solid var(--border); border-radius: 20px; overflow: hidden;
-        }
-        .stat-card { background: white; padding: 40px 32px; }
-        .stat-value { font-size: 44px; font-weight: 800; color: var(--dark); line-height: 1; }
-        .stat-label { font-size: 14px; color: var(--body); margin-top: 8px; font-weight: 500; }
-        @media (max-width: 700px) { .stats-grid { grid-template-columns: 1fr 1fr; } }
-
-        /* ── VALUES ── */
+        /* ── WHAT WE STAND FOR ── */
         .values-section { background: var(--bg); padding: 96px 24px; }
         .values-intro { max-width: 560px; margin-bottom: 56px; }
         .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1200px; margin: 0 auto; }
-        .value-card {
-          background: white; border: 1px solid var(--border);
-          border-radius: 16px; padding: 32px;
-          transition: box-shadow .25s, transform .25s;
-        }
+        .value-card { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 32px; transition: box-shadow .25s, transform .25s; }
         .value-card:hover { box-shadow: 0 12px 48px rgba(22,144,206,.12); transform: translateY(-3px); }
-        .value-icon {
-          width: 52px; height: 52px; border-radius: 14px;
-          background: var(--blue-light); display: flex; align-items: center; justify-content: center;
-          margin-bottom: 18px;
-        }
+        .value-icon { width: 52px; height: 52px; border-radius: 14px; background: var(--blue-light); display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
         .value-title { font-size: 19px; font-weight: 700; color: var(--dark); margin-bottom: 10px; }
         .value-desc { font-size: 15px; color: var(--body); line-height: 1.65; }
         @media (max-width: 900px) { .values-grid { grid-template-columns: 1fr 1fr; } }
         @media (max-width: 600px) { .values-grid { grid-template-columns: 1fr; } }
 
+        /* ── THE ALPINE EXPERIENCE ── */
+        .experience-section { background: white; padding: 96px 24px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+        .experience-layout { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+        .experience-points { display: flex; flex-direction: column; gap: 16px; margin-top: 28px; }
+        .experience-point { display: flex; align-items: flex-start; gap: 14px; padding: 16px 20px; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; transition: border-color .2s, box-shadow .2s; }
+        .experience-point:hover { border-color: rgba(22,144,206,0.3); box-shadow: 0 4px 20px rgba(22,144,206,.08); }
+        .experience-point-dot { width: 28px; height: 28px; border-radius: 50%; background: var(--blue-light); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+        .experience-point-text { font-size: 15px; color: var(--body); line-height: 1.6; }
+        .experience-img-wrap { border-radius: 20px; overflow: hidden; box-shadow: 0 24px 72px rgba(19,59,73,.13); }
+        .experience-img-wrap img { width: 100%; display: block; }
+        @media (max-width: 900px) { .experience-layout { grid-template-columns: 1fr; } .experience-img-wrap { display: none; } }
+
+        /* ── WHO WE WORK WITH ── */
+        .who-section { background: var(--bg); padding: 96px 24px; }
+        .who-inner { max-width: 1200px; margin: 0 auto; }
+        .who-categories { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+        .who-tag { background: white; border: 1px solid var(--border); border-radius: 30px; padding: 10px 22px; font-size: 14px; font-weight: 600; color: var(--dark); transition: all .2s; }
+        .who-tag:hover { background: var(--blue-light); border-color: rgba(22,144,206,0.35); color: var(--blue); }
+
+        /* ── STATS ── */
+        .stats-section { background: white; padding: 80px 24px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); max-width: 960px; margin: 0 auto; border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
+        .stat-card { background: white; padding: 40px 32px; }
+        .stat-value { font-size: 44px; font-weight: 800; color: var(--dark); line-height: 1; }
+        .stat-label { font-size: 14px; color: var(--body); margin-top: 8px; font-weight: 500; }
+        @media (max-width: 700px) { .stats-grid { grid-template-columns: 1fr 1fr; } }
+
         /* ── CONTACT FORM ── */
-        .contact-section {
-          background: white; padding: 100px 24px;
-          position: relative; overflow: hidden;
-        }
-        .contact-section::before {
-          content: '';
-          position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-          background: radial-gradient(ellipse at 20% 50%, rgba(22,144,206,0.06) 0%, transparent 60%),
-                      radial-gradient(ellipse at 80% 20%, rgba(22,144,206,0.04) 0%, transparent 50%);
-          pointer-events: none;
-        }
-        .contact-layout {
-          display: grid; grid-template-columns: 1fr 1fr;
-          gap: 64px; align-items: center;
-          max-width: 1200px; margin: 0 auto; position: relative;
-        }
+        .contact-section { background: white; padding: 100px 24px; position: relative; overflow: hidden; }
+        .contact-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at 20% 50%, rgba(22,144,206,0.06) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(22,144,206,0.04) 0%, transparent 50%); pointer-events: none; }
+        .contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; max-width: 1200px; margin: 0 auto; position: relative; }
         .contact-left-img { border-radius: 20px; overflow: hidden; position: relative; box-shadow: 0 24px 80px rgba(19,59,73,.14); }
         .contact-left-img img { width: 100%; display: block; }
         .contact-left-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 50%, rgba(19,59,73,.5)); }
-        .contact-img-badge {
-          position: absolute; bottom: 24px; left: 24px; right: 24px; z-index: 2;
-          background: rgba(255,255,255,0.95); backdrop-filter: blur(8px);
-          border-radius: 12px; padding: 16px 20px;
-          display: flex; align-items: center; gap: 14px;
-          border: 1px solid rgba(255,255,255,0.8);
-        }
-        .contact-img-badge-icon {
-          width: 44px; height: 44px; border-radius: 10px;
-          background: ${BLUE_LIGHT}; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-        }
+        .contact-img-badge { position: absolute; bottom: 24px; left: 24px; right: 24px; z-index: 2; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-radius: 12px; padding: 16px 20px; display: flex; align-items: center; gap: 14px; border: 1px solid rgba(255,255,255,0.8); }
+        .contact-img-badge-icon { width: 44px; height: 44px; border-radius: 10px; background: ${BLUE_LIGHT}; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .contact-img-badge-title { font-size: 14px; font-weight: 700; color: ${DARK}; }
         .contact-img-badge-sub { font-size: 12px; color: ${TEXT_BODY}; }
-        .contact-form-wrap {
-          background: white; border: 1px solid var(--border);
-          border-radius: 20px; padding: 40px 36px;
-          box-shadow: 0 8px 40px rgba(19,59,73,.07); position: relative;
-        }
-        .contact-form-wrap::before {
-          content: '';
-          position: absolute; top: 0; left: 0; right: 0; height: 4px;
-          background: linear-gradient(90deg, ${BLUE}, #44B8F0);
-          border-radius: 20px 20px 0 0;
-        }
-        @media (max-width: 900px) {
-          .contact-layout { grid-template-columns: 1fr; }
-          .contact-left-img { display: none; }
-          .contact-form-wrap { padding: 32px 24px; }
-        }
+        .contact-form-wrap { background: white; border: 1px solid var(--border); border-radius: 20px; padding: 40px 36px; box-shadow: 0 8px 40px rgba(19,59,73,.07); position: relative; }
+        .contact-form-wrap::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, ${BLUE}, #44B8F0); border-radius: 20px 20px 0 0; }
+        @media (max-width: 900px) { .contact-layout { grid-template-columns: 1fr; } .contact-left-img { display: none; } .contact-form-wrap { padding: 32px 24px; } }
 
         /* ── CTA ── */
         .cta-section { background: linear-gradient(135deg, ${DARK} 0%, #0d2e3a 100%); padding: 80px 24px; text-align: center; }
         .cta-title { font-size: clamp(30px, 4vw, 48px); font-weight: 800; color: white; margin-bottom: 16px; }
         .cta-title .accent { color: var(--blue); }
-        .cta-sub { font-size: 18px; color: rgba(255,255,255,.65); margin-bottom: 36px; max-width: 500px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+        .cta-sub { font-size: 18px; color: rgba(255,255,255,.65); margin-bottom: 36px; max-width: 540px; margin-left: auto; margin-right: auto; line-height: 1.6; }
         .cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 
         /* ── FOOTER ── */
@@ -500,29 +428,16 @@ export default function AboutUsPage() {
         .footer-links { display: flex; flex-direction: column; gap: 10px; }
         .footer-links a { font-size: 14px; color: rgba(255,255,255,.6); transition: color .2s; }
         .footer-links a:hover { color: white; }
-        .footer-bottom {
-          max-width: 1200px; margin: 48px auto 0;
-          border-top: 1px solid rgba(255,255,255,.1); padding-top: 24px;
-          display: flex; justify-content: space-between; align-items: center;
-          flex-wrap: wrap; gap: 12px; font-size: 13px; color: rgba(255,255,255,.4);
-        }
+        .footer-bottom { max-width: 1200px; margin: 48px auto 0; border-top: 1px solid rgba(255,255,255,.1); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; font-size: 13px; color: rgba(255,255,255,.4); }
         @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
         @media (max-width: 600px) { .footer-grid { grid-template-columns: 1fr; } }
 
         /* ── BUTTONS ── */
-        .btn-primary {
-          background: var(--blue); color: white; padding: 14px 28px; border-radius: 10px;
-          font-size: 16px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px;
-          transition: background .2s, transform .15s; border: none; cursor: pointer;
-          font-family: 'DM Sans', sans-serif; text-decoration: none;
-        }
+        .btn-primary { background: var(--blue); color: white; padding: 14px 28px; border-radius: 10px; font-size: 16px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; transition: background .2s, transform .15s; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; text-decoration: none; }
         .btn-primary:hover { background: var(--blue-dark); transform: translateY(-1px); }
-        .btn-white {
-          background: white; color: var(--dark); padding: 14px 28px; border-radius: 10px;
-          font-size: 16px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px;
-          transition: background .2s, transform .15s; border: none; cursor: pointer;
-          font-family: 'DM Sans', sans-serif; text-decoration: none;
-        }
+        .btn-secondary-dark { color: var(--dark); font-size: 15px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; border: 1.5px solid var(--border); padding: 13px 22px; border-radius: 10px; transition: border-color .2s, color .2s; background: white; cursor: pointer; font-family: 'DM Sans', sans-serif; text-decoration: none; }
+        .btn-secondary-dark:hover { border-color: var(--blue); color: var(--blue); }
+        .btn-white { background: white; color: var(--dark); padding: 14px 28px; border-radius: 10px; font-size: 16px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; transition: background .2s, transform .15s; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; text-decoration: none; }
         .btn-white:hover { background: rgba(255,255,255,.9); transform: translateY(-1px); }
       `}</style>
 
@@ -570,9 +485,25 @@ export default function AboutUsPage() {
                     <div className="hero-blob1" />
                     <div className="hero-blob2" />
                     <div className="about-hero-inner">
-                        <span className="section-label">About Us</span>
-                        <h1>We Exist to Empower <span style={{ color: BLUE }}>Every Author's Voice</span></h1>
-                        <p>Alpine Publishing Studios was born from a simple belief: that every author — regardless of budget, connections, or experience — deserves access to world-class publishing. We're leveling the playing field, one book at a time.</p>
+                        {/* Eyebrow */}
+                        <span className="section-label">About Alpine Publishing Studios</span>
+                        {/* Main Headline */}
+                        <h1>A Publishing Studio Built for the <span style={{ color: BLUE }}>Author's Side of the Journey</span></h1>
+                        {/* Hero Body Copy — two paragraphs */}
+                        <p className="hero-body">
+                            Writing a book takes courage. Publishing it should not feel like walking into a maze. Alpine Publishing Studios was created to give authors a clearer, more supportive way to prepare their books for readers.
+                        </p>
+                        <p className="hero-body">
+                            We combine editorial care, design thinking, publishing knowledge, and marketing direction so authors can move forward with confidence.
+                        </p>
+                        {/* CTA Buttons */}
+                        <div className="hero-btns">
+                            <button className="btn-primary" onClick={handleGetStarted}>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg>
+                                Start Your Publishing Journey
+                            </button>
+                            <a href="/services" className="btn-secondary-dark">Explore Services</a>
+                        </div>
                         <div className="hero-badges">
                             {['Founded 2015', '30,000+ Authors Published', '150+ Countries Reached', 'Rated 4.9★'].map((b, i) => (
                                 <div className={`hero-badge anim-fade-up anim-delay-${i + 1}`} key={b}><div className="hero-badge-dot" />{b}</div>
@@ -591,46 +522,114 @@ export default function AboutUsPage() {
                     </div>
                 </section>
 
-                {/* ── MISSION ── */}
-                <section className="mission-section">
-                    <div className="mission-layout">
-                        <div className="mission-img-stack anim-fade-left">
-                            <div className="mission-img-main">
+                {/* ── OUR STORY ── */}
+                <section className="story-section">
+                    <div className="story-layout">
+                        <div className="story-img-stack anim-fade-left">
+                            <div className="story-img-main">
                                 <img src="https://cdn.spines.com/wp-content/uploads/2025/04/author-with-book-600x773.jpg" alt="Author with book" />
                             </div>
-                            <div className="mission-img-badge">
-                                <div className="mission-img-badge-num">30<span>K+</span></div>
-                                <div className="mission-img-badge-label">Authors trust Alpine worldwide</div>
+                            <div className="story-img-badge">
+                                <div className="story-img-badge-num">30<span>K+</span></div>
+                                <div className="story-img-badge-label">Authors trust Alpine worldwide</div>
                             </div>
                         </div>
                         <div className="anim-fade-right">
-                            <span className="section-label">Our Mission</span>
-                            <h2 className="section-title">Democratizing <span className="accent">Publishing</span> for Everyone</h2>
-                            <p className="mission-text" style={{ marginTop: 16 }}>
-                                For too long, traditional publishing gatekeepers decided whose stories got told. We founded Alpine Publishing Studios to change that — permanently.
+                            <span className="section-label">Our Story</span>
+                            {/* Our Story Headline */}
+                            <h2 className="section-title">We Believe Great Books Deserve a <span className="accent">Better Path to Market</span></h2>
+                            {/* Our Story Body Copy — three paragraphs */}
+                            <p className="story-text" style={{ marginTop: 20 }}>
+                                Many authors finish a manuscript and then realize the hardest part is not always the writing. It is knowing what to do next.
                             </p>
-                            <p className="mission-text">
-                                We believe the best books aren't always the ones with the biggest advances or the most industry connections. They're the ones written from the heart by authors who have something real to say. Our platform gives those authors the professional tools, distribution, and support they deserve.
+                            <p className="story-text">
+                                Should the book be edited again? Is the cover strong enough? Will the formatting work on Amazon? What platforms should it be published on? How will readers find it after launch?
                             </p>
-                            <div className="mission-pillars">
-                                {[
-                                    { title: 'Professional Quality', desc: "Every book published through Alpine meets the same standards as the world's top publishers." },
-                                    { title: 'Fair Economics', desc: 'Authors keep up to 80% of royalties. We grow when you grow.' },
-                                    { title: 'Real Human Support', desc: 'Behind every tool is a team of publishing experts ready to help.' },
-                                ].map((p, i) => (
-                                    <div className={`mission-pillar anim-fade-up anim-delay-${i + 1}`} key={i}>
-                                        <div className="pillar-icon">
-                                            <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+                            <p className="story-text">
+                                Alpine exists to answer those questions and handle the work behind them. We help authors turn scattered publishing tasks into one guided, professional experience.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                {/* ── MISSION SECTION ── */}
+                <section className="mission-section">
+                    <div className="mission-inner anim-fade-up">
+                        <span className="section-label">Purpose</span>
+                        {/* Mission Headline */}
+                        <h2 className="section-title">Our <span className="accent">Mission</span></h2>
+                        {/* Mission Body Copy */}
+                        <div className="mission-quote">
+                            To help authors publish books that are professionally prepared, clearly presented, and ready to reach readers with confidence.
+                        </div>
+                    </div>
+                </section>
+
+                {/* ── WHAT WE STAND FOR ── */}
+                <section className="values-section">
+                    <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+                        <div className="values-intro anim-fade-up">
+                            <span className="section-label">Our Values</span>
+                            {/* What We Stand For — no explicit headline in doc so using the section name */}
+                            <h2 className="section-title">What We <span className="accent">Stand For</span></h2>
+                        </div>
+                        <div className="values-grid">
+                            {values.map((v, i) => (
+                                <div className={`value-card anim-fade-up anim-delay-${(i % 3) + 1}`} key={i}>
+                                    <div className="value-icon">{v.icon}</div>
+                                    <div className="value-title">{v.title}</div>
+                                    <div className="value-desc">{v.desc}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                {/* ── THE ALPINE EXPERIENCE ── */}
+                <section className="experience-section">
+                    <div className="experience-layout">
+                        <div className="anim-fade-left">
+                            <span className="section-label">The Alpine Experience</span>
+                            {/* Experience Headline */}
+                            <h2 className="section-title">What It Feels Like to <span className="accent">Work With Alpine</span></h2>
+                            {/* Experience Body Copy */}
+                            <p style={{ fontSize: 17, color: TEXT_BODY, lineHeight: 1.65, marginTop: 14, marginBottom: 4 }}>
+                                You bring us the book. We help organize the path around it.
+                            </p>
+                            {/* Experience Points */}
+                            <div className="experience-points">
+                                {experiencePoints.map((pt, i) => (
+                                    <div className={`experience-point anim-fade-up anim-delay-${i + 1}`} key={i}>
+                                        <div className="experience-point-dot">
+                                            <svg width="12" height="12" viewBox="0 0 20 20" fill="none">
                                                 <path fillRule="evenodd" clipRule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-8 8a1 1 0 01-1.4 0l-4-4a1 1 0 011.4-1.4L8 12.59l7.3-7.3a1 1 0 011.4 0z" fill={BLUE} />
                                             </svg>
                                         </div>
-                                        <div>
-                                            <div className="pillar-title">{p.title}</div>
-                                            <div className="pillar-desc">{p.desc}</div>
-                                        </div>
+                                        <div className="experience-point-text">{pt}</div>
                                     </div>
                                 ))}
                             </div>
+                        </div>
+                        <div className="experience-img-wrap anim-fade-right">
+                            <img src="https://cdn.spines.com/wp-content/uploads/2025/04/author-with-book-600x773.jpg" alt="Working with Alpine" />
+                        </div>
+                    </div>
+                </section>
+
+                {/* ── WHO WE WORK WITH ── */}
+                <section className="who-section">
+                    <div className="who-inner anim-fade-up">
+                        <span className="section-label">Who We Work With</span>
+                        {/* Who We Work With Headline */}
+                        <h2 className="section-title">For First-Time Authors, Experienced Writers, and <span className="accent">Experts With a Message</span></h2>
+                        {/* Who We Work With Body */}
+                        <p className="section-sub">
+                            Alpine works with authors across many categories, including memoir, fiction, nonfiction, self-help, business, leadership, children's books, poetry, faith-based writing, personal development, and thought leadership.
+                        </p>
+                        <div className="who-categories">
+                            {authorCategories.map((cat, i) => (
+                                <div className="who-tag" key={i}>{cat}</div>
+                            ))}
                         </div>
                     </div>
                 </section>
@@ -648,26 +647,6 @@ export default function AboutUsPage() {
                                 <div className="stat-label">{s.label}</div>
                             </div>
                         ))}
-                    </div>
-                </section>
-
-                {/* ── VALUES ── */}
-                <section className="values-section">
-                    <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-                        <div className="values-intro anim-fade-up">
-                            <span className="section-label">What We Stand For</span>
-                            <h2 className="section-title">The Values That <span className="accent">Drive Us</span></h2>
-                            <p className="section-sub">These aren't just words on a wall. They're the principles behind every feature we build, every author we support, and every decision we make.</p>
-                        </div>
-                        <div className="values-grid">
-                            {values.map((v, i) => (
-                                <div className={`value-card anim-fade-up anim-delay-${i + 1}`} key={i}>
-                                    <div className="value-icon">{v.icon}</div>
-                                    <div className="value-title">{v.title}</div>
-                                    <div className="value-desc">{v.desc}</div>
-                                </div>
-                            ))}
-                        </div>
                     </div>
                 </section>
 
@@ -699,16 +678,18 @@ export default function AboutUsPage() {
                     </div>
                 </section>
 
-                {/* ── CTA ── */}
+                {/* ── ABOUT PAGE CTA ── */}
                 <section className="cta-section">
-                    <div className="cta-title">Your Story Deserves to <span className="accent">Be Told</span></div>
-                    <p className="cta-sub">Start publishing today with Alpine Publishing Studios — the platform built by authors, for authors.</p>
+                    {/* CTA Headline */}
+                    <div className="cta-title">You Have the Book. <span className="accent">We Have the Publishing Team.</span></div>
+                    {/* CTA Body Copy */}
+                    <p className="cta-sub">If you are ready to move from manuscript to marketplace, Alpine Publishing Studios is ready to guide the way.</p>
                     <div className="cta-buttons">
-                        <a href="/contact-us" className="btn-primary">
+                        {/* CTA Button */}
+                        <button className="btn-primary" onClick={handleGetStarted}>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg>
-                            Get Started for Free
-                        </a>
-                        <a href="/services" className="btn-white">Explore Services</a>
+                            Get a Publishing Quote
+                        </button>
                     </div>
                 </section>
             </main>
@@ -748,7 +729,6 @@ export default function AboutUsPage() {
                 </div>
                 <div className="footer-bottom">
                     <span>© {new Date().getFullYear()} Alpine Publishing Studios. All rights reserved.</span>
-                    {/* <span>Made with ❤️ for authors everywhere</span> */}
                 </div>
             </footer>
         </>
