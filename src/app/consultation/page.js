@@ -364,8 +364,9 @@ export default function ConsultationPage() {
         .header { position: fixed; top: 0; left: 0; right: 0; z-index: 999; background: ${WHITE}; transition: box-shadow .3s; border-bottom: 1px solid ${BORDER}; }
         .header.scrolled { box-shadow: 0 2px 24px rgba(19,59,73,.08); }
         .header-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 70px; }
-        .logo { font-size: 20px; font-weight: 700; color: var(--dark); letter-spacing: -.4px; }
+        .logo { font-size: 20px; font-weight: 700; color: var(--dark); letter-spacing: -.4px; display: flex; align-items: center; gap: 8px; }
         .logo span { color: var(--blue); }
+        .logo-img { height: 36px; width: auto; flex-shrink: 0; border-radius: 3px; object-fit: contain; }
         .nav { display: flex; gap: 32px; align-items: center; }
         .nav a { font-size: 15px; color: var(--body); transition: color .2s; font-weight: 500; }
         .nav a:hover, .nav a.active { color: var(--blue); }
@@ -463,6 +464,10 @@ export default function ConsultationPage() {
         .footer-bottom { max-width: 1200px; margin: 48px auto 0; border-top: 1px solid rgba(255,255,255,.1); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; font-size: 13px; color: rgba(255,255,255,.4); }
         @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
         @media (max-width: 600px) { .footer-grid { grid-template-columns: 1fr; } .section { padding: 64px 20px; } }
+        .footer-cta-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--blue); color: white; padding: 11px 20px; border-radius: 8px; font-size: 14px; font-weight: 700; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background .2s; text-decoration: none; }
+        .footer-cta-btn:hover { background: var(--blue-dark); }
+        .footer-contact-block { margin-top: 32px; }
+        .footer-contact-item { font-size: 13px; color: rgba(255,255,255,.55); margin-bottom: 6px; }
 
         .btn-primary { background: var(--blue); color: white; padding: 14px 28px; border-radius: 10px; font-size: 16px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; transition: background .2s, transform .15s; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; }
         .btn-primary:hover { background: var(--blue-dark); transform: translateY(-1px); }
@@ -490,7 +495,7 @@ export default function ConsultationPage() {
             {/* ── HEADER ── */}
             <header className={`header${scrolled ? ' scrolled' : ''}`}>
                 <div className="header-inner">
-                    <a href="/" className="logo">Alpine <span>Publishing</span> Studios</a>
+                    <a href="/" className="logo"><img src="/logo.png" alt="APS" className="logo-img" />Alpine <span>Publishing</span> Studios</a>
                     <nav className="nav">
                         <a href="/services">Services</a>
                         <a href="/consultation" className="active">Consultation</a>
@@ -679,26 +684,48 @@ export default function ConsultationPage() {
                 <div className="footer-grid">
                     <div>
                         <div className="footer-logo">Alpine <span>Publishing</span> Studios</div>
-                        <div className="footer-desc">The professional publishing platform for independent authors. Seamless. Affordable. Powerful.</div>
-                    </div>
-                    <div>
-                        <div className="footer-col-title">Platform</div>
-                        <div className="footer-links">
-                            <a href="/services">Services</a>
-                            <a href="/consultation">Consultation</a>
-                            <a href="/contact-us">Contact Us</a>
+                        <div className="footer-desc">Alpine Publishing Studios helps authors edit, design, format, publish, and promote books with professional support from manuscript to marketplace.</div>
+                        <div style={{ marginBottom: 8, fontSize: 14, color: 'rgba(255,255,255,0.6)' }}>Ready to ask a publishing question? Book your consultation now.</div>
+                        <button className="footer-cta-btn" onClick={() => setShowPopup(true)}>Book a Free Consultation</button>
+                        <div className="footer-contact-block">
+                            <div className="footer-contact-item">Email: support@alpinepublishingstudios.com</div>
+                            <div className="footer-contact-item">Phone: (312) 752-2806</div>
                         </div>
                     </div>
                     <div>
                         <div className="footer-col-title">Company</div>
                         <div className="footer-links">
                             <a href="/about-us">About Us</a>
-                            <a href="/blogs">Blog</a>
-                            <a href="/careers">Careers</a>
+                            <a href="/services">Services</a>
+                            <a href="/consultation">Consultation</a>
+                            <a href="/blogs">Blogs</a>
+                            <a href="/contact-us">Contact Us</a>
                         </div>
                     </div>
                     <div>
-                        <div className="footer-col-title">Legal</div>
+                        <div className="footer-col-title">Services</div>
+                        <div className="footer-links">
+                            <a href="/services">Ghostwriting</a>
+                            <a href="/services">Editing</a>
+                            <a href="/services">Proofreading</a>
+                            <a href="/services">Cover Design</a>
+                            <a href="/services">Formatting</a>
+                            <a href="/services">Publishing</a>
+                            <a href="/services">Marketing</a>
+                        </div>
+                    </div>
+                    <div>
+                        <div className="footer-col-title">Publishing Support</div>
+                        <div className="footer-links">
+                            <a href="#">Amazon</a>
+                            <a href="#">Barnes &amp; Noble</a>
+                            <a href="#">Apple Books</a>
+                            <a href="#">Google Play Books</a>
+                            <a href="#">Kobo</a>
+                            <a href="#">Lulu</a>
+                            <a href="#">IngramSpark</a>
+                        </div>
+                        <div className="footer-col-title" style={{ marginTop: 28 }}>Legal</div>
                         <div className="footer-links">
                             <a href="/privacy">Privacy Policy</a>
                             <a href="/terms">Terms of Service</a>

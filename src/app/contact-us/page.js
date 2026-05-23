@@ -442,8 +442,9 @@ export default function ContactPage() {
           display: flex; align-items: center; justify-content: space-between;
           padding: 0 24px; height: 70px;
         }
-        .logo { font-size: 20px; font-weight: 700; color: var(--dark); letter-spacing: -.4px; }
+        .logo { font-size: 20px; font-weight: 700; color: var(--dark); letter-spacing: -.4px; display: flex; align-items: center; gap: 8px; }
         .logo span { color: var(--blue); }
+        .logo-img { height: 36px; width: auto; flex-shrink: 0; border-radius: 3px; object-fit: contain; }
         .nav { display: flex; gap: 32px; align-items: center; }
         .nav a { font-size: 15px; color: var(--body); transition: color .2s; font-weight: 500; }
         .nav a:hover { color: var(--blue); }
@@ -758,7 +759,7 @@ export default function ContactPage() {
             {/* ── HEADER ── */}
             <header className={`header${scrolled ? ' scrolled' : ''}`}>
                 <div className="header-inner">
-                    <a href="/" className="logo">Alpine <span>Publishing</span> Studios</a>
+                    <a href="/" className="logo"><img src="/logo.png" alt="APS" className="logo-img" />Alpine <span>Publishing</span> Studios</a>
                     <nav className="nav">
                         <a href="/services">Services</a>
                         <a href="/consultation">Consultation</a>
@@ -792,7 +793,7 @@ export default function ContactPage() {
                         <p className="contact-hero-sub">
                             Whether you need editing, cover design, formatting, publishing support, marketing direction, or full book production, our team is ready to hear about your project.
                         </p>
-                        <a href="#quote-form" className="hero-btn">
+                        <a href="#quote-form" className="hero-btn" onClick={e => { e.preventDefault(); setShowPopup(true); }}>
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
                                 <polyline points="9 18 15 12 9 6" />
                             </svg>
@@ -948,7 +949,7 @@ export default function ContactPage() {
                     <a
                         href="#quote-form"
                         className="btn-primary-lg"
-                        onClick={e => { e.preventDefault(); document.getElementById('quote-form')?.scrollIntoView({ behavior: 'smooth' }); }}
+                        onClick={e => { e.preventDefault(); setShowPopup(true); }}
                     >
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                             <polyline points="9 18 15 12 9 6" />
@@ -965,13 +966,12 @@ export default function ContactPage() {
                         <div className="footer-logo">Alpine <span>Publishing</span> Studios</div>
                         <div className="footer-desc">Alpine Publishing Studios helps authors edit, design, format, publish, and promote books with professional support from manuscript to marketplace.</div>
                         <div style={{ marginBottom: 8, fontSize: 14, color: 'rgba(255,255,255,0.6)' }}>Ready to publish your book? Start with a quick quote request.</div>
-                        <a href="#quote-form" className="footer-cta-btn" onClick={e => { e.preventDefault(); document.getElementById('quote-form')?.scrollIntoView({ behavior: 'smooth' }); }}>
+                        <button className="footer-cta-btn" onClick={e => { e.preventDefault(); setShowPopup(true); }}>
                             Get a Publishing Quote
-                        </a>
+                        </button>
                         <div className="footer-contact-block">
                             <div className="footer-contact-item">Email: support@alpinepublishingstudios.com</div>
                             <div className="footer-contact-item">Phone: (312) 752-2806</div>
-                            <div className="footer-contact-item">Website: [Website URL]</div>
                         </div>
                     </div>
                     <div>
@@ -987,13 +987,13 @@ export default function ContactPage() {
                     <div>
                         <div className="footer-col-title">Services</div>
                         <div className="footer-links">
-                            <a href="/services/ghostwriting">Ghostwriting</a>
-                            <a href="/services/editing">Editing</a>
-                            <a href="/services/proofreading">Proofreading</a>
-                            <a href="/services/cover-design">Cover Design</a>
-                            <a href="/services/formatting">Formatting</a>
-                            <a href="/services/publishing">Publishing</a>
-                            <a href="/services/marketing">Marketing</a>
+                            <a href="/services">Ghostwriting</a>
+                            <a href="/services">Editing</a>
+                            <a href="/services">Proofreading</a>
+                            <a href="/services">Cover Design</a>
+                            <a href="/services">Formatting</a>
+                            <a href="/services">Publishing</a>
+                            <a href="/services">Marketing</a>
                         </div>
                     </div>
                     <div>
