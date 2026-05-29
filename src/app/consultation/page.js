@@ -609,7 +609,7 @@ export default function ConsultationPage() {
                     {/* Left image */}
                     <div className="form-left anim-fade-left">
                         <div className="form-img-wrap">
-                            <img src="https://cdn.spines.com/wp-content/uploads/2025/04/author-with-book-600x773.jpg" alt="Author consulting" />
+                            <img src="lady_image.jpeg" alt="Author consulting" />
                         </div>
                         <div className="form-img-badge">
                             <div className="form-img-badge-icon">

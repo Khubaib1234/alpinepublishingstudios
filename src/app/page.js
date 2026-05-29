@@ -242,35 +242,35 @@ export default function AlpinePublishingStudios() {
       label: 'Share Your Book Details',
       heading: 'Start Publishing in Minutes',
       text: 'Send us your manuscript status, book goals, genre, and the support you are looking for.',
-      img: 'https://cdn.spines.com/wp-content/uploads/2025/04/laptop-1.png',
+      img: 'landing_image.jpeg',
     },
     {
       step: '02',
       label: 'Get a Clear Publishing Direction',
       heading: 'Polish Your Work to Perfection',
       text: 'Our team reviews the best route for editing, design, formatting, publishing, and visibility.',
-      img: 'https://cdn.spines.com/wp-content/uploads/2025/04/author-with-book-600x773.jpg',
+      img: 'lady_image.jpeg',
     },
     {
       step: '03',
       label: 'Build the Book Professionally',
       heading: 'A Cover That Commands Attention',
       text: 'Your project moves through the right creative and production stages with specialists assigned where needed.',
-      img: 'https://cdn.spines.com/wp-content/uploads/2025/04/laptop-1.png',
+      img: 'landing_image.jpeg',
     },
     {
       step: '04',
       label: 'Prepare for Publishing',
       heading: 'Reach Readers Everywhere',
       text: 'We help prepare the book files, description, metadata, and publishing platform details.',
-      img: 'https://cdn.spines.com/wp-content/uploads/2025/04/author-with-book-600x773.jpg',
+      img: 'lady_image.jpeg',
     },
     {
       step: '05',
       label: 'Launch With Presence',
       heading: 'Reach Readers Everywhere',
       text: 'When the book is ready, we help you think beyond upload day with content, positioning, and visibility support.',
-      img: 'https://cdn.spines.com/wp-content/uploads/2025/04/author-with-book-600x773.jpg',
+      img: 'lady_image.jpeg',
     },
   ];
 
@@ -1001,7 +1001,7 @@ export default function AlpinePublishingStudios() {
         <div className="container">
           <div className="author-layout">
             <div className="author-img-wrap anim-fade-left">
-              <img src="https://cdn.spines.com/wp-content/uploads/2025/04/author-with-book-600x773.jpg" alt="Author with book" />
+              <img src="lady_image.jpeg" alt="Author with book" />
             </div>
             <div className="anim-fade-right">
               <span className="section-label">Built for Authors</span>
@@ -1217,7 +1217,7 @@ export default function AlpinePublishingStudios() {
           {/* Left: image with overlay badge */}
           <div className="anim-fade-left" style={{ position: 'relative' }}>
             <div className="contact-left-img">
-              <img src="https://cdn.spines.com/wp-content/uploads/2025/04/author-with-book-600x773.jpg" alt="Author" />
+              <img src="lady_image.jpeg" alt="Author" />
             </div>
             <div className="contact-img-badge">
               <div className="contact-img-badge-icon">
