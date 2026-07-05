@@ -26,7 +26,7 @@ function ConsultationForm() {
             const res = await fetch('/api/send-email', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ formType: 'query', ...form }),
+                body: JSON.stringify({ formType: 'consultation', sourcePage: 'consultation', ...form }),
             });
             if (!res.ok) throw new Error('Failed to send');
             setSubmitted(true);

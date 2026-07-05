@@ -37,7 +37,7 @@ function ContactForm() {
             const res = await fetch('/api/send-email', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ formType: 'project', ...form, project: form.message }),
+                body: JSON.stringify({ formType: 'quote', sourcePage: 'contact-us', ...form }),
             });
             if (!res.ok) throw new Error('Failed to send');
             setSubmitted(true);
