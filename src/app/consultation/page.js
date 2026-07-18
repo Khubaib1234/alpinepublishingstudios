@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import SiteHeader from '@/components/SiteHeader';
 
 const BLUE = '#1690CE';
 const BLUE_DARK = '#0E7AB8';
@@ -82,7 +83,7 @@ function ConsultationForm() {
 
     return (
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+            <div className="form-row-2">
                 <div>
                     <label style={labelStyle}>Full Name</label>
                     <input
@@ -206,6 +207,8 @@ const clarityTopics = [
         ),
         title: 'Manuscript Readiness',
         desc: 'Find out whether your book is ready for proofreading, needs editing, or requires deeper content improvement.',
+        href: '/services/book-editing-services',
+        anchor: 'editing and proofreading services',
     },
     {
         icon: (
@@ -215,6 +218,8 @@ const clarityTopics = [
         ),
         title: 'Cover and Design Direction',
         desc: 'Understand what kind of cover and interior presentation your book may need based on genre and reader expectations.',
+        href: '/services/book-cover-design',
+        anchor: 'book cover design',
     },
     {
         icon: (
@@ -225,6 +230,8 @@ const clarityTopics = [
         ),
         title: 'Publishing Platforms',
         desc: 'Get guidance on platforms such as Amazon, Barnes & Noble, Apple Books, Google Play Books, Kobo, Lulu, and IngramSpark.',
+        href: '/services/self-publishing-services',
+        anchor: 'self-publishing services',
     },
     {
         icon: (
@@ -234,6 +241,8 @@ const clarityTopics = [
         ),
         title: 'Book Formatting',
         desc: 'Learn what is required for clean print and eBook files before uploading to publishing platforms.',
+        href: '/services/book-formatting',
+        anchor: 'book formatting',
     },
     {
         icon: (
@@ -244,6 +253,8 @@ const clarityTopics = [
         ),
         title: 'Book Marketing',
         desc: 'Discuss how to introduce your book, build visibility, and create content around the launch.',
+        href: '/services/book-marketing-services',
+        anchor: 'book marketing services',
     },
     {
         icon: (
@@ -253,6 +264,8 @@ const clarityTopics = [
         ),
         title: 'Author Branding',
         desc: 'Explore how your bio, book description, website, and social presence can support your author identity.',
+        href: '/services/author-branding',
+        anchor: 'author branding',
     },
 ];
 
@@ -274,19 +287,19 @@ const faqs = [
         q: 'What happens after I submit the form?',
         a: 'Our team reviews your details and reaches out with the next step. If your book is ready for a quote, we will guide you to that process.',
     },
+    {
+        q: 'What is the difference between a consultation and a quote?',
+        a: 'A consultation is a free, no-pressure conversation to help you understand what your book needs next. A quote is a priced proposal for a specific service once you already know what you want. Most authors start with a consultation and move to a quote once they have clarity.',
+    },
+    {
+        q: 'Do you offer publishing consultations for children\u2019s books, audiobooks, or ghostwriting projects?',
+        a: 'Yes. Whatever stage or category your project falls into — including children\u2019s books, audiobooks, or a ghostwriting project — our team can walk you through what it needs before you commit to a service.',
+    },
 ];
 
 export default function ConsultationPage() {
-    const [scrolled, setScrolled] = useState(false);
-    const [menuOpen, setMenuOpen] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
     const [openFaq, setOpenFaq] = useState(null);
-
-    useEffect(() => {
-        const onScroll = () => setScrolled(window.scrollY > 0);
-        window.addEventListener('scroll', onScroll);
-        return () => window.removeEventListener('scroll', onScroll);
-    }, []);
 
     useEffect(() => {
         const isFirstLoad = !sessionStorage.getItem('alpine_visited');
@@ -318,11 +331,72 @@ export default function ConsultationPage() {
         document.getElementById('consultation-form')?.scrollIntoView({ behavior: 'smooth' });
     };
 
+    // JSON-LD: FAQPage + BreadcrumbList structured data for this page
+    const faqSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqs.map(f => ({
+            '@type': 'Question',
+            name: f.q,
+            acceptedAnswer: { '@type': 'Answer', text: f.a },
+        })),
+    };
+
+    const breadcrumbSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.alpinepublishingstudios.com/' },
+            { '@type': 'ListItem', position: 2, name: 'Consultation', item: 'https://www.alpinepublishingstudios.com/consultation' },
+        ],
+    };
+
+    // AggregateRating schema for the trust line ("Backed by 30,000+ author
+    // success stories"). Reuses the same schema strategy the SEO doc calls
+    // for on the homepage. ratingValue / reviewCount below are PLACEHOLDERS —
+    // swap these for the real figures from whatever review source the
+    // homepage stat is sourced from (Google Business Profile, Trustpilot,
+    // internal review data, etc.) before this ships. Do not launch with
+    // placeholder numbers, since inaccurate review data in schema can get a
+    // page penalized or flagged by Google.
+    const aggregateRatingSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: 'Alpine Publishing Studios',
+        aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: '4.8', // PLACEHOLDER — replace with real average rating
+            reviewCount: '30000', // PLACEHOLDER — replace with real review/author count
+            bestRating: '5',
+        },
+    };
+
     return (
         <>
-            <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+            {/*
+              NOTE FOR DEV: This file is a client component ('use client').
+              Next.js App Router requires page-level <title>/meta description
+              (the "Free Publishing Consultation for Authors | Alpine Publishing"
+              title tag + meta description from the SEO doc) to be exported as
+              `metadata` from a server component (page.js) that wraps this
+              component, since client components cannot export `metadata`.
+              The two JSON-LD blocks below (FAQPage, BreadcrumbList) can stay
+              here since scripts render fine from a client component.
+            */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(aggregateRatingSchema) }}
+            />
 
+            <style>{`
         /* --- ANIMATIONS --- */
         .anim-fade-up { opacity: 0; transform: translateY(40px); transition: opacity 0.75s cubic-bezier(.22,1,.36,1), transform 0.75s cubic-bezier(.22,1,.36,1); }
         .anim-fade-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.75s cubic-bezier(.22,1,.36,1), transform 0.75s cubic-bezier(.22,1,.36,1); }
@@ -377,6 +451,14 @@ export default function ConsultationPage() {
         .mobile-menu a { font-size: 18px; font-weight: 500; color: var(--dark); padding: 8px 0; border-bottom: 1px solid var(--border); }
         @media (max-width: 768px) { .nav { display: none; } .hamburger { display: flex; } }
 
+        /* BREADCRUMBS */
+        .breadcrumb-bar { background: var(--bg); border-bottom: 1px solid var(--border); padding: 88px 24px 12px; }
+        .breadcrumb-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--body); }
+        .breadcrumb-inner a { color: var(--body); transition: color .2s; }
+        .breadcrumb-inner a:hover { color: var(--blue); }
+        .breadcrumb-inner .current { color: var(--dark); font-weight: 600; }
+        .breadcrumb-sep { color: var(--border); }
+
         .section { padding: 100px 24px; }
         .container { max-width: 1200px; margin: 0 auto; }
         .section-label { display: inline-block; background: var(--blue-light); color: var(--blue); font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 6px 14px; border-radius: 20px; margin-bottom: 16px; }
@@ -385,7 +467,7 @@ export default function ConsultationPage() {
         .section-sub { font-size: 18px; color: var(--body); line-height: 1.6; margin-top: 12px; }
 
         /* ── HERO ── */
-        .hero { padding-top: 130px; padding-bottom: 80px; background: var(--bg); position: relative; overflow: hidden; }
+        .hero { padding-top: 110px; padding-bottom: 80px; background: var(--bg); position: relative; overflow: hidden; }
         .hero-blob1 { position: absolute; width: 500px; height: 500px; border-radius: 50%; background: rgba(22,144,206,0.10); filter: blur(120px); top: -80px; left: -120px; pointer-events: none; }
         .hero-blob2 { position: absolute; width: 400px; height: 400px; border-radius: 50%; background: rgba(68,169,207,0.08); filter: blur(100px); top: -40px; right: -80px; pointer-events: none; }
         .hero-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; padding: 0 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
@@ -396,17 +478,25 @@ export default function ConsultationPage() {
         .hero-form-card { background: white; border: 1px solid var(--border); border-radius: 20px; padding: 40px 36px; box-shadow: 0 20px 60px rgba(19,59,73,.10), 0 4px 16px rgba(22,144,206,.07); position: relative; }
         .hero-form-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, ${BLUE}, #44B8F0); border-radius: 20px 20px 0 0; }
         .hero-form-title { font-size: 22px; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
-        .hero-form-sub { font-size: 14px; color: var(--body); margin-bottom: 28px; }
+        .hero-form-sub { font-size: 14px; color: var(--body); margin-bottom: 12px; }
+        .hero-form-intent { font-size: 13px; color: var(--blue-dark); background: var(--blue-light); border-radius: 10px; padding: 10px 14px; margin-bottom: 20px; line-height: 1.5; font-weight: 600; }
+        .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        @media (max-width: 700px) { .form-row-2 { grid-template-columns: 1fr; } }
         @media (max-width: 900px) { .hero-inner { grid-template-columns: 1fr; gap: 36px; } }
 
         /* ── CLARITY SECTION ── */
         .clarity-section { background: white; padding: 80px 24px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
         .clarity-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px; }
-        .clarity-card { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; padding: 28px 24px; transition: box-shadow .25s, transform .25s, border-color .25s; }
+        .clarity-card { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; padding: 28px 24px; transition: box-shadow .25s, transform .25s, border-color .25s; display: flex; flex-direction: column; }
         .clarity-card:hover { box-shadow: 0 12px 40px rgba(22,144,206,.1); transform: translateY(-2px); border-color: rgba(22,144,206,.3); }
         .clarity-icon { width: 52px; height: 52px; border-radius: 14px; background: var(--blue-light); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
         .clarity-title { font-size: 17px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
-        .clarity-desc { font-size: 14px; color: var(--body); line-height: 1.6; }
+        .clarity-desc { font-size: 14px; color: var(--body); line-height: 1.6; margin-bottom: 14px; }
+        .clarity-link { font-size: 13px; font-weight: 700; color: var(--blue); display: inline-flex; align-items: center; gap: 4px; margin-top: auto; }
+        .clarity-link:hover { color: var(--blue-dark); text-decoration: underline; }
+        .clarity-intro-extra { font-size: 15px; color: var(--body); line-height: 1.65; margin-top: 14px; }
+        .clarity-intro-extra a { color: var(--blue); font-weight: 600; }
+        .clarity-intro-extra a:hover { text-decoration: underline; }
         @media (max-width: 900px) { .clarity-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 600px) { .clarity-grid { grid-template-columns: 1fr; } }
 
@@ -443,7 +533,7 @@ export default function ConsultationPage() {
         .faq-chevron { flex-shrink: 0; width: 20px; height: 20px; color: var(--body); transition: transform .3s; }
         .faq-chevron.open { transform: rotate(180deg); }
         .faq-answer { font-size: 15px; color: var(--body); line-height: 1.65; max-height: 0; overflow: hidden; transition: max-height .35s ease, padding .35s ease; }
-        .faq-answer.open { max-height: 200px; padding-bottom: 16px; }
+        .faq-answer.open { max-height: 260px; padding-bottom: 16px; }
 
         /* ── CTA BANNER ── */
         .cta-section { background: linear-gradient(135deg, ${DARK} 0%, #0d2e3a 100%); padding: 80px 24px; text-align: center; }
@@ -492,29 +582,7 @@ export default function ConsultationPage() {
                 </div>
             )}
 
-            {/* ── HEADER ── */}
-            <header className={`header${scrolled ? ' scrolled' : ''}`}>
-                <div className="header-inner">
-                    <a href="/" className="logo"><img src="/logo.png" alt="APS" className="logo-img" />Alpine <span>Publishing</span> Studios</a>
-                    <nav className="nav">
-                        <a href="/services">Services</a>
-                        <a href="/consultation" className="active">Consultation</a>
-                        <a href="/about-us">About Us</a>
-                        <a href="/contact-us">Contact</a>
-                        <a href="/blogs">Blogs</a>
-                    </nav>
-                    <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
-                        <span /><span /><span />
-                    </div>
-                </div>
-                <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
-                    <a href="/services" onClick={() => setMenuOpen(false)}>Services</a>
-                    <a href="/consultation" onClick={() => setMenuOpen(false)}>Consultation</a>
-                    <a href="/about-us" onClick={() => setMenuOpen(false)}>About Us</a>
-                    <a href="/contact-us" onClick={() => setMenuOpen(false)}>Contact</a>
-                    <a href="/blogs" onClick={() => setMenuOpen(false)}>Blogs</a>
-                </div>
-            </header>
+            <SiteHeader activeNav="consultation" />
 
             {/* ── HERO ── */}
             <section className="hero">
@@ -526,7 +594,7 @@ export default function ConsultationPage() {
                         {/* Eyebrow */}
                         <span className="section-label">Free Publishing Consultation</span>
                         {/* Main Headline */}
-                        <h1>Have Questions About Publishing? <span style={{ color: BLUE }}>Start Here.</span></h1>
+                        <h1>Free Publishing Consultation — <span style={{ color: BLUE }}>Get Clear Direction Before You Commit</span></h1>
                         {/* Hero Body Copy */}
                         <p>
                             You do not need to have everything figured out before speaking with us. Whether your book is an idea, a rough draft, a finished manuscript, or a title that already needs better direction, our publishing team can help you understand the next step.
@@ -551,6 +619,8 @@ export default function ConsultationPage() {
                         <div className="hero-form-title">Ask Your Publishing Question</div>
                         {/* Form Copy */}
                         <div className="hero-form-sub">Send us your question, concern, or project details. A publishing specialist will review your message and respond with helpful next steps.</div>
+                        {/* Intent-match microcopy */}
+                        <div className="hero-form-intent">Still figuring out where your book stands? A short publishing consultation can save weeks of guessing.</div>
                         <ConsultationForm />
                     </div>
                 </div>
@@ -559,12 +629,16 @@ export default function ConsultationPage() {
             {/* ── WHAT WE CAN HELP YOU UNDERSTAND ── */}
             <section className="clarity-section">
                 <div className="container">
-                    <div className="anim-fade-up" style={{ maxWidth: 580 }}>
+                    <div className="anim-fade-up" style={{ maxWidth: 620 }}>
                         <span className="section-label">What We Cover</span>
                         {/* Headline */}
                         <h2 className="section-title">Clarity Before You <span className="accent">Commit</span></h2>
                         {/* Body Copy */}
                         <p className="section-sub">A consultation is useful when you know you want to publish but are unsure what should happen first. We help you understand the process before you make decisions.</p>
+                        {/* Coach/ghostwriter/editor clarifying sentence with internal links */}
+                        <p className="clarity-intro-extra">
+                            Not sure if you need a <a href="/services/book-writing-coach">writing coach</a>, a <a href="/services/ghostwriting-services">ghostwriter</a>, or an editor? That's exactly what a consultation is for — we'll help you tell the difference before you spend on the wrong service.
+                        </p>
                     </div>
                     <div className="clarity-grid">
                         {clarityTopics.map((t, i) => (
@@ -572,6 +646,10 @@ export default function ConsultationPage() {
                                 <div className="clarity-icon">{t.icon}</div>
                                 <div className="clarity-title">{t.title}</div>
                                 <div className="clarity-desc">{t.desc}</div>
+                                <a href={t.href} className="clarity-link">
+                                    Learn about {t.anchor}
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="9 18 15 12 9 6" /></svg>
+                                </a>
                             </div>
                         ))}
                     </div>
@@ -609,7 +687,7 @@ export default function ConsultationPage() {
                     {/* Left image */}
                     <div className="form-left anim-fade-left">
                         <div className="form-img-wrap">
-                            <img src="lady_image.jpeg" alt="Author consulting" />
+                            <img src="lady_image.jpeg" alt="Author consulting" loading="lazy" decoding="async" width={560} height={700} />
                         </div>
                         <div className="form-img-badge">
                             <div className="form-img-badge-icon">

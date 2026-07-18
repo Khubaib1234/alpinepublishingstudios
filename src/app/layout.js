@@ -1,31 +1,34 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { DM_Sans } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const dmSans = DM_Sans({
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+  variable: "--font-dm-sans",
+  preload: true,
 });
 
 export const metadata = {
-  title: "alpinepublishingstudios",
-  description: "Professional publishing services for independent authors. Alpine Publishing Studios helps authors edit, design, format, publish, and promote their books.",
+  title: "Alpine Publishing Studios | Professional Self-Publishing Services",
+  description:
+    "Professional publishing services for independent authors. Alpine Publishing Studios helps authors edit, design, format, publish, and promote their books.",
   icons: {
-    icon: '/favicon.ico',
+    icon: "/favicon.ico",
   },
+  metadataBase: new URL("https://www.alpinepublishingstudios.com"),
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#1690CE",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="en" className={`${dmSans.variable} h-full antialiased`}>
+      <body className={`${dmSans.className} min-h-full flex flex-col`}>{children}</body>
     </html>
   );
 }

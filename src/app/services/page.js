@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import SiteHeader from '@/components/SiteHeader';
 
 const BLUE = '#1690CE';
 const BLUE_DARK = '#0E7AB8';
@@ -61,7 +62,7 @@ function ContactForm({ onSuccess }) {
 
     return (
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+            <div className="form-row-2">
                 <div>
                     <label style={{ fontSize: 13, fontWeight: 600, color: DARK, display: 'block', marginBottom: 6 }}>Full Name</label>
                     <input type="text" required placeholder="Jane Smith" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} onFocus={() => setFocused('name')} onBlur={() => setFocused(null)} style={inputStyle('name')} />
@@ -75,7 +76,7 @@ function ContactForm({ onSuccess }) {
                 <label style={{ fontSize: 13, fontWeight: 600, color: DARK, display: 'block', marginBottom: 6 }}>Phone Number</label>
                 <input type="tel" placeholder="+1 (555) 000-0000" value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} onFocus={() => setFocused('phone')} onBlur={() => setFocused(null)} style={inputStyle('phone')} />
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+            <div className="form-row-2">
                 <div>
                     <label style={{ fontSize: 13, fontWeight: 600, color: DARK, display: 'block', marginBottom: 6 }}>Book Title / Working Title</label>
                     <input type="text" required placeholder="The Silent Stars" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} onFocus={() => setFocused('title')} onBlur={() => setFocused(null)} style={inputStyle('title')} />
@@ -118,6 +119,7 @@ const services = [
         desc: 'Have the idea but need help writing the book? Our ghostwriting team helps turn your story, experience, knowledge, or message into a complete manuscript that sounds authentic and reads professionally.',
         bullets: ['Book idea development', 'Chapter planning and outline creation', 'Voice-matched writing', 'Memoirs, business books, self-help, fiction, and nonfiction', 'Confidential writing support'],
         btnText: 'Get a Ghostwriting Quote',
+        href: '/services/ghostwriting-services',
     },
     {
         icon: (
@@ -133,6 +135,7 @@ const services = [
         desc: 'If you want to write the book yourself but need direction, our writing support helps you stay structured, focused, and confident throughout the process.',
         bullets: ['One-on-one writing guidance', 'Chapter-by-chapter planning', 'Story and message development', 'Accountability and writing direction', 'Support for new and experienced authors'],
         btnText: 'Ask About Writing Support',
+        href: '/services/book-writing-coach',
     },
     {
         icon: (
@@ -148,6 +151,7 @@ const services = [
         desc: 'Editing strengthens the manuscript before it reaches readers. We improve clarity, flow, structure, tone, sentence quality, and overall reading experience while protecting the author\'s voice.',
         bullets: ['Developmental editing', 'Line editing', 'Flow and structure improvement', 'Sentence-level refinement', 'Tone and clarity enhancement'],
         btnText: 'Get an Editing Quote',
+        href: '/services/book-editing-services',
     },
     {
         icon: (
@@ -162,6 +166,7 @@ const services = [
         desc: 'Proofreading is the final quality check before publishing. Our proofreaders review the manuscript for small mistakes that can affect credibility and reader trust.',
         bullets: ['Spelling and punctuation review', 'Grammar corrections', 'Typo removal', 'Consistency checks', 'Final polish before publishing'],
         btnText: 'Get Proofreading Support',
+        href: '/services/proofreading-services',
     },
     {
         icon: (
@@ -176,6 +181,7 @@ const services = [
         desc: 'Your cover is the first promise your book makes to a reader. Our designers create covers that fit your genre, message, audience, and publishing format.',
         bullets: ['Custom cover concepts', 'Genre-based visual direction', 'Typography and layout design', 'Print and eBook-ready files', 'Refinement of selected design direction'],
         btnText: 'Request Cover Design',
+        href: '/services/book-cover-design',
     },
     {
         icon: (
@@ -206,6 +212,7 @@ const services = [
         desc: 'We prepare eBook files that display cleanly across digital reading platforms and devices, helping your book feel professional wherever readers open it.',
         bullets: ['Digital layout optimization', 'Clickable table of contents', 'eBook file preparation', 'Device-friendly formatting', 'Platform-readiness checks'],
         btnText: 'Create My eBook',
+        href: '/services/ebook-creation-services',
     },
     {
         icon: (
@@ -220,6 +227,7 @@ const services = [
         desc: "Children's books require a special balance of story, illustration, layout, and production. Alpine helps authors bring visual books to life with careful creative direction.",
         bullets: ['Illustration planning', 'Page-by-page layout support', 'Age-appropriate design direction', 'Print and digital preparation', 'Publishing support for illustrated books'],
         btnText: "Discuss My Children's Book",
+        href: '/services/childrens-book-publishing',
     },
     {
         icon: (
@@ -235,6 +243,7 @@ const services = [
         desc: 'For authors who want to reach listeners, audiobook support can help transform the manuscript into a listening experience with professional production direction.',
         bullets: ['Narration planning', 'Voice style direction', 'Audio production guidance', 'Audiobook file preparation', 'Distribution support where applicable'],
         btnText: 'Ask About Audiobooks',
+        href: '/services/audiobook-creation-services',
     },
     {
         icon: (
@@ -251,6 +260,7 @@ const services = [
         desc: 'We help prepare your book for major publishing platforms and guide the setup process so your title appears professionally online.',
         bullets: ['Amazon KDP support', 'Barnes & Noble support', 'Apple Books, Kobo, Google Play Books, Lulu, and IngramSpark guidance', 'Metadata and book description support', 'Category, keyword, and upload preparation'],
         btnText: 'Get Publishing Support',
+        href: '/services/self-publishing-services',
     },
     {
         icon: (
@@ -266,6 +276,7 @@ const services = [
         desc: 'For authors who need physical copies, we help prepare print-ready files and guide suitable printing options for paperbacks, hardcovers, or special-format books.',
         bullets: ['Print-ready cover and interior files', 'Paperback and hardcover guidance', 'Print-on-demand preparation', 'Bulk order guidance', 'Quality-focused production support'],
         btnText: 'Ask About Printing',
+        href: '/services/book-printing-services',
     },
     {
         icon: (
@@ -280,6 +291,7 @@ const services = [
         desc: 'Publishing is only the beginning. Our marketing support helps authors introduce the book, create awareness, and keep the message active after launch.',
         bullets: ['Launch messaging', 'Social media content', 'Book promotional captions', 'Reader engagement ideas', 'Author credibility content'],
         btnText: 'Get Marketing Support',
+        href: '/services/book-marketing-services',
     },
     {
         icon: (
@@ -310,7 +322,7 @@ const services = [
         desc: 'Not sure what your book needs next? A consultation helps you understand the right path before you invest time, money, or energy in the wrong direction.',
         bullets: ['Manuscript readiness review', 'Publishing path guidance', 'Service recommendations', 'Timeline discussion', 'Platform and launch direction'],
         btnText: 'Book a Consultation',
-        featured: true,
+        href: '/consultation',
     },
 ];
 
@@ -374,16 +386,8 @@ const teamAreas = [
 ];
 
 export default function ServicesPage() {
-    const [menuOpen, setMenuOpen] = useState(false);
-    const [scrolled, setScrolled] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
     const [hoveredCard, setHoveredCard] = useState(null);
-
-    useEffect(() => {
-        const onScroll = () => setScrolled(window.scrollY > 0);
-        window.addEventListener('scroll', onScroll);
-        return () => window.removeEventListener('scroll', onScroll);
-    }, []);
 
     useEffect(() => {
         if (showPopup) document.body.style.overflow = 'hidden';
@@ -418,8 +422,6 @@ export default function ServicesPage() {
     return (
         <>
             <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&display=swap');
-
         /* --- ANIMATIONS --- */
         .anim-fade-up { opacity: 0; transform: translateY(40px); transition: opacity 0.75s cubic-bezier(.22,1,.36,1), transform 0.75s cubic-bezier(.22,1,.36,1); }
         .anim-fade-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.75s cubic-bezier(.22,1,.36,1), transform 0.75s cubic-bezier(.22,1,.36,1); }
@@ -479,6 +481,8 @@ export default function ServicesPage() {
         .hero-stat:last-child { border-right: none; }
         .hero-stat-val { font-size: 26px; font-weight: 800; color: white; }
         .hero-stat-lbl { font-size: 12px; color: rgba(255,255,255,0.55); margin-top: 4px; font-weight: 500; }
+        .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        @media (max-width: 700px) { .form-row-2 { grid-template-columns: 1fr; } }
         @media (max-width: 600px) { .hero-stats { flex-wrap: wrap; } .hero-stat { flex: 1 1 50%; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); } }
 
         /* SERVICES */
@@ -588,29 +592,7 @@ export default function ServicesPage() {
                 </div>
             )}
 
-            {/* HEADER */}
-            <header className={`header${scrolled ? ' scrolled' : ''}`}>
-                <div className="header-inner">
-                    <a href="/" className="logo"><img src="/logo.png" alt="APS" className="logo-img" />Alpine <span>Publishing</span> Studios</a>
-                    <nav className="nav">
-                        <a href="/services" className="active">Services</a>
-                        <a href="/consultation">Consultation</a>
-                        <a href="/about-us">About Us</a>
-                        <a href="/contact-us">Contact</a>
-                        <a href="/blogs">Blogs</a>
-                    </nav>
-                    <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
-                        <span /><span /><span />
-                    </div>
-                </div>
-                <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
-                    <a href="/services" onClick={() => setMenuOpen(false)}>Services</a>
-                    <a href="/consultation" onClick={() => setMenuOpen(false)}>Consultation</a>
-                    <a href="/about-us" onClick={() => setMenuOpen(false)}>About Us</a>
-                    <a href="/contact-us" onClick={() => setMenuOpen(false)}>Contact</a>
-                    <a href="/blogs" onClick={() => setMenuOpen(false)}>Blogs</a>
-                </div>
-            </header>
+            <SiteHeader activeNav="services" />
 
             {/* ── HERO ─────────────────────────────────────────────────────────── */}
             <section className="hero">
@@ -659,7 +641,7 @@ export default function ServicesPage() {
                     {services.map((svc, i) => (
                         <div
                             key={i}
-                            className={`service-card${svc.featured ? ' featured' : ''} anim-fade-up anim-delay-${(i % 3) + 1}`}
+                            className={`service-card anim-fade-up anim-delay-${(i % 3) + 1}`}
                             onMouseEnter={() => setHoveredCard(i)}
                             onMouseLeave={() => setHoveredCard(null)}
                         >
@@ -669,14 +651,21 @@ export default function ServicesPage() {
                             <ul className="service-bullets">
                                 {svc.bullets.map((b, j) => <li key={j}>{b}</li>)}
                             </ul>
-                            <button
-                                className="service-link"
-                                onClick={handleGetStarted}
-                                style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, fontFamily: "'DM Sans', sans-serif" }}
-                            >
-                                {svc.btnText}
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg>
-                            </button>
+                            {svc.href ? (
+                                <a href={svc.href} className="service-link">
+                                    {svc.btnText}
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg>
+                                </a>
+                            ) : (
+                                <button
+                                    className="service-link"
+                                    onClick={handleGetStarted}
+                                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, fontFamily: "'DM Sans', sans-serif" }}
+                                >
+                                    {svc.btnText}
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2.5"><polyline points="9 18 15 12 9 6" /></svg>
+                                </button>
+                            )}
                         </div>
                     ))}
                 </div>

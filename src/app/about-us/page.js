@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import SiteHeader from '@/components/SiteHeader';
 
 const BLUE = '#1690CE';
 const BLUE_DARK = '#0E7AB8';
@@ -66,7 +67,7 @@ function ContactForm() {
 
     return (
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+            <div className="form-row-2">
                 <div>
                     <label style={{ fontSize: 13, fontWeight: 600, color: DARK, display: 'block', marginBottom: 6 }}>Full Name</label>
                     <input type="text" required placeholder="Jane Smith" value={form.name}
@@ -86,7 +87,7 @@ function ContactForm() {
                     onChange={e => setForm({ ...form, phone: e.target.value })}
                     onFocus={() => setFocused('phone')} onBlur={() => setFocused(null)} style={inputStyle('phone')} />
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+            <div className="form-row-2">
                 <div>
                     <label style={{ fontSize: 13, fontWeight: 600, color: DARK, display: 'block', marginBottom: 6 }}>Book Title / Working Title</label>
                     <input type="text" required placeholder="The Silent Stars" value={form.title}
@@ -204,23 +205,15 @@ const stats = [
 const pressLogos = ['Forbes', 'TechCrunch', "Publisher's Weekly", 'The Guardian', 'Inc. Magazine'];
 
 export default function AboutUsPage() {
-    const [menuOpen, setMenuOpen] = useState(false);
-    const [scrolled, setScrolled] = useState(false);
     const [countersStarted, setCountersStarted] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
     const statsRef = useRef(null);
 
     useEffect(() => {
-        const onScroll = () => setScrolled(window.scrollY > 0);
-        window.addEventListener('scroll', onScroll);
-        return () => window.removeEventListener('scroll', onScroll);
-    }, []);
-
-    useEffect(() => {
-        if (menuOpen || showPopup) document.body.style.overflow = 'hidden';
+        if (showPopup) document.body.style.overflow = 'hidden';
         else document.body.style.overflow = '';
         return () => { document.body.style.overflow = ''; };
-    }, [menuOpen, showPopup]);
+    }, [showPopup]);
 
     useEffect(() => {
         const isFirstLoad = !sessionStorage.getItem('alpine_visited');
@@ -274,8 +267,6 @@ export default function AboutUsPage() {
     return (
         <>
             <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
-
         /* --- ANIMATIONS --- */
         .anim-fade-up { opacity: 0; transform: translateY(40px); transition: opacity 0.75s cubic-bezier(.22,1,.36,1), transform 0.75s cubic-bezier(.22,1,.36,1); }
         .anim-fade-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.75s cubic-bezier(.22,1,.36,1), transform 0.75s cubic-bezier(.22,1,.36,1); }
@@ -310,6 +301,8 @@ export default function AboutUsPage() {
         }
         html { scroll-behavior: smooth; }
         body { font-family: 'DM Sans', sans-serif; color: var(--dark); background: var(--bg); }
+        .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        @media (max-width: 700px) { .form-row-2 { grid-template-columns: 1fr; } }
         a { text-decoration: none; color: inherit; }
         img { display: block; max-width: 100%; }
 
@@ -474,29 +467,7 @@ export default function AboutUsPage() {
                 </div>
             )}
 
-            {/* ── HEADER ── */}
-            <header className={`header${scrolled ? ' scrolled' : ''}`}>
-                <div className="header-inner">
-                    <a href="/" className="logo"><img src="/logo.png" alt="APS" className="logo-img" />Alpine <span>Publishing</span> Studios</a>
-                    <nav className="nav">
-                        <a href="/services">Services</a>
-                        <a href="/consultation">Consultation</a>
-                        <a href="/about-us" className="active">About Us</a>
-                        <a href="/contact-us">Contact</a>
-                        <a href="/blogs">Blogs</a>
-                    </nav>
-                    <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
-                        <span /><span /><span />
-                    </button>
-                </div>
-                <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
-                    <a href="/services" onClick={() => setMenuOpen(false)}>Services</a>
-                    <a href="/consultation" onClick={() => setMenuOpen(false)}>Consultation</a>
-                    <a href="/about-us" onClick={() => setMenuOpen(false)}>About Us</a>
-                    <a href="/contact-us" onClick={() => setMenuOpen(false)}>Contact</a>
-                    <a href="/blogs" onClick={() => setMenuOpen(false)}>Blogs</a>
-                </div>
-            </header>
+            <SiteHeader activeNav="about" />
 
             <main>
                 {/* ── HERO ── */}

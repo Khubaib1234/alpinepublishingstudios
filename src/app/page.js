@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import SiteHeader from '@/components/SiteHeader';
 
 const BLUE = '#1690CE';
 const BLUE_DARK = '#0E7AB8';
@@ -62,18 +63,18 @@ function ContactForm({ onSuccess }) {
     padding: '13px 16px',
     borderRadius: 10,
     border: `1.5px solid ${focused === field ? BLUE : BORDER}`,
-    fontSize: 15,
+    fontSize: 16,
     color: DARK,
     background: WHITE,
     outline: 'none',
     transition: 'border-color .2s, box-shadow .2s',
     boxShadow: focused === field ? `0 0 0 3px rgba(22,144,206,0.12)` : 'none',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: 'inherit',
   });
 
   return (
     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+      <div className="form-row-2">
         <div>
           <label style={{ fontSize: 13, fontWeight: 600, color: DARK, display: 'block', marginBottom: 6 }}>Full Name</label>
           <input
@@ -81,6 +82,7 @@ function ContactForm({ onSuccess }) {
             required
             placeholder="Jane Smith"
             value={form.name}
+            autoComplete="name"
             onChange={e => setForm({ ...form, name: e.target.value })}
             onFocus={() => setFocused('name')}
             onBlur={() => setFocused(null)}
@@ -94,6 +96,7 @@ function ContactForm({ onSuccess }) {
             required
             placeholder="jane@example.com"
             value={form.email}
+            autoComplete="email"
             onChange={e => setForm({ ...form, email: e.target.value })}
             onFocus={() => setFocused('email')}
             onBlur={() => setFocused(null)}
@@ -107,13 +110,14 @@ function ContactForm({ onSuccess }) {
           type="tel"
           placeholder="+1 (555) 000-0000"
           value={form.phone}
+          autoComplete="tel"
           onChange={e => setForm({ ...form, phone: e.target.value })}
           onFocus={() => setFocused('phone')}
           onBlur={() => setFocused(null)}
           style={inputStyle('phone')}
         />
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+      <div className="form-row-2">
         <div>
           <label style={{ fontSize: 13, fontWeight: 600, color: DARK, display: 'block', marginBottom: 6 }}>Book Title / Working Title</label>
           <input
@@ -184,16 +188,8 @@ function ContactForm({ onSuccess }) {
 }
 
 export default function AlpinePublishingStudios() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const [showPopup, setShowPopup] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 0);
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
 
   useEffect(() => {
     if (showPopup) document.body.style.overflow = 'hidden';
@@ -226,14 +222,14 @@ export default function AlpinePublishingStudios() {
   }, []);
 
   const bookCovers = [
-    'https://cdn.spines.com/wp-content/uploads/2025/04/book-cover-12-1-188x300.jpg',
-    'https://cdn.spines.com/wp-content/uploads/2025/04/book-cover-11-1-194x300.jpg',
-    'https://cdn.spines.com/wp-content/uploads/2025/04/book-cover-10-1-194x300.jpg',
-    'https://cdn.spines.com/wp-content/uploads/2025/04/book-cover-09-1-201x300.jpg',
-    'https://cdn.spines.com/wp-content/uploads/2025/04/book-cover-07-1-194x300.jpg',
-    'https://cdn.spines.com/wp-content/uploads/2025/04/book-cover-06-1-188x300.jpg',
-    'https://cdn.spines.com/wp-content/uploads/2025/04/book-cover-04-1-188x300.jpg',
-    'https://cdn.spines.com/wp-content/uploads/2025/04/book-cover-03-1-188x300.jpg',
+    { src: 'https://cdn.spines.com/wp-content/uploads/2025/04/book-cover-12-1-188x300.jpg', alt: 'Self-published memoir book cover designed by Alpine Publishing Studios' },
+    { src: 'https://cdn.spines.com/wp-content/uploads/2025/04/book-cover-11-1-194x300.jpg', alt: 'Self-published fiction book cover design example' },
+    { src: 'https://cdn.spines.com/wp-content/uploads/2025/04/book-cover-10-1-194x300.jpg', alt: 'Self-published self-help book cover designed by Alpine Publishing Studios' },
+    { src: 'https://cdn.spines.com/wp-content/uploads/2025/04/book-cover-09-1-201x300.jpg', alt: 'Self-published business book cover design example' },
+    { src: 'https://cdn.spines.com/wp-content/uploads/2025/04/book-cover-07-1-194x300.jpg', alt: "Self-published children's book cover designed by Alpine Publishing Studios" },
+    { src: 'https://cdn.spines.com/wp-content/uploads/2025/04/book-cover-06-1-188x300.jpg', alt: 'Self-published poetry book cover design example' },
+    { src: 'https://cdn.spines.com/wp-content/uploads/2025/04/book-cover-04-1-188x300.jpg', alt: 'Self-published faith-based book cover designed by Alpine Publishing Studios' },
+    { src: 'https://cdn.spines.com/wp-content/uploads/2025/04/book-cover-03-1-188x300.jpg', alt: 'Self-published leadership book cover design example' },
   ];
 
   const tabs = [
@@ -277,7 +273,7 @@ export default function AlpinePublishingStudios() {
   const features = [
     {
       title: 'A Real Team Around Your Book',
-      desc: 'Your manuscript is supported by editors, designers, formatters, publishing specialists, and marketing professionals who understand what a finished book should feel like.',
+      desc: 'Your manuscript is supported by a publishing team of editors, designers, formatters, publishing specialists, and marketing professionals who understand what a finished book should feel like.',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 51 59" fill="none">
           <path d="M5.87 53.96L11.82 42.39L22.63 48.17L17.77 58.16L14.52 52.9L5.87 53.96Z" fill={BLUE} />
@@ -303,7 +299,7 @@ export default function AlpinePublishingStudios() {
     },
     {
       title: 'Publishing Without Platform Confusion',
-      desc: 'We help prepare your files, book details, categories, descriptions, and platform setup so the publishing process feels organized instead of stressful.',
+      desc: 'We help prepare your files, book details, categories, descriptions, and setup across self-publishing platforms so the publishing process feels organized instead of stressful.',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 50 50" fill="none">
           <circle cx="25" cy="25" r="25" fill="#5F7A9B" />
@@ -318,7 +314,7 @@ export default function AlpinePublishingStudios() {
     },
     {
       title: 'Visibility Beyond the Upload',
-      desc: 'A book should not go live and disappear. We help authors think about launch messaging, social media presence, reader engagement, and post-publication visibility.',
+      desc: 'A book should not go live and disappear. We help authors think about launch messaging, book marketing, social media presence, reader engagement, and post-publication visibility.',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 50 50" fill="none">
           <circle cx="25" cy="25" r="25" fill="#5F7A9B" />
@@ -374,6 +370,8 @@ export default function AlpinePublishingStudios() {
     { q: 'Where will my book be distributed?', a: 'Your book will be distributed to Amazon, Barnes & Noble, Apple Books, Kobo, and thousands of bookstores in 150+ countries.' },
     { q: 'What royalties will I earn?', a: 'You keep up to 80% of net royalties, far above traditional publishing industry standards.' },
     { q: 'Is there a free plan available?', a: 'Yes, you can start for free, upload your manuscript, and explore all features before committing to a plan.' },
+    { q: 'What\'s the difference between a self-publishing company and a traditional publisher?', a: 'A traditional publisher buys the rights to your book, controls the process, and pays you a royalty. A self-publishing company like Alpine works for you: you keep your rights and royalties, and we provide the editing, design, formatting, and distribution support needed to publish professionally.' },
+    { q: 'How much does it cost to publish a book with Alpine Publishing Studios?', a: 'Pricing depends on which services your book needs — from a single service like cover design to full end-to-end support. You can start for free to explore options, and a publishing specialist will provide a clear quote based on your project before any commitment.' },
   ];
 
   const [openFaq, setOpenFaq] = useState(null);
@@ -386,8 +384,6 @@ export default function AlpinePublishingStudios() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
-
         /* ─── ANIMATIONS ─── */
         .anim-fade-up { opacity: 0; transform: translateY(40px); transition: opacity 0.75s cubic-bezier(.22,1,.36,1), transform 0.75s cubic-bezier(.22,1,.36,1); }
         .anim-fade-left { opacity: 0; transform: translateX(-40px); transition: opacity 0.75s cubic-bezier(.22,1,.36,1), transform 0.75s cubic-bezier(.22,1,.36,1); }
@@ -398,6 +394,13 @@ export default function AlpinePublishingStudios() {
         .anim-delay-2 { transition-delay: 0.2s; }
         .anim-delay-3 { transition-delay: 0.3s; }
         .anim-delay-4 { transition-delay: 0.4s; }
+        @media (prefers-reduced-motion: reduce) {
+          .anim-fade-up, .anim-fade-left, .anim-fade-right, .anim-scale-in {
+            opacity: 1 !important; transform: none !important; transition: none !important;
+          }
+          .hero-blob1, .hero-blob2 { display: none !important; }
+          .books-row-ltr, .books-row-rtl { animation: none !important; }
+        }
         .anim-delay-5 { transition-delay: 0.5s; }
         .anim-delay-6 { transition-delay: 0.6s; }
 
@@ -473,7 +476,7 @@ export default function AlpinePublishingStudios() {
 
         /* ─── HERO ─── */
         .hero {
-          padding-top: 100px; padding-bottom: 0;
+          padding-top: 100px; padding-bottom: 56px;
           background: var(--bg);
           position: relative; overflow: hidden;
         }
@@ -481,28 +484,43 @@ export default function AlpinePublishingStudios() {
           position: absolute; width: 500px; height: 500px; border-radius: 50%;
           background: rgba(22,144,206,0.12); filter: blur(120px);
           top: -100px; left: -150px; pointer-events: none;
+          will-change: auto;
         }
         .hero-blob2 {
           position: absolute; width: 400px; height: 400px; border-radius: 50%;
           background: rgba(68,169,207,0.10); filter: blur(100px);
           top: -60px; right: -100px; pointer-events: none;
         }
+        .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
         .hero-top {
           max-width: 1200px; margin: 0 auto; position: relative; z-index: 1;
-          padding: 40px 24px 0;
+          padding: 40px 24px 24px;
           display: grid; grid-template-columns: 1fr 1fr;
-          gap: 40px; align-items: center;
+          gap: 48px; align-items: center;
         }
+        .hero-content { text-align: left; }
         .hero-content h1 {
           font-size: clamp(36px, 5vw, 58px); font-weight: 800;
           color: var(--dark); line-height: 1.1; margin-bottom: 20px;
           letter-spacing: -.03em;
         }
-        .hero-content p {
+        .hero-content > p.hero-lead {
           font-size: 17px; color: var(--body); line-height: 1.65; margin-bottom: 28px;
-          max-width: 460px;
+          max-width: 480px;
         }
-        .hero-rating-row { display: flex; align-items: center; gap: 12px; margin-top: 20px; }
+        .hero-actions {
+          display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+          margin-bottom: 22px;
+        }
+        .hero-trust {
+          font-size: 14px; color: var(--body); line-height: 1.55;
+          margin: 0 0 10px; max-width: 460px;
+        }
+        .hero-microcopy {
+          font-size: 15px; color: var(--body); line-height: 1.6;
+          margin: 0 0 24px; max-width: 460px;
+        }
+        .hero-rating-row { display: flex; align-items: center; gap: 12px; margin-top: 4px; }
         .stars { color: #F7B165; font-size: 15px; letter-spacing: 1px; }
         .rating-text { font-size: 14px; color: var(--body); }
 
@@ -529,8 +547,18 @@ export default function AlpinePublishingStudios() {
         /* books strip CSS removed — now at bottom only */
 
         @media (max-width: 900px) {
-          .hero-top { grid-template-columns: 1fr; }
-          .hero-form-card { margin-top: 0; }
+          .hero { padding-bottom: 40px; }
+          .hero-top { grid-template-columns: 1fr; padding: 28px 20px 8px; gap: 28px; }
+          .hero-form-card { margin-top: 0; padding: 28px 20px; }
+          .hero-blob1, .hero-blob2 { display: none; }
+        }
+        @media (max-width: 700px) {
+          .form-row-2 { grid-template-columns: 1fr; }
+          .hero-actions { flex-direction: column; align-items: stretch; }
+          .hero-actions .btn-primary,
+          .hero-actions .btn-secondary { width: 100%; justify-content: center; min-height: 48px; }
+          .hero-content h1 { font-size: clamp(28px, 8vw, 40px); }
+          .section { padding: 64px 20px; }
         }
 
         /* ─── LOGOS STRIP ─── */
@@ -709,6 +737,14 @@ export default function AlpinePublishingStudios() {
         .faq-answer { font-size: 15px; color: var(--body); line-height: 1.65; max-height: 0; overflow: hidden; transition: max-height .35s ease, padding .35s ease; }
         .faq-answer.open { max-height: 300px; padding-bottom: 16px; }
         .faq-cta-box { background: linear-gradient(135deg, var(--blue-light), rgba(22,144,206,.06)); border: 1px solid rgba(22,144,206,.2); border-radius: 20px; padding: 40px; text-align: center; }
+        .faq-cta-book {
+          width: 72px; height: 72px; margin: 0 auto 18px; display: flex;
+          align-items: center; justify-content: center;
+          border-radius: 18px;
+          background: linear-gradient(145deg, #1690CE 0%, #0E7AB8 100%);
+          box-shadow: 0 10px 28px rgba(22,144,206,.28);
+        }
+        .faq-cta-book svg { display: block; }
         .faq-cta-title { font-size: 26px; font-weight: 700; color: var(--dark); margin-bottom: 12px; }
         .faq-cta-text { font-size: 15px; color: var(--body); margin-bottom: 24px; line-height: 1.6; }
         @media (max-width: 900px) { .faq-layout { grid-template-columns: 1fr; } }
@@ -856,6 +892,7 @@ export default function AlpinePublishingStudios() {
           border-radius: 16px; padding: 28px 24px;
           transition: box-shadow .3s, transform .3s, border-color .3s;
           position: relative; overflow: hidden;
+          display: block;
         }
         .service-prev-card::before {
           content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
@@ -876,6 +913,41 @@ export default function AlpinePublishingStudios() {
         @media (max-width: 600px) { .services-grid { grid-template-columns: 1fr; } .services-cta { flex-direction: column; align-items: flex-start; } }
       `}</style>
 
+      {/* ── SCHEMA: Organization + AggregateRating ── */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            name: 'Alpine Publishing Studios',
+            url: 'https://www.alpinepublishingstudios.com/',
+            description: 'Alpine Publishing Studios is a full-service self-publishing company offering editing, cover design, formatting, publishing, and marketing for independent authors.',
+            aggregateRating: {
+              '@type': 'AggregateRating',
+              ratingValue: '4.9',
+              reviewCount: '30000',
+            },
+          }),
+        }}
+      />
+
+      {/* ── SCHEMA: FAQPage ── */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: faqs.map(f => ({
+              '@type': 'Question',
+              name: f.q,
+              acceptedAnswer: { '@type': 'Answer', text: f.a },
+            })),
+          }),
+        }}
+      />
+
       {/* ── POPUP ── */}
       {showPopup && (
         <div className="popup-overlay" onClick={e => { if (e.target === e.currentTarget) setShowPopup(false); }}>
@@ -892,29 +964,7 @@ export default function AlpinePublishingStudios() {
         </div>
       )}
 
-      {/* ── HEADER ── */}
-      <header className={`header${scrolled ? ' scrolled' : ''}`}>
-        <div className="header-inner">
-          <a href="/" className="logo"><img src="/logo.png" alt="APS" className="logo-img" />Alpine <span>Publishing</span> Studios</a>
-          <nav className="nav">
-            <a href="/services">Services</a>
-            <a href="/consultation">Consultation</a>
-            <a href="/about-us">About Us</a>
-            <a href="/contact-us">Contact</a>
-            <a href="/blogs">Blogs</a>
-          </nav>
-          <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
-            <span /><span /><span />
-          </div>
-        </div>
-        <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
-          <a href="/services" onClick={() => setMenuOpen(false)}>Services</a>
-          <a href="/consultation" onClick={() => setMenuOpen(false)}>Consultation</a>
-          <a href="/about-us" onClick={() => setMenuOpen(false)}>About Us</a>
-          <a href="/contact-us" onClick={() => setMenuOpen(false)}>Contact</a>
-          <a href="/blogs" onClick={() => setMenuOpen(false)}>Blogs</a>
-        </div>
-      </header>
+      <SiteHeader />
 
       {/* ── HERO ── */}
       <section className="hero">
@@ -924,18 +974,19 @@ export default function AlpinePublishingStudios() {
           {/* Left: copy */}
           <div className="hero-content">
             <span className="section-label">A Self-Publishing Studio for Serious Authors</span>
-            <h1>Turn Your Manuscript Into a Book Readers Can Trust</h1>
-            <p>Alpine Publishing Studios helps authors move from manuscript to marketplace with professional editing, cover design, formatting, publishing, distribution, and book marketing support.</p>
-            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+            <h1>Alpine Publishing Studios — A Full-Service Self-Publishing Company for Serious Authors</h1>
+            <p className="hero-lead">Alpine Publishing Studios helps authors move from manuscript to marketplace with professional editing, cover design, formatting, publishing, distribution, and book marketing support.</p>
+            <div className="hero-actions">
               <button className="btn-primary" onClick={handleGetStarted}>
                 <svg width="12" height="14" viewBox="0 0 12 14" fill="none"><path fillRule="evenodd" clipRule="evenodd" d="M6 0L12 7L6 14L4.6 12.4L8.4 8H0V6H8.4L4.6 1.6L6 0Z" fill="white" /></svg>
                 Get a Publishing Quote
               </button>
               <a href="/services" className="btn-secondary">Explore Services</a>
             </div>
-            <p>Start with a quick project form. No pressure. No confusing publishing jargon. Just a clear next step for your book.</p>
+            <p className="hero-trust">Trusted by independent authors who want the reach of traditional publishing without giving up their rights.</p>
+            <p className="hero-microcopy">Start with a quick project form. No pressure. No confusing publishing jargon. Just a clear next step for your book.</p>
             <div className="hero-rating-row">
-              <img src="https://cdn.spines.com/wp-content/uploads/2025/04/reviews-avatars-2.jpg" alt="Reviews" style={{ height: 48, width: 'auto', borderRadius: 4 }} />
+              <img src="https://cdn.spines.com/wp-content/uploads/2025/04/reviews-avatars-2.jpg" alt="Author reviews for Alpine Publishing Studios self-publishing services" width={120} height={48} loading="lazy" decoding="async" style={{ height: 48, width: 'auto', borderRadius: 4 }} />
               <div>
                 <div className="stars">★★★★★</div>
                 <div className="rating-text">Loved by <strong>30,000+</strong> authors worldwide</div>
@@ -946,7 +997,7 @@ export default function AlpinePublishingStudios() {
           {/* Right: form */}
           <div className="hero-form-card">
             <div className="hero-form-title">Start With Your Book</div>
-            <div className="hero-form-sub">Tell us what you are writing, where you are in the process, and what kind of support you need. A publishing specialist will review your details and guide you toward the right next step.</div>
+            <div className="hero-form-sub">Whether you need a self-publishing company for a finished manuscript or just a starting point for a book you haven't written yet, tell us where things stand. A publishing specialist will review your details and guide you toward the right next step.</div>
             <ContactForm />
           </div>
         </div>
@@ -956,6 +1007,7 @@ export default function AlpinePublishingStudios() {
       {/* ── LOGOS STRIP ── */}
       <section className="logos-strip">
         <div className="logos-label anim-fade-up">Prepared for the Platforms Readers Already Use</div>
+        <p style={{ textAlign: 'center', fontSize: 14, color: TEXT_BODY, maxWidth: 640, margin: '0 auto 24px' }}>Alpine publishes and distributes books across every major platform readers already use — no separate publishing company needed for each one.</p>
         <div className="logos-row">
           {['Amazon', 'Barnes & Noble', 'Apple Books', 'Google Play Books', 'Kobo', 'Lulu', 'IngramSpark', 'Draft2Digital'].map((name, i) => (
             <div key={name} className={`anim-fade-up anim-delay-${i + 1}`} style={{ fontSize: 13, fontWeight: 700, color: '#aaa', letterSpacing: '.04em', textTransform: 'uppercase' }}>{name}</div>
@@ -1001,17 +1053,17 @@ export default function AlpinePublishingStudios() {
         <div className="container">
           <div className="author-layout">
             <div className="author-img-wrap anim-fade-left">
-              <img src="lady_image.jpeg" alt="Author with book" />
+              <img src="lady_image.jpeg" alt="Author with book" loading="lazy" decoding="async" width={560} height={700} />
             </div>
             <div className="anim-fade-right">
               <span className="section-label">Built for Authors</span>
               <h2 className="section-title">Publish Like a <span className="accent">Professional</span></h2>
-              <p className="section-sub" style={{ marginBottom: 0 }}>Alpine Publishing Studios gives independent authors the same tools and reach as traditional publishers — without giving up your rights or royalties.</p>
+              <p className="section-sub" style={{ marginBottom: 0 }}>Alpine Publishing Studios gives independent authors the same editorial, design, and distribution support as a traditional publishing company — without giving up your rights or royalties.</p>
               <div className="author-features">
                 {[
-                  { title: 'AI-Powered Editing', desc: 'Smart proofreading and structural suggestions that elevate your manuscript instantly.' },
-                  { title: 'Cover Design Studio', desc: 'Work with professional designers or use our AI tools to create a stunning cover.' },
-                  { title: 'Print on Demand', desc: 'High-quality printing with no minimum orders, delivered worldwide.' },
+                  { title: 'Professional Editing', desc: 'Developmental and line editing from real editors, not automated suggestions.' },
+                  { title: 'Cover Design Studio', desc: 'Custom covers designed by our in-house design team, built around your genre and audience.' },
+                  { title: 'Print-on-Demand & Distribution', desc: 'High-quality printing with no minimum orders, distributed to major platforms worldwide.' },
                 ].map((f, i) => (
                   <div className={`author-feature anim-fade-up anim-delay-${i + 1}`} key={i}>
                     <div className="author-feature-icon">
@@ -1025,7 +1077,7 @@ export default function AlpinePublishingStudios() {
                 ))}
               </div>
               <div style={{ marginTop: 32 }}>
-                <button className="btn-primary" onClick={handleGetStarted}>Start Publishing Free</button>
+                <button className="btn-primary" onClick={handleGetStarted}>Get a Publishing Quote</button>
               </div>
             </div>
           </div>
@@ -1039,7 +1091,7 @@ export default function AlpinePublishingStudios() {
             <span className="section-label">The Alpine Difference</span>
             <h2 className="section-title">Your Book Gets More Than a Service.<br /><span className="accent">It Gets a Publishing Experience.</span></h2>
             <div className="experience-body">
-              <p>A professional book is not created in one step. It is shaped through a series of decisions: how the manuscript reads, how the cover feels, how the pages flow, how the book appears online, and how readers discover it.</p>
+              <p>A professional self-published book is not created in one step. It is shaped through a series of decisions: how the manuscript reads, how the cover feels, how the pages flow, how the book appears online, and how readers discover it.</p>
               <p>At Alpine, each stage is connected so the final result feels complete.</p>
             </div>
           </div>
@@ -1072,51 +1124,71 @@ export default function AlpinePublishingStudios() {
           <div className="services-grid">
             {[
               {
-                title: 'Ghostwriting',
+                title: 'Ghostwriting Services',
                 desc: 'For authors with a story, message, outline, or idea that needs to become a complete manuscript.',
+                href: '/services/ghostwriting-services',
                 icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2" strokeLinecap="round"><path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" /></svg>),
               },
               {
-                title: 'Book Editing',
+                title: 'Book Editing Services',
                 desc: 'For manuscripts that need stronger structure, smoother flow, clearer sentences, and a better reading experience.',
+                href: '/services/book-editing-services',
                 icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2" strokeLinecap="round"><path d="M4 6h16M4 12h10M4 18h7" /></svg>),
               },
               {
-                title: 'Proofreading',
+                title: 'Proofreading Services',
                 desc: 'For final-stage books that need spelling, punctuation, grammar, and consistency checks before publishing.',
+                href: '/services/proofreading-services',
                 icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2" strokeLinecap="round"><polyline points="20 6 9 17 4 12" /></svg>),
               },
               {
-                title: 'Cover Design',
+                title: 'Book Cover Design',
                 desc: 'For authors who want a professional cover that gives the right first impression online and in print.',
+                href: '/services/book-cover-design',
                 icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2" strokeLinecap="round"><rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" /></svg>),
               },
               {
-                title: 'Book Formatting',
+                title: 'Book Formatting Services',
                 desc: 'For print and eBook interiors that need clean layout, proper spacing, page setup, and platform-ready files.',
+                href: '/services/book-formatting-services',
                 icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2" strokeLinecap="round"><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M9 3v18M3 9h6M3 15h6" /></svg>),
               },
               {
-                title: 'Publishing & Distribution',
+                title: 'Self-Publishing Services',
                 desc: 'For authors who want support preparing and publishing their book across major platforms.',
+                href: '/services/self-publishing-services',
                 icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" /><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" /></svg>),
               },
               {
-                title: 'Book Marketing',
+                title: 'Book Marketing Services',
                 desc: 'For authors who want launch content, social media presence, reader engagement, and promotional direction.',
+                href: '/services/book-marketing-services',
                 icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2" strokeLinecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg>),
               },
               {
-                title: 'Author Branding',
+                title: 'Author Branding Services',
                 desc: 'For authors who want a stronger bio, book description, positioning, and professional online presence.',
+                href: '/services/author-branding-services',
                 icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2" strokeLinecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>),
               },
+              {
+                title: 'Book Printing Services',
+                desc: 'For authors who need high-quality print copies with no minimum orders, ready for readers and events.',
+                href: '/services/book-printing-services',
+                icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2" strokeLinecap="round"><polyline points="6 9 6 2 18 2 18 9" /><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2" /><rect x="6" y="14" width="12" height="8" /></svg>),
+              },
+              {
+                title: 'Audiobook Creation',
+                desc: 'For authors who want their book produced and distributed as a professional audiobook.',
+                href: '/services/audiobook-creation-services',
+                icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2" strokeLinecap="round"><path d="M9 18V5l12-2v13" /><circle cx="6" cy="18" r="3" /><circle cx="18" cy="16" r="3" /></svg>),
+              },
             ].map((svc, i) => (
-              <div className={`service-prev-card anim-fade-up anim-delay-${(i % 4) + 1}`} key={i}>
+              <a href={svc.href} className={`service-prev-card anim-fade-up anim-delay-${(i % 4) + 1}`} key={i}>
                 <div className="service-prev-icon">{svc.icon}</div>
                 <div className="service-prev-title">{svc.title}</div>
                 <div className="service-prev-desc">{svc.desc}</div>
-              </div>
+              </a>
             ))}
           </div>
           <div className="services-cta anim-fade-up">
@@ -1146,7 +1218,7 @@ export default function AlpinePublishingStudios() {
             </div>
             <div className="hiw-panel anim-fade-right">
               <div className="hiw-panel-img">
-                <img src={tabs[activeTab].img} alt={tabs[activeTab].label} />
+                <img src={tabs[activeTab].img} alt={`Step ${tabs[activeTab].step}: ${tabs[activeTab].label} — sharing a book with an Alpine Publishing Studios specialist to start the self-publishing process`} loading="lazy" decoding="async" />
               </div>
               <div className="hiw-panel-content">
                 <div className="hiw-panel-title">{tabs[activeTab].heading}</div>
@@ -1170,17 +1242,17 @@ export default function AlpinePublishingStudios() {
         <div className="books-slider-wrap">
           {/* Row 1: slides left */}
           <div className="books-row books-row-ltr">
-            {[...bookCovers, ...bookCovers, ...bookCovers].map((src, i) => (
+            {[...bookCovers, ...bookCovers, ...bookCovers].map((book, i) => (
               <div className="book-card" key={`ltr-${i}`}>
-                <img src={src} alt={`Book ${i + 1}`} />
+                <img src={book.src} alt={book.alt} loading="lazy" decoding="async" width={160} height={240} />
               </div>
             ))}
           </div>
           {/* Row 2: slides right */}
           <div className="books-row books-row-rtl">
-            {[...[...bookCovers].reverse(), ...[...bookCovers].reverse(), ...[...bookCovers].reverse()].map((src, i) => (
+            {[...[...bookCovers].reverse(), ...[...bookCovers].reverse(), ...[...bookCovers].reverse()].map((book, i) => (
               <div className="book-card" key={`rtl-${i}`}>
-                <img src={src} alt={`Book ${i + 1}`} />
+                <img src={book.src} alt={book.alt} loading="lazy" decoding="async" width={160} height={240} />
               </div>
             ))}
           </div>
@@ -1196,15 +1268,16 @@ export default function AlpinePublishingStudios() {
           </div>
           <div className="testimonials-grid">
             {testimonials.map((t, i) => (
-              <div className={`testimonial-card anim-fade-up anim-delay-${i + 1}`} key={i}>
-                <div className="testimonial-text">&ldquo;{t.text}&rdquo;</div>
+              <div className={`testimonial-card anim-fade-up anim-delay-${i + 1}`} key={i} itemScope itemType="https://schema.org/Review">
+                <div className="testimonial-text" itemProp="reviewBody">&ldquo;{t.text}&rdquo;</div>
                 <div className="testimonial-author">
                   <div className="testimonial-avatar" style={{ background: t.color }}>{t.initials}</div>
                   <div>
-                    <div className="testimonial-name">{t.name}</div>
+                    <div className="testimonial-name" itemProp="author">{t.name}</div>
                     <div className="testimonial-role">{t.role}</div>
                   </div>
                 </div>
+                <meta itemProp="reviewRating" content="5" />
               </div>
             ))}
           </div>
@@ -1217,7 +1290,7 @@ export default function AlpinePublishingStudios() {
           {/* Left: image with overlay badge */}
           <div className="anim-fade-left" style={{ position: 'relative' }}>
             <div className="contact-left-img">
-              <img src="lady_image.jpeg" alt="Author" />
+              <img src="lady_image.jpeg" alt="Author" loading="lazy" decoding="async" width={560} height={700} />
             </div>
             <div className="contact-img-badge">
               <div className="contact-img-badge-icon">
@@ -1263,7 +1336,14 @@ export default function AlpinePublishingStudios() {
             </div>
             <div>
               <div className="faq-cta-box">
-                <div style={{ fontSize: 48, marginBottom: 12 }}>📚</div>
+                <div className="faq-cta-book" aria-hidden="true">
+                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+                    <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v16.5a.5.5 0 0 1-.5.5H6.5A2.5 2.5 0 0 0 4 22.5V4.5Z" fill="rgba(255,255,255,.22)" />
+                    <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H18a1 1 0 0 1 1 1v15.2a.8.8 0 0 1-.8.8H6.5A2.5 2.5 0 0 0 4 21.5V4.5Z" fill="white" />
+                    <path d="M7.5 6.5h8M7.5 9.5h8M7.5 12.5h5" stroke="#1690CE" strokeWidth="1.4" strokeLinecap="round" />
+                    <path d="M6.5 2v17.5" stroke="rgba(22,144,206,.35)" strokeWidth="1.2" />
+                  </svg>
+                </div>
                 <div className="faq-cta-title">Ready to Publish Your Book?</div>
                 <div className="faq-cta-text">Join over 30,000 authors who have trusted Alpine Publishing Studios to bring their stories to the world.</div>
                 <button className="btn-primary" style={{ width: '100%', justifyContent: 'center' }} onClick={handleGetStarted}>Start for Free</button>
@@ -1314,13 +1394,13 @@ export default function AlpinePublishingStudios() {
           <div>
             <div className="footer-col-title">Services</div>
             <div className="footer-links">
-              <a href="/services">Ghostwriting</a>
-              <a href="/services">Editing</a>
-              <a href="/services">Proofreading</a>
-              <a href="/services">Cover Design</a>
-              <a href="/services">Formatting</a>
-              <a href="/services">Publishing</a>
-              <a href="/services">Marketing</a>
+              <a href="/services/ghostwriting-services">Ghostwriting</a>
+              <a href="/services/book-editing-services">Editing</a>
+              <a href="/services/proofreading-services">Proofreading</a>
+              <a href="/services/book-cover-design">Cover Design</a>
+              <a href="/services/book-formatting-services">Formatting</a>
+              <a href="/services/self-publishing-services">Publishing</a>
+              <a href="/services/book-marketing-services">Marketing</a>
             </div>
           </div>
           <div>

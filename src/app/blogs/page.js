@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import SiteHeader from '@/components/SiteHeader';
 
 const BLUE = '#1690CE';
 const BLUE_DARK = '#0E7AB8';
@@ -114,21 +115,11 @@ const BLOG_CATEGORIES = [
 ];
 
 export default function BlogPage() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [activeCategory, setActiveCategory] = useState('All');
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 0);
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
 
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
-
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
@@ -503,29 +494,7 @@ export default function BlogPage() {
         .footer-contact-item { font-size: 13px; color: rgba(255,255,255,.55); margin-bottom: 6px; }
       `}</style>
 
-      {/* ── HEADER ── */}
-      <header className={`header${scrolled ? ' scrolled' : ''}`}>
-        <div className="header-inner">
-          <a href="/" className="logo"><img src="/logo.png" alt="APS" className="logo-img" />Alpine <span>Publishing</span> Studios</a>
-          <nav className="nav">
-            <a href="/services">Services</a>
-            <a href="/consultation">Consultation</a>
-            <a href="/about-us">About Us</a>
-            <a href="/contact-us">Contact</a>
-            <a href="/blogs" className="active">Blogs</a>
-          </nav>
-          <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
-            <span /><span /><span />
-          </div>
-        </div>
-        <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
-          <a href="/services" onClick={() => setMenuOpen(false)}>Services</a>
-          <a href="/consultation" onClick={() => setMenuOpen(false)}>Consultation</a>
-          <a href="/about-us" onClick={() => setMenuOpen(false)}>About Us</a>
-          <a href="/contact-us" onClick={() => setMenuOpen(false)}>Contact</a>
-          <a href="/blogs" onClick={() => setMenuOpen(false)}>Blogs</a>
-        </div>
-      </header>
+      <SiteHeader activeNav="blogs" />
 
       {/* ── HERO ── */}
       <section className="blog-hero">
