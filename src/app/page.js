@@ -974,7 +974,11 @@ export default function AlpinePublishingStudios() {
           {/* Left: copy */}
           <div className="hero-content">
             <span className="section-label">A Self-Publishing Studio for Serious Authors</span>
-            <h1>Alpine Publishing Studios — A Full-Service Self-Publishing Company for Serious Authors</h1>
+            <h1>
+              Alpine Publishing Studios
+              <br />
+              A Full Service Self Publishing Company for Serious Authors
+            </h1>
             <p className="hero-lead">Alpine Publishing Studios helps authors move from manuscript to marketplace with professional editing, cover design, formatting, publishing, distribution, and book marketing support.</p>
             <div className="hero-actions">
               <button className="btn-primary" onClick={handleGetStarted}>
@@ -1148,12 +1152,6 @@ export default function AlpinePublishingStudios() {
                 icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2" strokeLinecap="round"><rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" /></svg>),
               },
               {
-                title: 'Book Formatting Services',
-                desc: 'For print and eBook interiors that need clean layout, proper spacing, page setup, and platform-ready files.',
-                href: '/services/book-formatting-services',
-                icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2" strokeLinecap="round"><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M9 3v18M3 9h6M3 15h6" /></svg>),
-              },
-              {
                 title: 'Self-Publishing Services',
                 desc: 'For authors who want support preparing and publishing their book across major platforms.',
                 href: '/services/self-publishing-services',
@@ -1164,12 +1162,6 @@ export default function AlpinePublishingStudios() {
                 desc: 'For authors who want launch content, social media presence, reader engagement, and promotional direction.',
                 href: '/services/book-marketing-services',
                 icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2" strokeLinecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg>),
-              },
-              {
-                title: 'Author Branding Services',
-                desc: 'For authors who want a stronger bio, book description, positioning, and professional online presence.',
-                href: '/services/author-branding-services',
-                icon: (<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={BLUE} strokeWidth="2" strokeLinecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>),
               },
               {
                 title: 'Book Printing Services',
